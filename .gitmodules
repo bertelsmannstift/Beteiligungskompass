@@ -1,0 +1,4 @@
+[submodule "system"]
+	path = system
+	url = https://github.com/kohana/core.git
+	branch = 3.2/master

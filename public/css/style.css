@@ -1,0 +1,350 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+q, blockquote {
+  quotes: none;
+}
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+a img {
+  border: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+body {
+  background: #fff;
+  font-family: Helvetica, Arial, Verdana;
+  font-size: 14px;
+  line-height: 18px;
+  color: #333333;
+}
+
+a {
+  color: #c03000;
+  text-decoration: none;
+  cursor: pointer;
+}
+a:hover {
+  color: #ff5d27;
+}
+
+p {
+  margin: 20px 0;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 15px;
+  margin: 20px 0;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 20px 0 10px 0;
+}
+
+strong {
+  font-weight: bold;
+}
+
+#messages {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0.9;
+  z-index: 1000;
+}
+#messages .msg {
+  width: 90%;
+  padding: 10px 5%;
+  font-weight: bold;
+  text-align: center;
+}
+#messages .msg.error {
+  background: #fee;
+  color: #f00;
+}
+#messages .msg.success {
+  background: #efe;
+  color: #0a0;
+}
+#messages .msg.notice {
+  background: #eef;
+  color: #00f;
+}
+
+#head {
+  background: #eee;
+  display: block;
+  line-height: 40px;
+  position: relative;
+  padding: 0 20px;
+}
+#head #head-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+#head #head-user {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  text-align: right;
+}
+
+#content {
+  padding: 20px;
+}
+
+dl.welcome_actions dt a {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+dl.welcome_actions dd {
+  border-bottom: 1px dotted #ccc;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+#article_form {
+  width: 100%;
+}
+#article_form #article_form_navigation {
+  float: left;
+  display: block;
+  background: #fafafa;
+  padding: 20px;
+  width: 25%;
+  margin-right: 5%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#article_form #article_form_navigation li {
+  background: #eee;
+  margin-bottom: 5px;
+  padding: 5px;
+  font-weight: bold;
+  cursor: text;
+  color: #ccc;
+}
+#article_form #article_form_navigation li.active {
+  color: #999;
+  cursor: pointer;
+}
+#article_form #article_form_navigation li.current {
+  color: #444;
+  cursor: pointer;
+}
+#article_form #article_form_steps {
+  width: 70%;
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #fafafa;
+  padding: 20px 20px 0 20px;
+}
+#article_form #article_form_steps h2 {
+  margin-top: 0;
+}
+#article_form #article_form_steps .step_field {
+  margin: 20px 0;
+}
+#article_form #article_form_steps .step {
+  display: none;
+}
+#article_form #article_form_steps .step.current {
+  display: block;
+}
+
+.clear {
+  clear: both;
+}
+
+.linklist .linklist_item {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ddd;
+}
+.linklist .linklist_item a.add {
+  float: right;
+}
+.linklist .linklist_item.new {
+  display: none;
+}
+
+#show_article #show_article_sidebar {
+  background: #eee;
+  width: 25%;
+  margin-right: 5%;
+  float: left;
+  padding: 0 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#show_article #show_article_main {
+  width: 70%;
+  float: left;
+}
+
+#result_view #result_view_filter {
+  background: #eee;
+  width: 25%;
+  margin-right: 5%;
+  float: left;
+  padding: 0 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#result_view #result_view_main {
+  width: 70%;
+  float: left;
+}
+
+fieldset {
+  background: #fafafa;
+  padding: 1px 20px;
+  margin-bottom: 20px;
+}
+fieldset legend {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type=text], input[type=password], input[type=email], select, textarea {
+  background: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  height: 24px;
+  padding: 0 5px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, select:focus, textarea:focus {
+  border-color: #aaa;
+}
+input[type=text].small, input[type=password].small, input[type=email].small, select.small, textarea.small {
+  width: 40%;
+  min-width: 200px;
+}
+
+select {
+  height: 29px;
+  padding: 5px;
+}
+
+textarea {
+  height: 200px;
+  padding: 5px;
+}
+
+input.error, select.error, textarea.error {
+  border-color: red;
+}
+
+span.error {
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  display: block;
+}
+
+span.description {
+  color: #aaa;
+  font-style: italic;
+  font-size: 12px;
+  display: block;
+}
+
+p.error {
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  display: block;
+  padding: 5px 10px;
+  background: #fee;
+}
+
+button {
+  background: #c03000;
+  color: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border: none;
+  height: 30px;
+  padding: 0 10px;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: 'Droid Sans', sans-serif;
+  cursor: pointer;
+}
+button:hover {
+  background: #ff5d27;
+}

@@ -1,0 +1,41 @@
+<div id="fav-overlay" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                <h3>{msg code="favorites.overlay_headline"}</h3>
+                <form action="{Url::get('action:addToFavorites')}" method="post" name="login" data-datatype="json">
+                    <input type="hidden" name="article" value="{$article->id}"/>
+                    <div>
+                        <div>
+                            <div>
+                               <input type="radio" name="fav_group" id="group-default" value="0" checked><label for="group-default">{msg code="global.default_group"}</label>
+                               <span class="clear"></span>
+                            </div>
+                            {foreach Helper_User::getUser()->favoritegroups as $k => $favGroup}
+                                 <div>
+                                    <input type="radio" name="fav_group" id="group-{$favGroup->id}" value="{$favGroup->id}"><label for="group-{$favGroup->id}">{$favGroup->name}</label>
+                                     <span class="clear"></span>
+                                 </div>
+                            {/foreach}
+                            <div>
+
+                                <label for="new_group_text">
+                                    <input type="radio" name="fav_group" id="group-new" value="">
+                                    {msg code="global.new_fav_group"}:
+                                    <input type="text" name="new_group" id="new_group_text" onfocus="$('#group-new').prop('checked', 'checked');$(this).focus();">
+                                </label><br/>
+
+                                <span class="clear"></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="button" title="{msg code="global.button.ok"}"><span>{msg code="global.button.ok"}</span></button>
+                        <a class="button close" title="{msg code="global.button.cancel"}"><span>{msg code="global.button.cancel"}</span></a>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

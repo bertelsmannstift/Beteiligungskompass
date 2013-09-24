@@ -1,0 +1,49 @@
+<h2>{msg code="backend.heading.pages"}</h2>
+
+<form method="post" action="">
+    <div class="form-box">
+        {foreach $pages as $page}
+            <div class="row">
+              <label>
+                  <input type="checkbox" name="{$page->type}[active]" value="1" {if $page->active} checked="checked"{/if}/>
+                      {msg code="label.showinfooter"}
+              </label>
+            </div>
+            <div class="row">
+              <label for="headline-{$page->type}">{msg code="label.title"}</label>
+              <input type="text" name="{$page->type}[title]" id="headline-{$page->type}" value="{$page->title}"/>
+            </div>
+            <div class="row">
+              <label for="headline-{$page->type}">{msg code="label.short_description"}</label>
+              <input type="text" name="{$page->type}[shorttitle]" id="headline-{$page->type}" value="{$page->shortTitle}"/>
+            </div>
+            <div class="row textarea">
+              <label for="content-{$page->type}">{msg code="label.content"}</label>
+              <div class="textarea"><textarea class="init-ckeditor-on-me" rows="10" cols="10" name="{$page->type}[content]" id="content-{$page->type}">{$page->content}</textarea></div>
+            </div>
+            {if $page->type == 'contact' || $page->type == 'about'}
+                {foreach $page->getFields() as $fieldname => $text}
+                    <div class="row">
+                      <label for="field-{$fieldname}">{msg code="backend.label.field_$fieldname"}</label>
+                      <input type="text" name="{$page->type}[field][{$fieldname}]" id="field-{$fieldname}" value="{$text}"/>
+                    </div>
+                {/foreach}
+                {foreach $page->fieldsWYSIWYG as $fieldname => $text}
+                    <div class="row textarea">
+                      <label for="field-{$fieldname}">{msg code="backend.label.field_$fieldname"}</label>
+                      <textarea rows="10" cols="10" class="init-ckeditor-on-me" name="{$page->type}[fieldsWYSIWYG][{$fieldname}]">
+                        {$text}
+                      </textarea>
+                    </div>
+                {/foreach}
+            {/if}
+                <br/><br/>
+            <hr/><br/><br/>
+        {/foreach}
+    </div>
+    <div class="form-box">
+        <div class="row">
+            <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,31 @@
+@import "screen.scss";
+
+/* Colors */
+$headerLinkColor: #fff;
+$linkColor: #33487d;
+$linkHoverColor: #000;
+$headerShadowColor:#000000;
+$grayColor: #666666;
+$color: #000000;
+$blueColor: #33487d;
+$navInfoCountBgColor: #fff;
+
+/* Configs */
+$contentWidth: 940px;
+$headHeight: 50px;
+$fontSize: 13px;
+$linkFontSize: 13px;
+$navFontSize: 13px;
+$inputFontSize:11px;
+$h1FontSize: 16px;
+$h2FontSize: 16px;
+$sideNavFontSize: 15px;
+
+.ui-slider .ui-slider-handle {
+   width: 3em;
+ }
+
+
+a:-webkit-any-link {
+  text-decoration: none !important;
+}

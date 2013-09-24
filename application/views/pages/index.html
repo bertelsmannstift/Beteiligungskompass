@@ -1,0 +1,84 @@
+{if $id == 'contact'}
+    <form method="post" action="{Url::get('controller:pages action:index id:contact')}">
+        <div class="main-box">
+            <div class="headline"><div>{msg code="module.contact.title"}</div></div>
+            <div class="box-content-with-menu">
+                <div class="box-content">
+                    <h2>{$page->content|strip_tags}</h2>
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="name">{$page->getField('name')} *</label>
+                        <input type="text" id="name" name="name" value="{$smarty.post.name}"/>
+                        <span class="error">{$errors.name}</span>
+                    </div>
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="email">{$page->getField('email')} *</label>
+                        <input type="text" id="email" name="email" value="{$smarty.post.email}"/>
+                        <span class="error">{$errors.email}</span>
+                    </div>
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="subject">{$page->getField('subject')} *</label>
+                        <input type="text" id="subject" name="subject" value="{$smarty.post.subject}"/>
+                        <span class="error">{$errors.subject}</span>
+                    </div>
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="msg">{$page->getField('message')} *</label>
+                        <div class="textarea">
+                            <textarea name="msg" id="msg">{$smarty.post.msg}</textarea>
+                        </div>
+                        <span class="error">{$errors.msg}</span>
+                    </div>
+                    <div class="row">
+                        <span>* {$page->getField('required')}</span>
+                    </div>
+                    <div class="form-box">
+                        <div class="row"><button type="submit" class="button overlay" title="{msg code="module.contact.form_submit"}"><span>{$page->getField('submit')}</span></button><div class="clear"></div></div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+{elseif $id == 'about'}
+    <div class="main-box menu-right about">
+        <div class="headline">
+            <div>
+                  <span>
+                      {$page->title}
+                  </span>
+            </div>
+        </div>
+        <div class="box-content-with-menu">
+            {capture assign=side_menu}
+                <div class="side-menu detail">
+                    <div class="box">
+                        {$page->getWYSIWYGField('marginal')}
+                    </div>
+                 </div>
+            {/capture}
+            {if $isMobile}{$side_menu}{/if}
+            <div class="box-content">
+                <div class="row">
+                    <div>{if $page->shortTitle}<h2>{$page->shortTitle}</h2>{/if}</div>
+                    {$page->content}
+                </div>
+            </div>
+            {if !$isMobile}{$side_menu}{/if}
+
+
+            <div class="clear"></div>
+        </div>
+    </div>
+{else}
+    <div class="main-box staticpages">
+        <div class="headline"><div>{$page->title}</div></div>
+        <div class="box-content-with-menu">
+               {include "layout/footer-pages-side-menu.html"}
+            <div class="box-content">
+                {if $page->shortTitle}<h2>{$page->shortTitle}</h2>{/if}
+                {$page->content}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{/if}

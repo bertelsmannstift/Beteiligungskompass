@@ -1,0 +1,33 @@
+<div id="login-overlay" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                <h3>{msg code="login.login"}</h3><a href="{Url::get('action:register')}" class="reg" data-rel="#reg-overlay">{msg code="login.register"}</a>
+                <form action="{Url::get('action:login')}" method="post" name="login">
+                    <div>
+                        <div>
+                            <label for="email">{msg code="login.enter_email"}</label>
+                            <input type="text" name="email" id="email" class="{if $errors.email}error{/if}" title="{msg code='title.enter_email'}" value="{if Helper_Environment::is_DEV()}admin@uandi.com{else}{$values.email}{/if}" />
+                            {if $errors.email}
+                                <span class="error">{$errors.email}</span>
+                            {/if}
+                        </div>
+                        <div>
+                            <label for="password">{msg code="login.enter_password"}</label>
+                            <input type="password" name="password" id="password" class="{if $errors.password}error{/if}" title="{msg code='title.enter_password'}"  value="{if Helper_Environment::is_DEV()}test1234{/if}"/>
+                            {if $errors.password}
+                                <span class="error">{$errors.password}</span>
+                            {/if}
+                        </div>
+
+                        <a href="#" class="link">{msg code="login.forgot_password"}</a>
+                        <button type="submit" class="button" title="{msg code="login.login"}"><span>{msg code="login.login"}</span></button>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

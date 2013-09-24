@@ -1,0 +1,109 @@
+	<div class="main-box menu-right">
+        <div class="headline">
+            <div class="article-hl">
+                <div class="headline-article">{msg code="favorites.user_favourites"}</div>
+                <div class="tools">
+                    <a class="print icon-icon_printer" title="Print this page" href="javascript:window.print()"></a>
+                </div>
+            </div>
+            <div class="inputfields">
+
+                <label>{msg code="global.sort_by"}</label>
+                <select name="orderby">
+                    <option value="created" {if $values.orderby == 'created' || $values.orderby == ''} selected{/if}>{msg code="global.created"}</option>
+                    <option value="title" {if $values.orderby == 'title'} selected{/if}>{msg code="global.title"}</option>
+                </select>
+            </div>
+        </div>
+		<div class="box-content-with-menu">
+
+            {capture assign=sidemenu}
+                <div class="side-menu">
+
+                     <a href="{Url::get([controller => favorites, action => copygroup, id => $group->id, param => $hash])}" class="need-user add-article"><span class="arrow">›</span>{msg code="global.add_group_to_my_groups"}</a>
+
+                     <div class="form-box">
+                         <div class="del-button">
+                             <a class="button fav-group group shown">
+                                 <span data-href="#{$group->id}">{$group->name} <span id="group-{$group->id}">(<span>{count($group->getArticles($values.show_all == '0'))}</span>)</span></span>
+                             </a>
+                             <span class="clear"></span>
+                         </div>
+                     </div>
+                </div>
+            {/capture}
+            {if $isMobile}
+               {$sidemenu}
+            {/if}
+            <div class="box-content">
+                <div id="favorit_results" class="entrylist group">
+                    {foreach $favorites as $favType => $favTypeGroup}
+                        <div class="type-container {$favType} {if count($favTypeGroup->article)}show{/if}">
+                            <div class="headline-type-fav month {if count($favTypeGroup->article)}show{/if}">{$favTypeGroup->title}<span class="arrow-hd"></span></div>
+                            {foreach $favTypeGroup->articles as $fav}
+                            <div class="fav-box entry" id="article-{$fav->id}" data-groups="{json_encode(array_keys($fav->getFavoriteGroups(false)))}">
+                                <h2 class="{$fav->type()}">
+                                    <a href="{Url::get([route => default, controller => article, action => show, id => $fav->id])}" title="{msg code='title.view_details'}">{$fav->title|default:"no name given"}</a>
+                                </h2>
+
+                                <div class="fav-img">
+                                    {$images = $fav->imageList()}
+                                    {foreach $images as $k => $i}
+                                        {if $i@first}
+                                            {if $i->file->ext != 'pdf'}
+
+                                                  {if ($isTablet || $isMobile)}
+                                                      <img class="listpic-img" src="{if $isMobile}{$i->file->previewurl('89x69')}{else}{$i->file->previewurl('189x160')}{/if}" alt="{$i->description}" />
+                                                  {else}
+                                                      <img class="listpic-img lazy" src="{Url::base()}img/logo/no_pic_thumb_{$fav->type()}{if $isMobile}_mobile{/if}.png" data-original="{if $isMobile}{$i->file->previewurl('89x69')}{else}{$i->file->previewurl('189x160')}{/if}" alt="{$i->description}" />
+                                                  {/if}
+
+                                                {$images[$k] = null}
+                                                {break}
+                                            {/if}
+                                        {/if}
+                                    {foreachelse}
+                                          <img class="listpic-img" src="{Url::base()}img/logo/no_pic_thumb_{$fav->type()}{if $isMobile}_mobile{/if}.png" alt="" />
+                                    {/foreach}
+                                </div>
+                                {if $description = $fav->description()}
+                                <div class="text-content">
+                                    {$description}
+                                </div>
+                                {/if}
+                                {if $user}
+                                    <div class="form-box">
+                                        <div>
+                                            {if $user->isEditor()}
+                                                <a data-confirm="{msg code="global.delete_article_confirm" article=$fav->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $fav->id])}"><span>{msg code="global.delete_article"}</span></a>
+                                                <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.edit_as_editor'}" class="button"><span>{msg code="article.edit_as_editor"}</span></a>
+                                            {else if $fav->user == $user AND !$fav->ready_for_publish AND !$fav->active}
+                                                <a data-confirm="{msg code="global.delete_article_confirm" article=$fav->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $fav->id])}"><span>{msg code="global.delete_article"}</span></a>
+                                                <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.continue_editing'}" class="button"><span>{msg code="article.continue_editing"}</span></a>
+                                            {/if}
+
+                                            {if $fav->user->id == Helper_User::getUser()->id && $fav->ready_for_publish == false && $user->isEditor() == false}
+                                                <a {if $fav->type() != 'expert'} data-confirm="{msg code='article.really_submit'}" {else}data-msg="{msg code='article.really_submit_expert'}"{/if} title="{msg code="article.submit_to_review"}" href="{Url::get([route => default, controller => article, action => publish, id => $fav->id])}" class="button"><span>{msg code="article.submit_to_review"}</span></a>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                {/if}
+                                <div class="clear"></div>
+                            </div>
+                            {/foreach}
+                        </div>
+                {/foreach}
+                 </div>
+             </div>
+             {if !$isMobile}
+                {$sidemenu}
+             {/if}
+			<div class="clear"></div>
+		</div>
+		<div class="box-foot"></div>
+	</div>
+
+<script type="text/javascript">
+    var addToGroupUrl = '{Url::get([action => addToGroup])}';
+    var removeFromGroupUrl = '{Url::get([action => removeFromGroup])}';
+</script>

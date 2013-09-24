@@ -1,0 +1,160 @@
+<div class="main-box menu-right" data-article-type="{$article->type()}">
+    {if $isMobile}
+        <div class="mobile-article-nav">
+            {if $prevArticle}<a class="prev-article icon-icon_arr_left" href="{Url::get([controller => article, action => show, id => $prevArticle->id])}" title="{$prevArticle->title}"></a>{/if}
+            {if $nextArticle}<a class="next-article icon-icon_arr_right" href="{Url::get([controller => article, action => show, id => $nextArticle->id])}" title="{$nextArticle->title}"></a>{/if}
+            <div>
+
+                {if $article->user->id && $article->user->id == $smarty.session.user_id}
+                    <span class="own-item icon-icon_own_article"></span>
+                {/if}
+                <a data-href="{Url::get([route => default, controller => favorites, action => add_to_fav, id => $article->id])}" data-rel="#fav-overlay" href="{Url::get([route => default, controller => favorites, action => removeFavorite, id => $article->id])}" title="{msg code='favorites.add_to_or_remove_from_favourites'}" class="{if $article->isOwnedByCurrentUser()}disabled {/if}overlay need-user icon-icon_my_article fav{if $article->isFavedByCurrentUser()} active{/if}">{if Kohana::$config->load('project.show_article_favorite_count')}{$article->getFavoriteCount()}{/if}</a>
+
+            </div>
+        </div>
+        <div class="back-overview">
+            <a href="{Url::get([route => default, controller => article, action => index, id => $article->type()])}">{msg code="global.back_to_overview"}</a>
+        </div>
+    {/if}
+
+    <div class="headline">
+
+        <div>
+              <span>
+                  {if $isMobile}
+                      {if $article->type() == 'expert'}
+                          {if $article->institution && $article->institution != ''}
+                              {msg code="article.title" title=$article->institution type=$title}
+                          {else}
+                              {msg code="article.title" title=$article->lastname type=$title}
+                          {/if}
+                      {else}
+                          {msg code="article.title" title=$article->title type=$title}
+                      {/if}
+                  {else}
+                    {msg code="global.details_overview"}
+                  {/if}
+              </span>
+        </div>
+        <div class="inputfields">
+            {if $isMobile}
+            <div class="tools">
+                {if $article->user->id && $article->user->id == $smarty.session.user_id}
+                    <span class="own-item icon-icon_own_article"></span>
+                {/if}
+                <a data-href="{Url::get([route => default, controller => favorites, action => add_to_fav, id => $article->id])}" data-rel="#fav-overlay" href="{Url::get([route => default, controller => favorites, action => removeFavorite, id => $article->id])}" title="{msg code='favorites.add_to_or_remove_from_favourites'}" class="{if $article->isOwnedByCurrentUser()}disabled {/if}overlay need-user icon-icon_my_article fav{if $article->isFavedByCurrentUser()} active{/if}">{if Kohana::$config->load('project.show_article_favorite_count')}{$article->getFavoriteCount()}{/if}</a>
+
+                {if $article->active}<a href="mailto:?subject={$article->title|default:"no name given"}&amp;body={urlencode(Url::base())}{urlencode(Url::get('', true))}" title="{msg code='title.email_to_friend'}" class="mail"></a>{/if}
+            </div>
+            {else}
+            <div class="tools">
+                {if $article->user->id && $article->user->id == $smarty.session.user_id}
+                    <span class="own-item icon-icon_own_article"></span>
+                {/if}
+                <a data-href="{Url::get([route => default, controller => favorites, action => add_to_fav, id => $article->id])}" data-rel="#fav-overlay" {if !$article->isFavedByCurrentUser()} href="javascript:void(0);" {else}href="{Url::get([route => default, controller => favorites, action => removeFavorite, id => $article->id])}"{/if} title="{if $smarty.session.user_id}{msg code='favorites.remove_from_favourites'}{else}{msg code='favorites.add_to_favourites'}{/if}" class="{if $article->isOwnedByCurrentUser()}disabled {/if}icon-icon_my_article_white need-user overlay fav{if $article->isFavedByCurrentUser()} active{/if}"></a>
+
+                {if $article->active}
+                    <a href="javascript:void(0);" class="share icon-icon_share" title="{msg code='title.share_article'}"></a>
+                {/if}
+
+                <a href="{Url::get([route => default, controller => article, action => pdf, id => $article->id])}" title="{msg code='title.pdf'}" class="pdf icon-icon_pdf"></a>
+                <a href="javascript:window.print()" title="{msg code='title.print'}" class="print icon-icon_printer"></a>
+                <a class="need-user ownentry icon-icon_add" title="{msg code='global.button.create_new_article'}" href="article/create" data-rel="#own-entry" rel="#own-entry"></a>
+
+            </div>
+            {/if}
+        </div>
+    </div>
+    <div class="box-content-with-menu">
+        {capture assign=sidemenu}
+        <div class="side-menu detail">
+            {if $article->getLogoFilename() != ''}<div class="detail-article-logo"><img src="{$article->getLogo()->link()}" alt="{$article->title} - Logo"></div>{/if}
+            {foreach $article->getSidebar() as $fieldKey => $field}
+                {capture assign=content}
+                    {include file="article/show/`$field->type|default:'textarea'`.html" key=$fieldKey item=$article}
+                {/capture}
+                {if strlen(trim($content))}
+                    <div class="box">
+                        {$content}
+                    </div>
+                {/if}
+            {/foreach}
+        </div>
+        {/capture}
+
+        <div class="box-content">
+            {if !$isMobile}
+                {if $prevArticle}<a class="prev-article icon-icon_arr_left" href="{Url::get([controller => article, action => show, id => $prevArticle->id])}" title="{$prevArticle->title}"></a>{/if}
+                {if $nextArticle}<a class="next-article icon-icon_arr_right" href="{Url::get([controller => article, action => show, id => $nextArticle->id])}" title="{$nextArticle->title}"></a>{/if}
+            {/if}
+                {if $article->type() eq 'news'}
+                    {include file="article/show/news.html" key=$fieldKey item=$article}
+                {else}
+                    {foreach $article->getMain() as $fieldKey => $field}
+                        {capture assign=content}
+                            {if $fieldKey eq 'title'}
+                                {include file="article/show/title.html" key=$fieldKey item=$article}
+                            {else}
+                                {include file="article/show/`$field->type|default:'textarea'`.html" key=$fieldKey item=$article}
+                            {/if}
+                        {/capture}
+                        {if strlen(trim($content))}
+                        <div class="row {$fieldKey}" {if $fieldKey eq 'title' && isMobile}style="overflow:visible;"{/if}>
+                            {$content}
+                        </div>
+                        {/if}
+                    {/foreach}
+                {/if}
+
+            {$user = Helper_User::getUser()}
+
+            {if $article->type() == 'event'}
+                {include file="article/show/event_city.html"}
+            {/if}
+
+            {capture assign=buttons}
+                <div class="row buttons">
+                    {if $user}
+                        {if $user->isEditor()}
+                            <a href="{Url::get([route => default, controller => article, action => edit, id => $article->id])}" title="{msg code='title.edit_as_editor'}" class="button"><span>{msg code="article.edit_as_editor"}</span></a>
+                            <a data-confirm="{msg code="global.delete_article_confirm" article=$article->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $article->id])}"><span>{msg code="global.delete_article"}</span></a>
+                        {else if $article->user == $user AND $article->active == 0}
+                            <a href="{Url::get([route => default, controller => article, action => edit, id => $article->id])}" title="{msg code='title.continue_editing'}" class="button"><span>{msg code="article.continue_editing"}</span></a>
+                            <a data-confirm="{msg code="global.delete_article_confirm" article=$article->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $article->id])}"><span>{msg code="global.delete_article"}</span></a>
+                        {else if $article->type() == 'expert' && $article->user == $user AND $article->active == 0}
+                            <a href="{Url::get([route => default, controller => article, action => edit, id => $article->id])}" title="{msg code='title.continue_editing'}" class="button"><span>{msg code="article.continue_editing"}</span></a>
+                            <a href="{Url::get([route => default, controller => $controller, action => edit, id => $article->id])}" title="{msg code='title.edit_expert'}" class="button"><span>{msg code="article.edit_expert"}</span></a>
+                        {/if}
+                    {/if}
+
+                    {*  <a href="{Url::get([route => default, controller => article, action => newquestion, id => $article->id])}" title="{msg code='title.ask_question'}" class="button need-user"><span>{msg code="article.ask_question"}</span></a> *}
+
+                    <div class="clear"></div>
+                </div>
+            {/capture}
+            {$buttons}
+
+            <div class="right-buttons">
+
+                {if !$article->isOwnedByCurrentUser()}
+                    <a data-href="{Url::get([route => default, controller => favorites, action => add_to_fav, id => $article->id])}" data-rel="#fav-overlay" {if !$article->isFavedByCurrentUser()} href="javascript:void(0);" {else}href="{Url::get([route => default, controller => favorites, action => removeFavorite, id => $article->id])}"{/if} class="button need-user overlay fav-button{if $article->isFavedByCurrentUser()} active{/if}"><span class="arrow">›</span> <span class="add">{msg code="favorites.add_to_favourites"}</span><span class="remove">{msg code="global.remove_from_favorites"}</span></a>
+                {/if}
+
+                <a href="javascript:void(0);" title="{msg code='title.ask_question'}" class="button ask"><span class="arrow">›</span><span>{msg code="article.ask_question"}</span></a>
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        {if !$isMobile}{$sidemenu}{/if}
+
+
+        <div class="clear"></div>
+    </div>
+    <div class="box-foot"></div>
+</div>
+<script type="text/javascript">
+  var article_id = '{$article->id}';
+  var article_type = '{$article->type()}';
+</script>
+

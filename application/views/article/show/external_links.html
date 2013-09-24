@@ -1,0 +1,15 @@
+{if count($article->$key)}
+<h2 class="overview-headline">{$field->label}</h2>
+
+<div>
+	{foreach $article->getExternal_links() as $link}
+		<p>
+		{if $link['show_link']}
+			<a href="{$link['url']}" target="_blank">{$link['url']}</a>
+		{else}
+			{$link['url']}
+		{/if}
+        </p>
+	{/foreach}
+</div>
+{/if}

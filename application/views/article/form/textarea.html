@@ -1,0 +1,7 @@
+<div class="row{if $field->wysiwyg} wysiwyg-row{/if}">
+    {if $field->label}<label for="form_{$field@key}">{$field->label}</label>{/if}
+    <div class="textarea">
+         <textarea name="{$field@key}" id="form_{$field@key}" class="{if $errors.$field@key}error{/if}{if $field->wysiwyg} wysiwyg{/if}">{if $article->$key}{$article->$key}{/if}</textarea>
+     </div>
+    {if $errors.$key}<span class="error">{$errors.$key}</span>{/if}
+</div>

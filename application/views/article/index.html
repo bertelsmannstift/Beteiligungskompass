@@ -1,0 +1,221 @@
+{if Kohana::$config->load("project.introtext.$type")}
+<div class="intro-text">
+    <h1>{msg code="article_config.$type.title.plurality"}</h1>
+    <p>
+        {msg code="intro.module.$type"}
+    </p>
+</div>
+{/if}
+
+
+{if !$planningOnly}
+{if $isMobile}
+   <div class="clear"></div>
+   {/if}
+
+        <form id="result_view_filter" class="ajax-form" method="post" action="{Url::get()}/{$type}{if $archivArticles}/archiv{/if}" data-replace="#result-content" data-replace-fragment="#result-content" onsubmit="return false;">
+
+        <input type="hidden" title="{msg code='global.search'}" name="search" value="{$params.search}" />
+        <div id="result-content" class="main-box menu-right">
+
+            <div class="headline">
+                <div class="article-hl">
+                    <div class="headline-article">
+                        {if $archivArticles}{msg code="global.archiv.$type"}{else}{msg code="global.$type"}{/if} (<span>{$articleCount[$type]}</span>)
+                    </div>
+                    <div class="inputfields">
+                        <label for="sortby">{msg code="global.sort_by"}</label>
+                        {capture name="sort" assign="sortSelect"}
+                            <select id="sortby" name="sort">
+                                {if $type == 'expert'}
+                                    <option value="lastname"{if $params.sort == 'lastname'} selected{/if}>{msg code="global.lastname"}</option>
+                                    <option value="institution"{if $params.sort == 'institution'} selected{/if}>{msg code="global.institution"}</option>
+                                    <option value="created"{if $params.sort == 'created'} selected{/if}>{msg code="global.created"}</option>
+                                {elseif $type == 'event'}
+                                    <option value="start_date"{if $params.sort == 'start_date'} selected{/if}>{msg code="global.date"}</option>
+                                {elseif $type == 'news'}
+                                    <option value="date"{if $params.sort == 'date'} selected{/if}>{msg code="global.date"}</option>
+                                    <option value="author"{if $params.sort == 'author'} selected{/if}>{msg code="global.author"}</option>
+                                {else}
+                                {if $type == 'search'}
+                                    <option value="relevance"{if $params.sort == 'relevance'} selected{/if}>{msg code="global.relevance"}</option>
+                                {/if}
+                                    <option value="created"{if $params.sort == 'created'} selected{/if}>{msg code="global.created"}</option>
+                                    <option value="title"{if $params.sort == 'title'} selected{/if}>{msg code="global.title"}</option>
+                                    {if $type == 'study'}
+                                        <option value="study_start"{if $params.sort == 'study_start'} selected{/if}>{msg code="global.date"}</option>
+                                    {/if}
+                                    {if $type == 'qa'}
+                                        <option value="year"{if $params.sort == 'year'} selected{/if}>{msg code="global.date"}</option>
+                                    {/if}
+                                {/if}
+                            </select>
+                        {/capture}
+                        {$sortSelect}
+                    </div>
+                </div>
+                <div class="tools">
+                      <a href="javascript:void(0);" class="share icon-icon_share" title="{msg code='title.share_article'}"></a>
+                      <a href="javascript:window.print()" title="{msg code='title.print'}" class="print icon-icon_printer"></a>
+                      <a class="need-user ownentry icon-icon_add" title="{msg code='global.button.create_new_article'}" href="article/create" data-rel="#own-entry" rel="#own-entry"></a>
+                </div>
+            </div>
+
+            <span id="filtered">{msg code="article.filtered"} <a href="javasc ript:void(0);" class="reset-filter">({msg code="global.resetfilter"})</a></span>
+
+            <div class="box-content-with-menu">
+                <a class="filter-head" href="javascript:void(0);"><span class="show-filter-text">{msg code="global.showfilter"}</span><span class="hide-filter-text">{msg code="global.hidefilter"}</span></a>
+                {capture assign=side_menu}
+                <div class="side-menu filter">
+
+                    {if count($planningCriteria)}
+                        <h2>{msg code="article.set_filters"}</h2>
+                        <div class="planning">
+                            {foreach $planningCriteria as $title => $options}
+                                <h3>{$title}</h3>
+                                {foreach $options as $option}
+                                    <label>{$option}<span class="remove-filter-opt" data-id="{$option->id}"></span></label>
+                                {foreachelse}
+                                    <label>{$option}<span class="remove-filter-opt" data-id="{$option->id}"></span></label>
+                                {/foreach}
+                            {/foreach}
+                        </div>
+                    {/if}
+
+                    {if count($selectedCriteria)}
+                        <h2 id="more-filters">{msg code="article.more_filters.set"}</h2>
+                        <div class="planning more-filters">
+                            {foreach $selectedCriteria as $title => $options}
+                                <h3>{$title}</h3>
+                                {foreach $options as $option}
+                                    <label>{$option}<span class="remove-filter-opt" data-id="{$option->id}"></span></label>
+                                {/foreach}
+                            {/foreach}
+                        </div>
+                    {/if}
+
+                    {$fshow = false}
+                    {foreach $criteria as $criterion}
+
+                        {if $criterion->isArticleTypeAllowed($type) && $fshow == false}
+                            <h2>{msg code="article.more_filters"}</h2>
+                            {$fshow = true}
+                        {/if}
+
+                        <div class="box{if $criterion->type == 'resource'} box-resource{/if}{if $criterion->isArticleTypeAllowed($type)} criteria-visible{/if}" {if !$criterion->isArticleTypeAllowed($type) || $criterion->showInPlanner}style="display:none"{/if}>
+                            <h3 title="{$criterion->description}" {if $criterion->description ne ''}class="has-description"{/if}><span>{$criterion->title}</span></h3>
+
+                                {if $criterion->isGroupedArticleType($type)}
+                                    <div>
+                                        {foreach $criterion->options as $option}
+                                                <div class="{$criterion->type}">
+                                                     <input {if $option->default == true}class="default-opt" {/if} type="radio" name="criteria[crit-{$criterion->id}]" id="opt-{$option->id}" value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} checked="checked"{/if}>
+                                                     <label for="opt-{$option->id}" title="{$option->description}" {if $option->description ne ''}class="has-description"{/if}><span>{$option}</span></label>
+                                                </div>
+                                        {/foreach}
+                                    </div>
+                                {elseif $criterion->type eq 'select'}
+                                    <div class="select">
+                                        <select name="criteria[]" class="sidemenu-select">
+                                            {foreach $criterion->options as $option}
+
+                                                    <option{if $option->default} class="all-opt"{/if} value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} selected{/if}>
+                                                        {$option} {$option->description}
+                                                    </option>
+                                                    {foreach $option->childOptions as $childOpt}
+                                                        <option class="child" value="{$childOpt->id}"{if in_array($childOpt->id, $params.criteria|default:[])} selected{/if}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$childOpt} {$childOpt->description}</option>
+                                                    {/foreach}
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                {elseif $criterion->type == 'resource'}
+                                    <div>
+                                        {foreach $criterion->options as $option}
+                                                <div class="{$criterion->type}">
+                                                     <input {if $option->default == true}class="default-opt" {/if} type="{if $criterion->type == 'check'}checkbox{else}radio{/if}" name="criteria[{if $criterion->type == 'radio' || $criterion->type == 'resource'}crit-{$criterion->id}{/if}]" id="opt-{$option->id}" value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} checked="checked"{/if}>
+                                                     <label for="opt-{$option->id}" title="{$option->description}" {if $option->description ne ''}class="has-description"{/if}><span>{$option}</span></label>
+                                                </div>
+                                        {/foreach}
+                                    </div>
+                                {elseif $criterion->type == 'check'}
+                                    <div class="select">
+                                        <select name="criteria[]" class="sidemenu-select" multiple>
+                                            {foreach $criterion->options as $option}
+                                                    <option{if $option->default} class="all-opt"{/if} value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} selected{/if}>
+                                                        {$option} {$option->description}
+                                                    </option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                {elseif $criterion->type == 'radio'}
+                                    <div class="select">
+                                        <select name="criteria[]" class="sidemenu-select">
+                                            {foreach $criterion->options as $option}
+                                                    <option{if $option->default} class="all-opt"{/if} value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} selected{/if}>
+                                                        {$option} {$option->description}
+                                                    </option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                {/if}
+                        </div>
+                        <div class="hr2"></div>
+                    {/foreach}
+
+                    <div class="box cat-filter-mobile">
+                        <a href="javascript:void(0);" class="button" title="{msg code="global.filter"}"><span>{msg code="global.filter"}</span></a>
+                    </div>
+                </div>
+                {/capture}
+                {if $isMobile}{$side_menu}{/if}
+
+              <div class="box-content">
+                  <a href="javascript:void(0);" class="reset-filter button"><span>›</span>{msg code="global.resetfilter"}</a>
+                  {if $type != 'search'}
+                    <a href="javascript:void(0);" class="reset-search button"><span>›</span>{msg code="global.resetsearch"}</a>
+                  {/if}
+
+
+                    <div id="result_view_list">
+
+                        {if count($results) == 0}
+                          <div class="no-result">{msg code="global.no_result"}</div>
+                        {/if}
+
+                        {if ($type == 'news' || $type == 'event') && $archivArticles == true}
+                            <a href="{Url::get([action => index, id => $type])}" class="hide-archiv"><span>›</span>{msg code="global.current.$type"} ({$archivArticleCount})</a>
+                        {/if}
+                        {if $dateList == true}
+                            {include file="article/index_datelist.html" results=$results}
+                        {elseif $groupList == true}
+                            {include file="article/index_grouplist.html" results=$results}
+                        {else}
+                            {include file="article/index_defaultlist.html" results=$results}
+                        {/if}
+                        {if ($type == 'news' || $type == 'event') && $archivArticles == false}
+                            <a href="{Url::get([action => index, id => $type, param => archiv])}" class="show-archiv"><span>›</span>{msg code="global.archiv.$type"} ({$archivArticleCount})</a>
+                        {/if}
+                    </div>
+                    <div class="clear"></div>
+                    {if $isMobile}
+                        <a class="need-user ownentry button" title="{msg code='global.button.create_new_article'}" href="article/create" data-rel="#own-entry" rel="#own-entry"><span>›</span>{msg code="global.button.create_new_article"}</a>
+                    {/if}
+                </div>
+                {if !$isMobile}{$side_menu}{/if}
+                <div class="clear"></div>
+            </div>
+            <div class="box-foot"></div>
+        </div>
+    </form>
+{/if}
+<script type="text/javascript">
+    var articleType = '{msg code="global.$type"}';
+    var currentType = '{$type}';
+    var shareConfUrl = '{$shareConfUrl}';
+    var articleTypeCount = {json_encode($articleTypeCount)};
+    var planningResultUrl = '/{Url::get([action => index, id => $type])}';
+    var searchTerm = '{$params.search}';
+    {if $planningOnly}
+        window.location.hash = 'planning';
+    {/if}
+</script>

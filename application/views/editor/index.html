@@ -1,0 +1,21 @@
+<div class="main-box">
+    <div class="headline"><div>{msg code="email.editor.new_articles_for_review"}</div></div>
+    <div class="box-content-with-menu">
+        <div class="side-menu">
+            <div class="result-info" href="#">
+                <span class="result-text">New articles: <strong>{count($pending)}</strong></span>
+            </div>
+        </div>
+        <div class="box-content">
+            <ul>
+                {foreach $pending as $art}
+                    <li>
+                        <a href="{Url::get([controller => article, action => edit, id => $art->id])}">{$art->title}</a> ({$art->user->first_name} {$art->user->last_name})
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="box-foot"></div>
+</div>

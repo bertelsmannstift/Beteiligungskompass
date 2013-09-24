@@ -1,0 +1,74 @@
+<div class="newsheader">
+	<div style="overflow:visible;" class="row title">
+		<div class="field-title">
+			{$article->title}
+		</div>
+	</div>
+
+	{if $article->subtitle && !$isMobile}
+	<div class="subtitle">
+		<div class="row">
+			{$article->subtitle}
+		</div>
+	</div>
+	{/if}
+	<div class="row">
+		<div class="news-metainfo">{$article->author} {$article->date->format(Kohana::$config->load('project.dateformat'))}</div>
+	</div>
+</div>
+
+{if $article->subtitle && $isMobile}
+<div class="subtitle">
+	<div class="row">
+		{$article->subtitle}
+	</div>
+</div>
+{/if}
+
+{$images = $article->imageList()}
+
+{if $article->intro}
+<div class="row intro">
+    {foreach $images as $k => $i}
+    {if $i@first}
+        <a class="desc-img" href="{$i->file->link()}" rel="prettyPhoto[pp_gal]" target="_blank" title="{if count($images) > 1}{msg code="article_detail.more_images" imagecount=count($images)-1}{else}{msg code="article_detail.only_one_image"}{/if}">
+            <img src="{Url::base()}{$i->file->previewurl('170x128')}" alt="{$i->description}">
+        </a>
+        {$images[$k] = null}
+    {else}
+        <a style="display:none;" href="{$i->file->link()}" rel="prettyPhoto[pp_gal]" target="_blank">
+            <img src="{Url::base()}{$i->file->previewurl('170x128')}" alt="{$i->description}">
+        </a>
+    {/if}
+    {/foreach}
+	<div>
+		{$article->intro}
+	</div>
+</div>
+{/if}
+
+{if $article->text}
+<div class="row text">
+	<div class="wysiwyg">
+		<p>
+			{$article->text}
+		</p>
+	</div>
+</div>
+{/if}
+
+{if count($article->getExternal_links()) > 0}
+	<div class="row external_links">
+		<h2 class="overview-headline">{msg code="label.external_links"}</h2>
+		<p>
+			{foreach $article->getExternal_links() as $link}
+           		{if $link['show_link']}
+                    <a href="{$link['url']}" target="_blank">{$link['url']}</a>
+           		{else}
+           			{$link['url']}
+           		{/if}
+                {if !$link@last}<br />{/if}
+			{/foreach}
+		</p>
+	</div>
+{/if}

@@ -1,0 +1,28 @@
+<div id="ask-overlay" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                <h3>{msg code="ask.title" title=$title}</h3>
+                <form action="{Url::get('route:default controller:article action:ask')}" method="post" name="login">
+                    <div>
+                        <div>
+                            <input type="hidden" value="{$article_id}" name="id" />
+                            <label for="question">{msg code="ask.your_question"}</label>
+                            <div class="textarea">
+                                <textarea rows="10" cols="10" name="question" id="question" class="{if $errors.question}error{/if}">{$values.question}</textarea>
+                            </div>
+                            {if $errors.question}
+                                <span class="error">{$errors.question}</span>
+                            {/if}
+                        </div>
+
+                        <button type="submit" class="button" title="{msg code="ask.submit"}"><span>{msg code="ask.submit"}</span></button>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

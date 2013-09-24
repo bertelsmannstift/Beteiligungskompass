@@ -1,0 +1,211 @@
+
+{if Kohana::$config->load('project.show_intro')}
+<div class="intro-text">
+    <h1>{msg code="article_config.home.project_description.title"}</h1>
+    <p>
+        {msg code="article_config.home.project_description.text"}
+    </p>
+</div>
+{/if}
+
+<div class="boxes">
+    <div class="left-box">
+        <div class="article-box">
+            <div class="menu">
+                {foreach $staticMenuPages as $static}
+                    {if Helper_Module::isActive($static->type)}
+                    {assign var="stype" value=$static->type}
+                    <a class="img-button about" href="{Url::get("controller:pages action:index id:$stype")}">
+                        <span class="icon-navigation_icon_about icon"></span>
+                        <div class="desc"><h2><span>›</span>{msg code="module.about.title"}</h2>
+                        {msg code="module.about.description"}</div>
+                    </a>
+                    {/if}
+                {/foreach}
+                <a class="headline img-button studies" href="{Url::get('controller:planning')}">
+                    <span class="icon-dashboard_icon_planning icon"></span>
+                    <div class="desc"><h2><span>›</span>{msg code="global.content_filter"}</h2>
+                    {msg code="global.content_filter.description"}</div>
+                </a>
+                {if Helper_Module::isActive('study')}
+                    <a class="img-button studies" href="{Url::get('controller:article action:index id:study')}">
+                        <span class="icon-navigation_icon_projects icon"></span>
+                        <div class="desc"><h2><span>›</span>{msg code="module.studies.title"}</h2>
+                        {msg code="module.studies.description"}</div>
+                    </a>
+                {/if}
+                {if Helper_Module::isActive('method')}
+                    <a class="img-button methods" href="{Url::get('controller:article action:index id:method')}">
+                        <span class="icon-navigation_icon_methods icon"></span>
+                        <div class="desc"><h2><span>›</span>{msg code="module.methods.title"}</h2>
+                        {msg code="module.methods.description"}</div>
+                    </a>
+                {/if}
+                {if Helper_Module::isActive('qa')}
+                    <a class="img-button qa" href="{Url::get('controller:article action:index id:qa')}">
+                        <span class="icon-navigation_icon_practical_knowledge icon"></span>
+                        <div class="desc"><h2><span>›</span>{msg code="module.qa.title"}</h2>
+                        {msg code="module.qa.description"}</div>
+                    </a>
+                {/if}
+                {if Helper_Module::isActive('expert')}
+                    <a class="img-button experts" href="{Url::get('controller:article action:index id:expert')}">
+                        <span class="icon-navigation_icon_experts icon"></span>
+                        <div class="desc"><h2><span>›</span>{msg code="module.experts.title"}</h2>
+                        {msg code="module.experts.description"}</div>
+                    </a>
+                {/if}
+                {if Helper_Module::isActive('event')}
+                    <a class="img-button events" href="{Url::get('controller:article action:index id:event')}">
+                        <span class="icon-navigation_icon_events icon"></span>
+                        <div class="desc"><h2><span>›</span>{msg code="module.events.title"}</h2>
+                        {msg code="module.events.description"}</div>
+                    </a>
+                {/if}
+                {if Helper_Module::isActive('news')}
+                    <a class="img-button news" href="{Url::get('controller:article action:index id:news')}">
+                        <span class="icon-navigation_icon_news icon"></span>
+                        <div class="desc"><h2><span>›</span>{msg code="module.news.title"}</h2>
+                        {msg code="module.news.description"}</div>
+                    </a>
+                {/if}
+
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+        {if count($partnerlinks)}
+        <div class="white-box">
+            <h3>{msg code="global.partner_headline"}</h3>
+            <div class="partner">
+                {foreach $partnerlinks as $link}
+                    <div class="partnerlink" title="{$link->title}">
+                        {$link->content}
+                    </div>
+                {/foreach}
+                <div class="clear"></div>
+            </div>
+        </div>
+        {/if}
+    </div>
+
+
+        <div class="right-box">
+            {if !$isMobile}
+                {$video_count = count($videos)}
+                {if Kohana::$config->load('project.video_textbox_replacement')}
+                    <div class="white-box">
+                        {msg code="videobox_alternative.text"}
+                    </div>
+                {else}
+                    {if $video_count > 0 && Helper_Module::isActive('videobox')}
+                        <div class="white-box videobox">
+                            {if $video_count > 1}
+                                {$random = mt_rand(1, $video_count)}
+                                {*$random = 1*}
+                                <div class="pager">
+                                    <a class="backward{if $random == 1} disabled{/if}" data-direction="backward"></a>
+                                    <div class="pages"><span class="from">{$random}</span>{msg code="global.pager_from"}<span class="to">{$video_count}</span></div>
+                                    <a class="forward{if $random == $video_count} disabled{/if}" data-direction="forward"></a>
+                                </div>
+                            {/if}
+
+                            {foreach $videos as $video}
+                                {*$video@iteration|var_dump*}
+
+                                {if preg_match('/^(http|https):\/\/www\.youtube\.com\/watch.*?v=([a-zA-Z0-9\-_]+).*$/i', $video.video.url, $match)}
+                                    {$video_url = "http://www.youtube.com/embed/{$match[2]}?wmode=opaque"}
+                                {elseif preg_match('/^http:\/\/vimeo\.com\/(\d+)$/i', $video.video.url, $match)}
+                                    {$video_url = "http://player.vimeo.com/video/{$match[1]}?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;wmode=opaque"}
+                                {/if}
+
+                                <div class="feature-article{if $video@iteration == $random || ! $random} active{/if}">
+                                    <div class="article-headline" title="{$video.article->title}">
+                                        <a href="{Url::get([controller => article, action => show, id => $video.article->id])}">{short length=32 str=$video.article->title}</a>
+                                    </div>
+                                    <div class="video_wrapper" data-video-url="{$video_url}">
+                                    {*if preg_match('/^(http|https):\/\/www\.youtube\.com\/watch.*?v=([a-zA-Z0-9\-_]+).*$/i', $video.video.url, $match)}
+                                        <iframe class="to_be_lazy_loaded" width="441" height="270" data-src="http://www.youtube.com/embed/{$match[2]}?wmode=opaque"></iframe>
+                                    {elseif preg_match('/^http:\/\/vimeo\.com\/(\d+)$/i', $video.video.url, $match)}
+                                        <iframe class="to_be_lazy_loaded" data-src="http://player.vimeo.com/video/{$match[1]}?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;wmode=opaque" width="441" height="270"></iframe>
+                                    {/if*}
+                                    </div>
+                                    {if $video.article->description()}
+                                        <div class="article-desc">
+                                            {short removetags=true length=190 str=$video.article->description()} <a class="more-text" href="{Url::get([route => default, controller => article, action => show, id => $video.article->id])}">[&hellip;]</a>
+                                        </div>
+                                    {/if}
+                                </div>
+                            {/foreach}
+                        </div>
+                    {/if}
+                {/if}
+            {/if}
+            {if count($latestNews) && Helper_Module::isActive('newsbox')}
+            <div class="white-box with-list">
+                <h2>{msg code="global.newsbox.title"}</h2>
+                <div class="more"><a href="{Url::get('controller:article action:index id:news')}">› {msg code="global.newsbox.more"} ({$latestNewsCount})</a></div>
+                <ul class="list">
+                    {foreach $latestNews as $article}
+                        <li>
+                            <div class="title">
+                                <a class="title" href="{Url::get([controller => article, action => show, id => $article->id])}">{$article->title}</a>
+                            </div>
+                            <div class="news-date">{$article->date->format(Kohana::$config->load('project.dateformat'))}{if $article->author} | <span class="author">{$article->author}</span>{/if}</div>
+
+                            {if $description = $article->description()}
+                                <div class="desc">{short str=$description length=130 removetags=true allowtags="<i><b><strong><u><em>"}</div>
+                            {/if}
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+            {/if}
+
+            {if count($upcomingEvents) && Helper_Module::isActive('eventbox')}
+            <div class="white-box with-list">
+                <h2>{msg code="global.eventbox.title"}</h2>
+                <div class="more"><a href="{Url::get('controller:article action:index id:event')}">› {msg code="global.eventbox.more"} ({$eventsCount})</a></div>
+                <ul class="list">
+                    {foreach $upcomingEvents as $article}
+                        <li class="events clearfix">
+                            <div class="title">
+                                <a class="title" href="{Url::get([controller => article, action => show, id => $article->id])}">{$article->title}</a>
+                            </div>
+                            {if $article->type() == 'event' && $article->getTypeOfEvent()}
+                                <div class="news-date">
+                                       {msg code="global.type_of_event"}: {$article->getTypeOfEvent()}
+                                </div>
+                            {/if}
+                            {if $description = $article->description()}
+                                <div class="desc">{short str=$description length=130 removetags=true allowtags="<i><b><strong><u><em>"}</div>
+                            {/if}
+                            <span class="date-info-box small">
+                               {function calendarImage cssClass="single" city="" date=""}
+                                   <span class="calendar small icon-calendar_small {$cssClass}">
+                                       <span class="calendar-month">{strftime('%B', $date->getTimestamp())}</span>
+                                       <span class="calendar-day">{$date->format('d')}</span>
+                                       <span class="calendar-day-effect">{$date->format('d')}</span>
+                                       <span class="calendar-city" title="{$city}">{if $city != ''}{short length=23 str=$city}{/if}</span>
+                                   </span>
+                               {/function}
+
+                               {if $article->end_date && $article->start_date->format('d.m.Y') != $article->end_date->format('d.m.Y')}
+                                  {calendarImage cssClass="start" date=$article->start_date city=$article->city}
+                                   <span class="split"></span>
+                                  {calendarImage cssClass="end" date=$article->end_date city=$article->city}
+                               {else}
+                                  {calendarImage cssClass="single" date=$article->start_date city=$article->city}
+                               {/if}
+                           </span>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+            {/if}
+
+        </div>
+
+<div class="clear"></div>
+</div>

@@ -1,0 +1,38 @@
+<h2>{msg code="backend.heading.editors"}</h2>
+
+<table class="data-table">
+	<thead>
+		<tr>
+
+			<th>{msg code="global.firstname"}</th>
+			<th>{msg code="global.lastname"}</th>
+			<th>{msg code="global.email"}</th>
+			<th>{msg code="global.admin"}</th>
+            <th>{msg code="global.active"}</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="filter"></td>
+		</tr>
+	</tfoot>
+	<tbody>
+		{foreach $editors as $editor}
+		<tr>
+			<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => editors, action => edit, id => $editor->id])}">{$editor->first_name}</a></td>
+			<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => editors, action => edit, id => $editor->id])}">{$editor->last_name}</a></td>
+			<td>{$editor->email}</td>
+			<td>{$editor->isAdminAsString()}</td>
+            <td>{$editor->isActiveAsString()}</td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+
+<div class="buttons">
+	<a href="{Url::get([route => 'backend-default', directory => backend, controller => editors, action => add])}" class="button"><span>{msg code='global.button.create_new_editor'}</span></a>
+</div>

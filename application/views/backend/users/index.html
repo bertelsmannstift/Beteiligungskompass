@@ -1,0 +1,26 @@
+<h2>{msg code="backend.heading.users"}</h2>
+
+<table class="data-table">
+	<thead>
+		<tr>
+			<th>{msg code="global.firstname"}</th>
+			<th>{msg code="global.lastname"}</th>
+			<th>{msg code="global.email"}</th>
+			<th>{msg code="global.active"}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach $users as $user}
+		<tr>
+			<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => users, action => edit, id => $user->id])}">{$user->first_name}</a></td>
+			<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => users, action => edit, id => $user->id])}">{$user->last_name}</a></td>
+			<td>{$user->email}</td>
+			<td>{if $user->is_active}{msg code="global.yes"}{else}{msg code="global.no"}{/if}</td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+
+<div class="buttons">
+	<a href="{Url::get([route => 'backend-default', directory => backend, controller => users, action => add])}" class="button"><span>{msg code='global.button.create_new_user'}</span></a>
+</div>

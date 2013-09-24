@@ -1,0 +1,58 @@
+{foreach $data as $area}
+	{if $showStepNavi}
+		<div id="stepnavi-content-{$area@key}" data-area="{$area@key}" class="step-head active {if $area@iteration == 1}details current{elseif $area@iteration == 2}facts{elseif $area@iteration == 3}img-vid{elseif $area@iteration == 4}methods{elseif $area@iteration == 5}categories{/if}">
+			<a href="#">{$area->title}</a>
+		</div>
+	{/if}
+
+	<div class="box-content step{if $area@iteration == 1} current{/if}" id="step-{$area@key}" data-area="{$area@key}">
+		<h2>{$area->description}</h2>
+
+		{if count($area->fields) > 0}
+			<div class="form-box">
+				{$pointerArr = $area->fields}
+				{foreach $area->fields as $key => $field}
+					{$item = next($pointerArr)}
+					{$rightExists = strpos($item->class, 'right') !== false}
+					{if !$field->editoronly OR Helper_User::getUser()->isEditor()}
+						{include file="article/form/`$field->type|default:'textarea'`.html"}
+					{/if}
+				{/foreach}
+			</div>
+		{/if}
+
+		{if !$area@last OR count($data) == 1}
+			<div class="form-box">
+				<button type="submit" value="nextstep" name="save" class="button" title="{msg code="article.save_and_proceed"}"><span>{msg code="article.save_and_proceed"}</span></button>
+			</div>
+		{else}
+			{if Helper_User::getUser()->isEditor()}
+				<div class="form-box">
+					<div class="row">
+						<label for="user">{msg code="article.user"}</label>
+						<select id="user" name="user">
+							{foreach $users as $user}
+								<option value="{$user->id}"{if $article->user->id == $user->id} selected{/if}>{$user->getName()} {if $user->isAdmin()}(Admin){elseif $user->isEditor()}(Editor){/if}</option>
+							{/foreach}
+						</select>
+					</div>
+					<div class="row small_label">
+						<input id="unpublish" type="radio" name="active" value="0"{if !$article->active} checked="checked"{/if}><label for="unpublish">{msg code="article.inactive"}</label>
+					</div>
+					<div class="row small_label">
+						<input id="publish" type="radio" name="active" value="1"{if $article->active} checked="checked"{/if}><label for="publish">{msg code="article.active"}</label>
+					</div>
+				</div>
+			{/if}
+
+			<div class="step_field">
+				<button id="save" type="submit" value="save" name="save" class="button last" title="{msg code="global.save"}"><span>{msg code="global.article_save"}</span></button>
+				{if !Helper_User::getUser()->isEditor()}
+					<button type="submit" value="verification" name="save" class="button last" {if $article->type() != 'expert'} data-confirm="{msg code='article.really_submit'}" {else}data-msg="{msg code='article.really_submit_expert'}"{/if} title="{msg code="article.submit_to_review"}"><span>{msg code="article.submit_to_review"}</span></button>
+				{else}
+					<a data-confirm="{msg code="global.delete_article_confirm" article=$article->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $article->id])}"><span>{msg code="global.delete_article"}</span></a>
+				{/if}
+			</div>
+		{/if}
+	</div>
+{/foreach}

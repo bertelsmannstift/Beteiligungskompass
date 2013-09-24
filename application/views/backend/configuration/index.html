@@ -1,0 +1,102 @@
+<h2><strong>{msg code="backend.heading.configuration"}</strong></h2>
+
+<div class="accordion-buttons">
+    <a href="#" class="accordion-open">{msg code="global.accordion.open"}</a>
+    <a href="#" class="accordion-close">{msg code="global.accordion.close"}</a>
+</div>
+<form method="post" action="">
+    <div class="form-box accordion">
+	{foreach $config as $group => $groupConfig}
+        {if $group != 'sort'}
+            <h3>{ucfirst($group)}</h3>
+            <div>
+            {foreach $groupConfig as $key => $val}
+                {if $key != 'module.videobox_newsbox_eventbox.mobile'}
+                    <div class="row">
+                        <label for="field_{$key}">{$key}</label>
+                       {if $fieldTypes[$key] && $fieldTypes[$key] == 'wysiwyg'}
+                           <textarea id="{$key}" rows="10" cols="10" class="wysiwyg-link" name="messages[{$key}]">{$val|replace:":nl":"\n"}</textarea>
+                       {elseif $fieldTypes[$key] && $fieldTypes[$key] == 'textarea'}
+                           <textarea id="{$key}" rows="10" cols="10" name="messages[{$key}]">{$val|replace:":nl":"\n"}</textarea>
+                       {elseif $fieldTypes[$key] && $fieldTypes[$key] == 'checkbox'}
+                            {if $val == 'true'}
+                                <input type="hidden" name="config[{$key}]" value="false" />
+                            {/if}
+                            <input type="checkbox" id="{$key}" name="config[{$key}]" value="true" id="field_{$key}"{if $val == 'true'} checked="checked"{/if}/>
+                       {else}
+                           <input type="text" id="{$key}" name="config[{$key}]" value="{$val|escape:'HTML'}" id="field_{$key}" />
+                       {/if}
+                    </div>
+                    <div class="row">
+                       {if $key == 'add_expert.expert.active'}
+                           <div class="opt-desc">{msg code="backend.label.add_expert.expert.active.description"}</div>
+                       {elseif $key == 'add_expert.global.active'}
+                            <div class="opt-desc">{msg code="backend.label.add_expert.global.active.description"}</div>
+                       {elseif $key == 'add_expert.study.active'}
+                            <div class="opt-desc">{msg code="backend.label.add_expert.study.active.description"}</div>
+                       {/if}
+                    </div>
+                {/if}
+            {/foreach}
+                {if $group == 'module'}
+                <div class="mobile-condition-options">
+                    <div class="row">
+                        <p>{msg code="backend.mobile.home_condtion"}</p>
+                        <label>
+                            {msg code="backend.mobile.home_condtion.video"}
+                            <input type="radio" name="config[module.videobox_newsbox_eventbox.mobile]" value="video" {if $groupConfig['module.videobox_newsbox_eventbox.mobile'] == 'video' || empty($groupConfig['module.videobox_newsbox_eventbox.mobile'])} checked="checked"{/if}/>
+                        </label>
+                        <label>
+                            {msg code="backend.mobile.home_condtion.news_event"}
+                            <input type="radio" name="config[module.videobox_newsbox_eventbox.mobile]" value="news_event" {if $groupConfig['module.videobox_newsbox_eventbox.mobile'] == 'news_event'} checked="checked"{/if}/>
+                        </label>
+                    </div>
+                </div>
+                {/if}
+                <div class="row">
+                    <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+                </div>
+            </div>
+        {/if}
+
+    {/foreach}
+        <h3>Sort</h3>
+        <div>
+            {foreach $sorts as $k => $sort}
+            <div class="row">
+                <label for="field_{$k}">{$k}</label>
+                <select name="config[sort.{$k}]">
+                    {foreach $sort as $value}
+                        <option value="{$value}"{if $defaultSorts[$k] == $value} selected="selected"{/if}>{$value}</option>
+                    {/foreach}
+                </select>
+            </div>
+            {/foreach}
+            <div class="row">
+                <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+            </div>
+        </div>
+        <h3>{msg code="backend.country_sort"}</h3>
+        <div>
+
+            <div class="row">
+
+             <ul id="sortable1" class="connectedSortable">
+                  {foreach $countries as $c}
+                      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input type="hidden" dataid="config[country.sort][]" value="{$c->id}" />{$c}</li>
+                  {/foreach}
+              </ul>
+
+              <ul id="sortable2" class="connectedSortable">
+                  {foreach $selectedCountries as $c}
+                      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input type="hidden" dataid="config[country.sort][]" name="config[country.sort][]" value="{$c->id}" />{$c}</li>
+                  {/foreach}
+              </ul>
+            </div>
+
+            <div class="row">
+                <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+            </div>
+        </div>
+	</div>
+</form>

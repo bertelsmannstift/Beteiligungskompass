@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <title>{Kohana::$config->load('project.name')}</title>
+    <base href="{Url::base()}">
+    <link rel="SHORTCUT ICON" href="/favicon.ico" type="image/x-icon">
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    {Helper_Page::addCSS('http://fonts.googleapis.com/css?family=Droid+Sans:400,700')}
+    {Helper_Page::addCSS('css/jqueryui.css')}
+
+    {Helper_Page::addCSS('css/screen.css')}
+    {Helper_Page::addCSS('css/backend.css')}
+    {Helper_Page::addCSS('js/libs/jquery-ui-1.8.18.custom.css')}
+    {Helper_Page::addCSS('js/libs/demo_table_jui.css')}
+
+    {Helper_Page::getCSSSource()}
+
+    <script type="text/javascript">
+    var loginUrl = '{Url::get('route:login')}';
+    var registerUrl = '{Url::get('route:register')}';
+    var userId = '{$smarty.session.user_id}';
+    var CKEDITOR_BASEPATH = '{Url::base()}js/libs/ckeditor/';
+    var msgLoading = '{msg code="global.loading"}';
+    var timerpickerConfig = { onSelect: function(input, inst){ $(this).siblings('input[type=hidden]').val($(this).parent().find('input[type=text]').map(function(){ return $(this).val(); }).get().join(' ')); $(this).siblings('input[type=hidden]').change(); }, timeOnlyTitle: '{msg code='global.timepicker.title'}',
+        		timeText: '{msg code='global.timepicker.timetext'}',
+        		hourText: '{msg code='global.timepicker.hourtext'}',
+              minuteText: '{msg code='global.timepicker.minutetext'}' };
+    var datepickerConfig = {Kohana::$config->load('project.datepicker_config')};
+    </script>
+
+    <!--[if IE 7]>
+        <link rel="stylesheet" href="css/ie7.css" type="text/css" media="all" />
+        <![endif]-->
+    <!--[if IE 8]>
+        <link rel="stylesheet" href="css/ie8.css" type="text/css" media="all" />
+        <![endif]-->
+
+    </head>
+    <body class="{$controller}_{$action}{if $isAppleBrowser} apple{/if} backend{if $isWebkit} webkit{/if}">
+       <div id="messages">
+          {foreach $messages as $msg}
+          <div class="msg {$msg->type}">{$msg->text}</div>
+          {/foreach}
+      </div>
+
+      <div id="wrapper" {if $controller == 'welcome'} class="dashboard"{/if}>
+        <div id="head">
+            {include "layout/top-navigation.html"}
+        </div>
+        <div id="content">
+            <div class="main-box">
+                <div class="box-content-with-menu">
+                    <div class="side-menu">
+                        <ul>
+                            {$user = Helper_User::getUser()}
+
+                            {if $user AND $user->isAdmin()}
+                            <li><a class="{if $controller == 'editors'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:editors action:")}">{msg code="backend.menu.manage_editors"}</a></li>
+                            {/if}
+                            <li><a class="{if $controller == 'users'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:users action:")}">{msg code="backend.menu.manage_users"}</a></li>
+                            <li><a class="{if $controller == 'articles'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:articles action:")}">{msg code="backend.menu.manage_articles"}</a></li>
+                            {if $user AND $user->isAdmin()}
+                            <li><a class="{if $controller == 'criteria'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:criteria action:")}">{msg code="backend.menu.manage_criteria"}</a></li>
+                            <li><a class="{if $controller == 'configuration'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:configuration action:")}">{msg code="backend.menu.manage_configuration"}</a></li>
+
+                            <li><a class="{if $controller == 'messages' && $action == 'index' && $id != 'backend'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:messages action:index")}">{msg code="backend.menu.manage_messages"}</a></li>
+                            <li><a class="{if $controller == 'messages' && $action == 'index' && $id == 'backend'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:messages action:index id:backend")}">{msg code="backend.menu.manage_backend_messages"}</a></li>
+                            <li><a class="{if $controller == 'messages' && $action == 'mobile'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:messages action:mobile")}">{msg code="backend.menu.manage_messages_mobile"}</a></li>
+                            <li><a class="{if $controller == 'messages' && $action == 'groups'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:messages action:groups")}">{msg code="backend.menu.manage_message_groups"}</a></li>
+
+                            <li><a class="{if $controller == 'pages'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:pages action:")}">{msg code="backend.menu.manage_pages"}</a></li>
+                            <li><a class="{if $controller == 'files'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:files action:")}">{msg code="backend.menu.manage_files"}</a></li>
+                            <li><a class="{if $controller == 'rss'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:rss action:")}">{msg code="backend.menu.manage_rssfeeds"}</a></li>
+                            <li><a class="{if $controller == 'featured'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:featured action:")}">{msg code="backend.menu.manage_featured_videos"}</a></li>
+                            <li><a class="{if $controller == 'partnerlinks'}active{/if}" href="{Url::get("route:backend-default directory:backend controller:partnerlinks action:")}">{msg code="backend.menu.manage_partnerlinks"}</a></li>
+                            {/if}
+                            <li>
+                                <form id="backend-search" action="{Url::get("route:backend-default directory:backend controller:search action:")}" method="post">
+                                    <div id="searchicon"></div>
+                                    <input id="searchstring" name="searchstring" placeholder="{msg code='backend.menu.search_placeholder'}" />
+                                </form>
+                            </li>
+                            {*
+                            <li><a href="{Url::get('route:logout')}">{msg code="global.logout"}</a></li>
+                            *}
+                        </ul>
+                    </div>
+                    <div class="box-content">
+                        {$_content_}
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div id="foot">
+            <span>{msg code="layout.responsibility"}</span>
+            <ul>
+                {foreach $staticPages as $page}
+                    <li><a href="{Url::get("route:default controller:pages action:index id:{$page->type}")}">{$page->title}</a></li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+
+    <div id="block-ui" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;">
+
+    </div>
+
+    <div id="loading" style="display:none;position:fixed;top:50%;left:50%;width:300px;line-height:150px;z-index:1000;margin-top:-75px;margin-right:-150px;background:#ccc;color:#fff;text-align:center;z-index:1001;">
+      {msg code="global.loading"}
+  </div>
+
+       <script src="js/libs/jquery.min.js"></script>
+       <script src="js/libs/jquery.tools.min.js"></script>
+      <script src="js/libs/jquery-ui.min.js"></script>
+      <script src="js/libs/jquery.lazyload.min.js"></script>
+
+       {Helper_Page::addJS('js/libs/jquery-ui-timepicker-addon.js')}
+       {Helper_Page::addJS('js/libs/ckeditor/ckeditor.js')}
+       {Helper_Page::addJS('js/libs/ckeditor/adapters/jquery.js')}
+       {Helper_Page::addJS('js/libs/jquery.dataTables-1.9.1.min.js')}
+       {Helper_Page::addJS('js/libs/jquery.multiselect.min.js')}
+
+
+       <script type="text/javascript">
+           selectedText = '{msg code="global.selected_text"}';
+           selectHeaderText = '{msg code="global.select_head_text"}';
+           selectNoneSelectedText = '{msg code="global.select_mone_selected_text"}';
+       </script>
+       {Helper_Page::addJS('js/main.js')}
+       {Helper_Page::addJS('js/backend.js')}
+
+       {Helper_Page::getJSSource()}
+</body>
+</html>

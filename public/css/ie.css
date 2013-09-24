@@ -1,0 +1,9 @@
+button.button span {
+  top: -1px !important;
+}
+
+.side-menu.filter .blue-button.button span {
+  padding: 10px 13px 5px 8px;
+  font-size: 11px;
+  height: 16px;
+}

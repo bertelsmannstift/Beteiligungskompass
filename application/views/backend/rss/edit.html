@@ -1,0 +1,40 @@
+<h2>{msg code="backend.edit_rssfeed"}</h2>
+
+<form method="post" action="" enctype="multipart/form-data" autocomplete="off">
+    <div class="form-box">
+        <div class="row">
+            <label for="url">{msg code="label.rssurl"}</label>
+            <input type="hidden" name="id" value="{$feed->id}"/>
+            <input type="url" name="url" id="url" value="{$feed->url}"/>
+            {if $errors.url}<span class="error">{$errors.url}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="author">{msg code="label.rssauthor"}</label>
+            <input type="text" name="author" id="author" value="{$feed->author}"/>
+            {if $errors.author}<span class="error">{$errors.author}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="author">{msg code="label.rsstype"}</label>
+            <select name="type">
+                <option value="news"{if $feed->type == 'news'} selected="selected"{/if}>{msg code="label.rsstype_news"}</option>
+                <option value="event"{if $feed->type == 'event'} selected="selected"{/if}>{msg code="label.rsstype_event"}</option>
+            </select>
+            {if $errors.type}<span class="error">{$errors.type}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="logo">{msg code="label.rssfile"}</label>
+            <input type="file" name="logo" id="logo" value=""/>
+            {if $errors.logo}<span class="error">{$errors.logo}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="logo">{msg code="label.currentLogo"}</label>
+            {if $values->logo}<img class="float_right_img" src="{$values->logo->previewurl()}"/>{/if}
+        </div>
+    </div>
+    <div class="form-box">
+        <div class="row">
+            <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+            <button type="button" class="button" onclick="history.back();"><span>{msg code="global.cancel"}</span></button>
+        </div>
+    </div>
+</form>

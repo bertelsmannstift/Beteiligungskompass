@@ -1,0 +1,23 @@
+<h2>{msg code="backend.edit_partnerlink"}</h2>
+
+<form method="post" action="" enctype="multipart/form-data" autocomplete="off">
+    <div class="form-box">
+        <div class="row">
+            <label for="title">{msg code="label.title"}</label>
+            <input type="hidden" name="id" value="{$link->id}"/>
+            <input type="text" name="title" id="title" value="{$link->title}"/>
+            {if $errors.url}<span class="error">{$errors.title}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="content">{msg code="label.link"}</label>
+            <textarea rows="20" cols="20" class="init-ckeditor-on-me" name="content" id="content">
+                {$link->content}
+            </textarea>
+        </div>
+    </div>
+    <div class="form-box">
+        <div class="row">
+            <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+        </div>
+    </div>
+</form>

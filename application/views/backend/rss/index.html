@@ -1,0 +1,62 @@
+<h2>{msg code="backend.create_rssfeed"}</h2>
+
+<form method="post" action="" enctype="multipart/form-data" autocomplete="off">
+    <div class="form-box">
+        <div class="row">
+            <label for="url">{msg code="label.rssurl"}</label>
+            <input type="url" name="url" id="url" value="{$values.url}"/>
+            {if $errors.url}<span class="error">{$errors.url}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="author">{msg code="label.rssauthor"}</label>
+            <input type="text" name="author" id="author" value="{$values.author}"/>
+            {if $errors.author}<span class="error">{$errors.author}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="author">{msg code="label.rsstype"}</label>
+            <select name="type">
+                <option value="news"{if $values.type == 'news'} selected="selected"{/if}>{msg code="label.rsstype_news"}</option>
+                <option value="event"{if $values.type == 'event'} selected="selected"{/if}>{msg code="label.rsstype_event"}</option>
+            </select>
+            {if $errors.type}<span class="error">{$errors.type}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="logo">{msg code="label.rssfile"}</label>
+            <input type="file" name="logo" id="logo" value="{$values.logo}"/>
+            {if $errors.logo}<span class="error">{$errors.logo}</span>{/if}
+        </div>
+    </div>
+    <div class="form-box">
+        <div class="row">
+            <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+        </div>
+    </div>
+</form>
+
+
+<table id="rss" class="data-table">
+    <thead>
+        <tr>
+            <th>{msg code="global.feedurl"}</th>
+            <th>{msg code="global.author"}</th>
+            <th>{msg code="label.rsstype"}</th>
+            <th>{msg code="global.logoexists"}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $feeds as $feed}
+        <tr>
+            <td>{$feed->url}</td>
+            <td>{$feed->author}</td>
+            {$type = $feed->type}
+            <td>{msg code="label.rsstype_$type"}</td>
+            <td>{if $feed->logo}{msg code="global.yes"}{else}{msg code="global.no"}{/if}</td>
+            <td style="white-space:nowrap">
+                <a href="{Url::get([route => 'backend-default', directory => backend, controller => rss, action => edit, id => $feed->id])}">{msg code="global.edit"}</a> |
+                <a data-confirm="{msg code="backend.confirm_delete"}" href="{Url::get([route => 'backend-default', directory => backend, controller => rss, action => delete, id => $feed->id])}">{msg code="global.delete"}</a> |
+            </td>
+        </tr>
+        {/foreach}
+    </tbody>
+</table>

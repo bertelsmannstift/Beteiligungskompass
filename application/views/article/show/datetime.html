@@ -1,0 +1,21 @@
+{if $key == 'start_date' && $article->start_date && $article->end_date}
+    <div class="sub-title-line datetime">
+        {if $article->type() == 'event'}
+            <div class="author-box">
+                {if $article->user}{$article->user->getName()}{else}{$article->author}{/if}
+            </div>
+            <div class="splitter"> | </div>
+
+            <div class="update-box">
+                {$article->created->format(Kohana::$config->load('project.dateformat'))}
+            </div>
+            <div class="clear"></div>
+        {/if}
+    </div>
+    <div class="date-time-event">
+        <div class="event-date">
+            {strftime("%d. %b %Y, %H:%M", $article->start_date->format("U"))} {msg code="global.clock"} -<br/>
+            {strftime("%d. %b %Y, %H:%M", $article->end_date->format("U"))} {msg code="global.clock"} | {if $article->city}{$article->city}{/if}
+        </div>
+    </div>
+{/if}

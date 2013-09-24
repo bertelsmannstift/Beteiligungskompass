@@ -1,0 +1,17 @@
+{if count($article->imageList())}
+<h2 class="overview-headline">{$field->label}</h2>
+{$images = $article->imageList()}
+<ul class="thumb-box">
+	{foreach $images as $i}
+        {if $i}
+        <li>
+            {if $i->file->ext != 'pdf'}
+                <a href="{$i->file->link()}" rel="prettyPhoto[pp_gal]" target="_blank">
+                    <img src="{Url::base()}{$i->file->previewurl('43x42')}" alt="{$i->description}">
+                </a>
+            {/if}
+        </li>
+        {/if}
+	{/foreach}
+</ul>
+{/if}

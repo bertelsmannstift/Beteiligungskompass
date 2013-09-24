@@ -1,0 +1,39 @@
+body#pdf {
+  font-size: 15px;
+}
+body#pdf .pdf-content {
+  padding: 0 20px;
+}
+body#pdf h1 {
+  text-align: center;
+  font-size: 24px;
+}
+body#pdf label, body#pdf h2 {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 15px 0 0;
+  display: block;
+  padding: 0;
+}
+body#pdf .info, body#pdf p {
+  padding: 10px 0;
+  margin: 0;
+}
+body#pdf h3 {
+  margin: 15px 0 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+body#pdf .row .applied-head {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+  display: block;
+}
+body#pdf img {
+  width: 50%;
+}
+body#pdf a {
+  color: #000000;
+  text-decoration: none;
+}

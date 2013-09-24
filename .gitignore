@@ -1,0 +1,17 @@
+.DS_Store
+
+application/logs/*
+.sass-cache/*
+application/cache/smarty/compile/*
+application/cache/smarty/cache/*
+application/data/*
+public/files/*.*
+public/media/*.*
+public/media/preview/*
+public/merged/*
+!.gitignore
+.idea/*
+.idea
+.project
+testarticle.json
+git.sh

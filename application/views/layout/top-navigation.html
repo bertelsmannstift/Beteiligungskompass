@@ -1,0 +1,112 @@
+<div>
+    <div class="head-logo">
+        <a href="{Url::base()}" class="top-logo">
+            {if !$isMobile}<img src="{Url::base()}{Kohana::$config->load("project.files.image.header")}" alt="" />{else}{msg code="top_navigation.header.menu_name"}{/if}
+        </a>
+    </div>
+    <ul style="width:auto">
+        <li class="login">
+            <span>
+                {if $user = Helper_User::getUser()}
+                <a href="{Url::get('route:logout')}" class="logout" title="{msg code="global.logout"}"><span></span>{msg code="global.logout"}</a>
+                {else}
+                <a href="javascript:void(0);" data-href="{Url::get('route:login')}" class="overlay icon-header_icon_login login" data-rel="#login-overlay" title="{msg code="global.login"}">{msg code="global.login"}</a>
+                {/if}
+            </span>
+        </li>
+        {if !$isMobile}
+            <li class="my-article"><span><a href="{Url::get("route:default controller:myarticles action:index")}" class="need-user icon-icon_own_article" title="{msg code="module.myarticles.title"}">{if !$isMobile}{msg code="module.myarticles.title"} {/if}{if $user = Helper_User::getUser()}{if !$isMobile || ($isMobile && $user->getMyArticleCount() < 100)}(<span id="fav-count">{$user->getMyArticleCount()}</span>){/if}{/if}</a></span></li>
+            <li class="fav"><span><a href="{Url::get("route:default controller:favorites action:index")}" class="need-user icon-header_icon_my_article" title="{msg code="module.favorites.title"}">{if !$isMobile}{msg code="module.favorites.title"} {/if}{if $user = Helper_User::getUser()}{if !$isMobile || ($isMobile && $user->getFavoritesCount() < 100)}(<span id="fav-count">{$user->getFavoritesCount()}</span>){/if}{/if}</a></span></li>
+        {/if}
+        {if $user = Helper_User::getUser()}
+            <li class="edit-acc"><span><a href="javascript:void(0);" data-href="{Url::get("route:default controller:user action:profile")}" class="overlay" data-rel="#profile-overlay" title="{msg code="top_navigation.edit_account"}"><span></span>{msg code="top_navigation.edit_account"}</a></span></li>
+            {*
+            {if $user->isEditor()}
+                <li class="editor editoritem"><span><a href="{Url::get("route:default controller:editor action:index")}" title="{msg code="top_navigation.editor"}"><span></span>{msg code="top_navigation.editor"}</a></span></li>
+            {/if}
+            *}
+            {if $user->isEditor() or $user->isAdmin()}
+                <li class="editor backenditem"><span><a href="{Url::get("route:default controller:backend action:")}" title="{msg code="top_navigation.backend"}"><span></span>{msg code="top_navigation.backend"}</a></span></li>
+            {/if}
+        {/if}
+    </ul>
+</div>
+{if $isMobile}
+    <ul id="mobile-nav">
+        <li class="home{if $controller == 'welcome'} active{/if}">
+            <a href="{Url::get('controller:welcome action:index')}" title="{msg code="module.home.title"}">
+            {msg code="module.home.title"}
+            </a>
+        </li>
+        {foreach $staticMenuPages as $static}
+            {if Helper_Module::isActive($static->type)}
+            {assign var="stype" value=$static->type}
+            <li class="about{if $controller == 'pages' && $id == $stype} active{/if}">
+                <a href="{Url::get("controller:pages action:index id:$stype")}" title="{$static->title}">
+                    {$static->title}
+                </a>
+            </li>
+            {/if}
+        {/foreach}
+        <li class="planning{if $controller == 'planning'} active{/if}">
+            <a href="{Url::get('controller:planning')}" title="{msg code="module.planning.title"}">
+                {msg code="global.content_filter"}
+            </a>
+        </li>
+        {if Helper_Module::isActive('method')}
+        <li class="method{if $controller == 'article' && $id == 'method'} active{/if}">
+            <a href="{Url::get('controller:article action:index id:method')}" title="{msg code="module.methods.title"}">
+                {msg code="module.methods.title"}
+            </a>
+        </li>
+        {/if}
+        {if Helper_Module::isActive('study')}
+            <li class="study{if $controller == 'article' && $id == 'study'} active{/if}">
+                <a href="{Url::get('controller:article action:index id:study')}" title="{msg code="module.studies.title"}">
+                    {msg code="module.studies.title"}
+                </a>
+            </li>
+        {/if}
+        {if Helper_Module::isActive('qa')}
+        <li class="qa{if $controller == 'article' && $id == 'qa'} active{/if}">
+            <a href="{Url::get('controller:article action:index id:qa')}" title="{msg code="module.qa.title"}">
+                {msg code="module.qa.title"}
+            </a>
+        </li>
+        {/if}
+        {if Helper_Module::isActive('expert')}
+        <li class="expert{if $controller == 'article' && $id == 'expert'} active{/if}">
+            <a href="{Url::get('controller:article action:index id:expert')}" title="{msg code="module.experts.title"}">
+                {msg code="module.experts.title"}
+            </a>
+        </li>
+        {/if}
+        {if Helper_Module::isActive('event')}
+        <li class="event{if $controller == 'article' && $id == 'event'} active{/if}">
+            <a href="{Url::get('controller:article action:index id:event')}" title="{msg code="module.events.title"}">
+                {msg code="module.events.title"}
+            </a>
+        </li>
+        {/if}
+        {if Helper_Module::isActive('news')}
+        <li class="news{if $controller == 'article' && $id == 'news'} active{/if}">
+            <a href="{Url::get('controller:article action:index id:news')}" title="{msg code="module.news.title"}">
+                {msg code="module.news.title"}
+            </a>
+        </li>
+        {/if}
+        <li class="my-article-nav{if $controller == 'myarticles'} active{/if}">
+            <a href="{Url::get("route:default controller:myarticles action:index")}" class="need-user" title="{msg code="module.myarticles.title"}">
+            {msg code="module.myarticles.title"}
+            {if $user = Helper_User::getUser()}{if !$isMobile || ($isMobile && $user->getMyArticleCount() < 100)}(<span id="fav-count">{$user->getMyArticleCount()}</span>){/if}{/if}
+            </a>
+        </li>
+        <li class="fav-nav{if $controller == 'favorites'} active{/if}">
+            <a href="{Url::get("route:default controller:favorites action:index")}" class="need-user" title="{msg code="module.favorites.title"}">
+            {msg code="module.favorites.title"}
+            {if $user = Helper_User::getUser()}{if !$isMobile || ($isMobile && $user->getFavoritesCount() < 100)}(<span id="fav-count">{$user->getFavoritesCount()}</span>){/if}{/if}
+            </a>
+        </li>
+    </ul>
+    <div id="mobile-menu-bg"></div>
+{/if}

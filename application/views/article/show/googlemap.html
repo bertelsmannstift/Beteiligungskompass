@@ -1,0 +1,9 @@
+{if $article->city && $article->zip && $article->street && $article->street_nr}
+<h2 class="overview-headline">{msg code="global.venue"}</h2>
+<div>
+    {if $article->venue}{$article->venue}<br/>{/if}
+    {$article->street} {$article->street_nr}<br/>
+    {$article->zip} {$article->city}<br/>
+</div>
+<a target="_blank" href="http://maps.google.de/?daddr={$article->street|urlencode}+{$article->street_nr|urlencode}+{$article->zip|urlencode}+{$article->city|urlencode}">{msg code="global.showroute"}</a>
+{/if}

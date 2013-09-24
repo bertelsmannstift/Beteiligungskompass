@@ -1,0 +1,12 @@
+<div class="uploaditem-box">
+    <input type="hidden" name="images[{$item->id}][id]" value="{$item->id}"/>
+
+    <img alt="Image" src="{$item->previewurl(180x180)}">
+
+    <div class="text">
+        <label for="form_file_{$item->id}">{msg code="tableheader.description"} <span>({$item->filename})</span></label>
+        <input type="text" id="form_file_{$item->id}" name="images[{$item->id}][description]" value="{$description}"/>
+        <br />
+        <a href="#" class="remove_img">{msg code="global.remove_image"}</a>
+    </div>
+</div>

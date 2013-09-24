@@ -1,0 +1,29 @@
+<div id="removeacc-overlay" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                <h3>{msg code="user.profile"}</h3>
+
+                <form method="post" action="{Url::get("route:default controller:user action:removeacc")}">
+                	<div>
+                		{if $success}
+                		<p>
+                			{msg code="user.removeacc.ok"}
+                		</p>
+                		{else}
+                      	<p>
+                      		{msg code="user.removeacc.question"}
+                      	</p>
+
+                        <button type="submit" class="button" name="remove" value="true" title="{msg code="user.removeacc.yes"}"><span>{msg code="user.removeacc.yes"}</span></button>
+                        <button type="submit" class="button" name="remove" value="false" title="{msg code="user.removeacc.no"}"><span>{msg code="user.removeacc.no"}</span></button>
+                        {/if}
+                        <div class="clear"></div>
+                	</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

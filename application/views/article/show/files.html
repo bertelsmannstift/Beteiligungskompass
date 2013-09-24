@@ -1,0 +1,13 @@
+{if count($article->fileList())}
+<h2 class="overview-headline">{$field->label}</h2>
+{$files = $article->fileList()}
+<ul class="file-box">
+	{foreach $files as $i}
+        {if $i}
+        <li>
+            <a href="{$i->file->link()}" target="_blank" title="{$i->file->filename}">{if $i->description}{$i->description}{else}{$i->file->filename}{/if} ({$i->file->getFileSize()} MB)</a>
+        </li>
+        {/if}
+	{/foreach}
+</ul>
+{/if}

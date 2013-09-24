@@ -1,0 +1,22 @@
+<div id="question-overlay" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                {foreach $questions as $key => $question}
+                    <div id="q-{$question@index}" class="question" {if !$question@first}style="display:none"{/if}>
+                        <h3 class="question">{$question.title}</h3>
+                        <p>
+                            {$question.body}
+                        </p>
+                        <div>
+                            {* <span class="question-page">{msg code="question.page"} {$key+1} / {count($questions)}</span> *}
+                            <a class="button close" href="#"><span>{msg code="question.ok"}</span></a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+    </div>
+</div>

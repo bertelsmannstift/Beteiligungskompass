@@ -1,0 +1,44 @@
+{foreach Helper_Article::getCriteriaList() as $criterion}
+    {if $criterion->isArticleTypeAllowed($article->type())}
+    <div class="row hr-line">
+        <div class="con">
+            <div class="head{if $criterion->description ne ''} has-description{/if}" title="{$criterion->description}">{$criterion->title}</div>
+
+            {if $criterion->type == 'select'}
+                <select name="criteria[]" class="criteria-select">
+                    {foreach $criterion->options as $option}
+                        {if $option->deleted == false && $option->parentOption == null}
+                            <option id="opt-{$option->id}" value="{$option->id}"{if $article->criteria AND $article->criteria->contains($option)} selected='selected'{/if}>{$option->title}</option>
+                            {foreach $option->childOptions as $childOpt}
+                                {if $childOpt->deleted == false}
+                                <option id="opt-{$childOpt->id}" class="child" value="{$childOpt->id}"{if $article->criteria AND $article->criteria->contains($childOpt)} selected='selected'{/if}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$childOpt}</option>
+                                {/if}
+                            {/foreach}
+                        {/if}
+                    {/foreach}
+                </select>
+            {else}
+                <div class="{if $criterion->type == 'resource'}con-row-resource box-resource{else}con-row{/if}">
+                    {if $criterion->type == 'resource'}
+                        <div>
+                    {/if}
+                    {foreach $criterion->options as $option}
+                        {if !($criterion->type == 'radio' && $option->default) && $option->deleted == false}
+                            {if $option@index > 2 && (($option@index+1) % 3) == 0 && $criterion->type != 'resource'}
+                                <div class="clear"></div>
+                            {/if}
+                            <div class="{$criterion->type}">
+                                <input type="{if $criterion->type == 'resource'}radio{else}checkbox{/if}" name="criteria[{if $criterion->type == 'resource'}crit-{$criterion->id}{/if}]" id="opt-{$option->id}" value="{$option->id}"{if $article->criteria AND $article->criteria->contains($option)} checked="checked"{/if}/> <label for="opt-{$option->id}">{$option}</label>
+                            </div>
+                        {/if}
+                    {/foreach}
+                    {if $criterion->type == 'resource'}
+                        </div>
+                    {/if}
+                </div>
+            {/if}
+        </div>
+        <div class="clear"></div>
+    </div>
+    {/if}
+{/foreach}

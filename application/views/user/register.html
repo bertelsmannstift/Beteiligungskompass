@@ -1,0 +1,54 @@
+<div id="reg-overlay" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                <h3>{msg code="login.register"}</h3>
+                <form method="post" action="{Url::get('action:register')}">
+                {if $register_ok}
+                <p>{msg code="login.register_success"}</p>
+                <p>{msg code="login.register_dbloptin"}</p>
+                {else}
+                	<div>
+                        <div>
+                            <label for="email">{msg code="label.email"}</label>
+                            <input type="text" name="email" id="email" value="{$values.email}" class="small"/>
+                            {if $errors.email}<span class="error">{$errors.email}</span>{/if}
+                        </div>
+
+                        <div>
+                            <label for="first_name">{msg code="label.firstname"}</label>
+                            <input type="text" name="first_name" id="first_name" value="{$values.first_name}" class="small"/>
+                            {if $errors.first_name}<span class="error">{$errors.first_name}</span>{/if}
+                        </div>
+                        <div>
+                            <label for="last_name">{msg code="label.lastname"}</label>
+                            <input type="text" name="last_name" id="last_name" value="{$values.last_name}" class="small"/>
+                            {if $errors.last_name}<span class="error">{$errors.last_name}</span>{/if}
+                        </div>
+                        <div>
+                            <label for="password">{msg code="label.password"}</label>
+                            <input type="password" name="password" id="password" class="small"/>
+                            {if $errors.password}<span class="error">{$errors.password}</span>{/if}
+                        </div>
+                        <div>
+                            <label for="password_repeat">{msg code="label.password_again"}</label>
+                            <input type="password" name="password_repeat" id="password_repeat" class="small"/>
+                            {if $errors.password_repeat}<span class="error">{$errors.password_repeat}</span>{/if}
+                        </div>
+                        <div class="terms">
+                            <input type="checkbox" id="terms" name="terms" />
+                            <label for="terms">{msg code="global.terms" terms_of_use=$terms_of_use}</label>
+                            <div class="clear"></div>
+                            {if $errors.terms}<span class="error">{msg code="global.error_terms" terms_of_use=$terms_of_use}</span>{/if}
+                        </div>
+                        <button type="submit" class="button" title="{msg code="login.create_account"}"><span>{msg code="login.create_account"}</span></button>
+                        <div class="clear"></div>
+                	</div>
+                {/if}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

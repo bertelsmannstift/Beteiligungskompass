@@ -1,0 +1,27 @@
+{capture assign="linked_articles"}
+{$first = true}
+{foreach Helper_Article::getTypes(true) as $type => $name}
+	{capture assign=type_content}
+		{foreach $article->getLinkedArticles() as $la}
+			{if $la->type() == $type AND $la->active}
+				<li><div></div><a href="{Url::get([id => $la->id], true)}">{$la->title|default:"no name given"}</a></li>
+			{/if}
+		{/foreach}
+	{/capture}
+	{if strlen(trim($type_content)) > 0}
+		{$first = false}
+        <h3 class="{$type}">{msg code="global.$type"}</h3>
+        <ul class="checklist {$type}">
+            {$type_content}
+		</ul>
+	{/if}
+{/foreach}
+{/capture}
+{if strlen(trim($linked_articles)) > 0}
+<div class="applied">
+    <h2 class="{$type} overview-headline">{msg code="global.linked_articles"}</h2>
+    <div class="applied-content">
+        {$linked_articles}
+    </div>
+</div>
+{/if}

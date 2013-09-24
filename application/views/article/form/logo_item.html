@@ -1,0 +1,11 @@
+<div class="uploaditem-box">
+    <input type="hidden" name="logo" value="{$item->id}"/>
+
+    <img alt="Image" src="{$item->previewurl('180x180')}">
+
+    <div class="text">
+        <label for="form_file_{$item->id}"><span>{$item->filename}</span></label>
+        <br />
+        <a href="#" class="remove_img">{msg code="global.remove_image"}</a>
+    </div>
+</div>

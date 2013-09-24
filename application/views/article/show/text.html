@@ -1,0 +1,75 @@
+{if $key == 'city'}
+	{if $article->city OR $article->country}
+		<h2 class="overview-headline">{msg code="label.location"}</h2>
+		<div class="wysiwyg">{$article->city}{if $article->city AND $article->country}, {/if}{if $article->country}{$article->country}{/if}</div>
+	{/if}
+{elseif $key == 'projectstatus'}
+	{if $article->projectstatus}
+		<h2 class="overview-headline">{$field->label}</h2>
+		<div class="info">{$article->projectstatus}</div>
+	{/if}
+{elseif $key == 'participation'}
+	{if $article->participation}
+		<h2 class="overview-headline">{$field->label}</h2>
+		<div class="info">{$article->participation}</div>
+	{/if}
+{elseif $key == 'author'}
+	{if $article->author}
+	   <div class="left-col">
+			<label>{$field->label}: </label>
+			<div class="info">{$article->author}</div>
+	   </div>
+	   <div class="right-col">
+			<label>{msg code="label.date"}: </label>
+			<div class="info">{$article->date->format(Kohana::$config->load('project.dateformat'))}</div>
+	   </div>
+	   <div class="clear"></div>
+	{/if}
+{elseif $key == 'author_answer'}
+	<h2 class="overview-headline">{$field->label}</h2>
+	<div{if $field->wysiwyg} class="wysiwyg"{/if}>
+		{if $field->wysiwyg}
+			{$article->$key}
+		{else}
+			{nl2br($article->$key)}
+		{/if}
+	</div>
+{elseif preg_match('/(start|end)_month/', $key, $match)}
+	{$month_key = "`$match[1]`_month"}
+	{$year_key = "`$match[1]`_year"}
+
+	{if $article->$month_key OR $article->$year_key}
+
+		{if $article->start_year && $article->end_year && $year_key == 'start_year'}
+			<h2 class="overview-headline">{msg code="global.duration"}</h2>
+			<div class="wysiwyg">
+				{if $article->start_month}
+					{Helper_Date::monthName($article->start_month)}
+				{/if}
+				{$article->start_year}
+				<span class="duration">-</span>
+				{if $article->end_month}
+					{Helper_Date::monthName($article->end_month)}
+				{/if}
+				{$article->end_year}
+			</div>
+		{elseif $year_key == 'start_year'}
+			<h2 class="overview-headline">{msg code="global.started"}</h2>
+			<div class="wysiwyg">
+				{if $article->$month_key}
+					{Helper_Date::monthName($article->$month_key)}
+				{/if} {$article->$year_key}
+			</div>
+		{/if}
+	{/if}
+{elseif $key == 'year'}
+	{if $article->$key}
+	<h2 class="overview-headline">{$field->label}</h2>
+	<div class="wysiwyg">{if strpos($key, 'month') !== false}{Helper_Date::monthName($article->$key)}{else}{$article->$key}{/if}</div>
+	{/if}
+{else if $key == 'country' OR strpos($key, 'year') !== false}
+
+{elseif $article->$key}
+		<h2 class="overview-headline">{$field->label}</h2>
+		<div class="wysiwyg">{if strpos($key, 'month') !== false}{Helper_Date::monthName($article->$key)}{else}{$article->$key}{/if}</div>
+{/if}

@@ -1,0 +1,19 @@
+{$types = Helper_Article::getTypes(true)}
+
+{foreach $types as $k => $type}
+	<div class="con list">
+		<div class="head">{msg code="article_config.`$k`.title.plurality"}</div>
+		<div class="linked_articles">
+			<select size="10" class="article_list" data-linkedtype="{$k}" name="linked_articles[]" multiple="multiple">
+				{foreach Helper_Article::getArticles($type@key) as $a}
+					<option value="{$a->id}"{if $article->linked_articles->contains($a)} selected="selected"{/if}>{$a->title|default:"no name given"}</option>
+				{/foreach}
+			</select>
+			<div class="clear"></div>
+		</div>
+        {if $showAddExpertLink && $k == 'expert'}
+            <a class="new-expert-link" href="{Url::get([action => new, id => expert])}" target="_blank">{msg code="article.add_expert"}</a>
+        {/if}
+        <div class="clear"></div>
+	</div>
+{/foreach}

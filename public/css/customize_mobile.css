@@ -1,0 +1,35 @@
+/* COLORS */
+@media all and (max-device-width: 680px) {
+
+    #wrapper #head div ul li a span, #wrapper.dashboard #head div ul li a span { color: white; text-shadow: 1px 1px 1px black; }
+    #wrapper #content .main-box .headline div, #wrapper.dashboard #content .main-box .headline div { color: #000; text-shadow: 1px 1px 1px #fff; border-bottom: 1px solid #9b9b9b; }
+    #wrapper #content .main-box .box-content-with-menu .box-content .result-button a span { color: #fff; text-shadow: 1px 0 1px #000; }
+    #wrapper #content .main-box .box-content-with-menu .box-content .result-button a span strong { color: #fff; text-shadow: 1px 0 1px #000; }
+}
+
+/* Backgrounds */
+@media all and (max-device-width: 680px) {
+    body.apple global.button.button, body.apple global.button.button { background: url("../img/buttons/button-left.png") no-repeat scroll 7px 0 transparent; }
+    body.apple global.button.button span, body.apple global.button.button span { background: url("../img/buttons/button-right.png") no-repeat scroll right 2px transparent; }
+    #wrapper #foot, #wrapper.dashboard #foot { background: none; }
+    #wrapper #head div .top-logo, #wrapper.dashboard #head div .top-logo { background: url("../img/mobile/top-logo.png") no-repeat scroll 0 0 transparent; }
+    #wrapper #content .content-head, #wrapper.dashboard #content .content-head { background: url("../img/mobile/dashboard-head-bg.gif") repeat scroll 0 0 transparent; }
+    #wrapper #content .content-head .arrow-bg, #wrapper.dashboard #content .content-head .arrow-bg { background: none; }
+    #wrapper #content .main-box .headline, #wrapper.dashboard #content .main-box .headline { background: none repeat scroll 0 0 transparent; }
+    #wrapper #content .main-box .box-content .row .item.last, #wrapper.dashboard #content .main-box .box-content .row .item.last { background: none; }
+    #wrapper #content .main-box .box-content .row a.img-button, #wrapper.dashboard #content .main-box .box-content .row a.img-button { background-image: url("../img/mobile/article-icons_mobile-front.png"); }
+    #wrapper #content .content-head ul li a { background: url("../img/mobile/article-icons_mobile-navigation.png") no-repeat scroll 0 0 transparent; }
+    #wrapper #content .content-head ul li a.planning:hover, #wrapper #content .content-head ul li a.planning.active { background-position: 0 -60px; }
+    #wrapper #content .content-head ul li a.info { background-position: -64px 0; }
+    #wrapper #content .content-head ul li a.info:hover, #wrapper #content .content-head ul li a.info.active { background-position: -64px -60px; }
+    #wrapper #content .content-head ul li a.news { background-position: -128px 0; }
+    #wrapper #content .content-head ul li a.news:hover, #wrapper #content .content-head ul li a.news.active { background-position: -128px -60px; }
+    #wrapper #content .content-head ul li a.experts { background-position: -192px 0; }
+    #wrapper #content .content-head ul li a.experts:hover, #wrapper #content .content-head ul li a.experts.active { background-position: -192px -60px; }
+    #wrapper #content .content-head ul li a.fav { background-position: right 0; }
+    #wrapper #content .content-head ul li a.fav:hover, #wrapper #content .content-head ul li a.fav.active { background-position: right -60px; }
+    #wrapper #content .main-box .box-content-with-menu .box { background: url("../img/hr.gif") repeat-x scroll 0 bottom transparent; }
+    #wrapper #content .main-box .box-content-with-menu .box-content .result-button a { background: url("../img/mobile/button-left-blue.png") no-repeat scroll 0 0 transparent; }
+    #wrapper #content .main-box .box-content-with-menu .box-content .result-button a span { background: url("../img/mobile/button-right-blue.png") no-repeat scroll right 0 transparent; }
+    #wrapper #content .main-box .box-content-with-menu .box-content > .hr-line { background: url("../img/hr.gif") repeat-x scroll 0 bottom transparent; }
+}

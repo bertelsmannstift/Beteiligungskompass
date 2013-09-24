@@ -1,0 +1,32 @@
+<h2 class="overview-headline">{$field->label}</h2>
+<div id="expertcontact">
+	{if $article->address ne ""}
+		<p>{$article->address}</p>
+	{/if}
+	{if $article->zip ne "" || $article->city ne ""}
+		{$zipcity="`$article->zip` `$article->city`"}
+		<p>{$zipcity|trim}</p>
+	{/if}
+	<table>
+		<tbody>
+			{if $article->email ne ""}
+				<tr>
+					<td>{msg code='label.email'}:</td>
+					<td>{Text::auto_link($article->email)}</td>
+				</tr>
+			{/if}
+			{if $article->phone ne ""}
+				<tr>
+					<td>{msg code='label.phone'}:</td>
+					<td>{$article->phone}</td>
+				</tr>
+			{/if}
+			{if $article->fax ne ""}
+				<tr>
+					<td>{msg code='label.fax'}:</td>
+					<td>{$article->fax}</td>
+				</tr>
+			{/if}
+		</tbody>
+	</table>
+</div>

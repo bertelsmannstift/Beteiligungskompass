@@ -1,0 +1,48 @@
+{if $article->type() eq 'news' || ($field->key eq 'short_description_expert' && $article->type() eq 'expert')}
+	{$showLabel=false}
+{else}
+	{$showLabel=true}
+{/if}
+
+{$showImage =
+    ($article->type() eq 'qa' && $field->key == 'question')
+    || ($article->type() eq 'event' && $field->key == 'description')
+    || $field->key == 'short_description'
+    || $field->key == 'short_description_expert'}
+
+{$images = $article->imageList()}
+{if $showImage}
+    {foreach $images as $k => $i}
+        {if $i@first}
+            <a class="desc-img" href="{$i->file->link()}" rel="prettyPhoto[pp_gal]" target="_blank" title="{if count($images) > 1}{msg code="article_detail.more_images" imagecount=count($images)-1}{else}{msg code="article_detail.only_one_image"}{/if}">
+                <img src="{Url::base()}{$i->file->previewurl('170x128')}" alt="{$i->description}">
+            </a>
+            {$images[$k] = null}
+        {else}
+            <a style="display:none;" href="{$i->file->link()}" rel="prettyPhoto[pp_gal]" target="_blank">
+                <img src="{Url::base()}{$i->file->previewurl('170x128')}" alt="{$i->description}">
+            </a>
+        {/if}
+    {/foreach}
+    <div{if $field->wysiwyg} class="wysiwyg"{/if}>
+        {if $field->wysiwyg}
+            {$article->$key}
+        {else}
+            {nl2br($article->$key)}
+        {/if}
+    </div>
+        <div class="clear"></div>
+{else}
+    {if trim($article->$key)}
+        {if $showLabel}
+            <h2 class="overview-headline">{$field->label}</h2>
+        {/if}
+        <div{if $field->wysiwyg} class="wysiwyg"{/if}>
+            {if $field->wysiwyg}
+                {$article->$key}
+            {else}
+                {nl2br($article->$key)}
+            {/if}
+        </div>
+    {/if}
+{/if}

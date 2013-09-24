@@ -1,0 +1,21 @@
+{if $article->start_date && $article->end_date}
+<div id="calendar"></div>
+
+<a class="ical button" href="{Url::get("route:default controller:article action:ical")}/{$article->id}" target="_blank"><span class="arrow">›</span> <span class="text">{msg code="global.to_ical"}</span></a>
+
+<script type="text/javascript">
+    {$now = date_create()}
+    var domready = function() {
+        var opt = $.extend(datepickerConfig, {
+            inline: true,
+            firstDay: 1,
+            showOtherMonths: false,
+            disabled: true,
+            defaultDate: '{if $article->start_date->format('m') != $now->format('m') && $article->end_date->format('m') == $now->format('m')}{$article->end_date->format(Kohana::$config->load('project.dateformat'))}{else}{$article->start_date->format(Kohana::$config->load('project.dateformat'))}{/if}'
+        });
+        $('#calendar').datepicker(opt);
+
+        main.initSelectDatepickerDates('{$article->start_date->format('Y-m-d')}', '{$article->end_date->format('Y-m-d')}');
+    };
+</script>
+{/if}

@@ -1,0 +1,42 @@
+<h2><strong>{msg code="backend.heading.messages"}</strong></h2>
+<div class="accordion-buttons">
+    <a href="#" class="accordion-open">{msg code="global.accordion.open"}</a>
+    <a href="#" class="accordion-close">{msg code="global.accordion.close"}</a>
+</div>
+<form method="post" action="">
+    <div id="msg-accordion" class="accordion form-box">
+        {foreach $groups as $group}
+            <h3>{$group.title}</h3>
+            <div>
+                <div class="group-desc">
+                    {$group.description}
+                </div>
+                {foreach $group.messages as $subGroup => $msg}
+                    <h3>{ucfirst($subGroup)}</h3>
+                    {foreach $msg as $key => $val}
+                            <div class="row clearfix">
+                                <label for="field_{$key}">{$key}<br />
+                                    <span style="font-size:10px; font-style:italic;">({$val|escape:'HTML'})</span>
+                                </label>
+                                {if $fieldTypes[$key] && $fieldTypes[$key] == 'wysiwyg'}
+                                    <textarea rows="10" cols="10" class="wysiwyg-link" name="messages[{$key}]">{$val|replace:":nl":"\n"}</textarea>
+                                {elseif $fieldTypes[$key] && $fieldTypes[$key] == 'textarea' || strlen($val) > 40 || strpos($val, ':nl') !== false}
+                                    <textarea rows="10" cols="10" name="messages[{$key}]">{$val|replace:":nl":"\n"}</textarea>
+                                {elseif $fieldTypes[$key] && $fieldTypes[$key] == 'checkbox'}
+                                     {if $val == 'true'}
+                                         <input type="hidden" name="messages[{$key}]" value="false" />
+                                     {/if}
+                                     <input type="checkbox" name="messages[{$key}]" value="true" id="field_{$key}"{if $val == 'true'} checked="checked"{/if}/>
+                                {else}
+                                 <input type="text" name="messages[{$key}]" value="{$val|escape:'HTML'}" id="field_{$key}" />
+                                {/if}
+                            </div>
+                    {/foreach}
+                {/foreach}
+                <div class="row">
+                    <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+                </div>
+            </div>
+        {/foreach}
+	</div>
+</form>

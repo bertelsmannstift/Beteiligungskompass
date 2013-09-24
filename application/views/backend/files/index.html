@@ -1,0 +1,38 @@
+<h2>{msg code="backend.heading.files"}</h2>
+{if $done}
+    <div class="done">
+        {msg code="backend.file.upload_successful"}
+    </div>
+{/if}
+<strong style="color:red;">{msg code="backend.file.overwrite"}</strong>
+<form method="post" action="" enctype="multipart/form-data">
+        {$i = 0}
+        {foreach $files as $key => $file}
+            <div class="form-box">
+                <h2>{$file.title}</h2>
+                    <input type="hidden" name="key[{$i}]" value="{$key}" />
+                    <input type="file" name="file[{$i}]" />
+                    <span>Extension: {$file.ext}</span>
+                    {if $file.type == 'image'}
+                        , <span>Imagesize: {$file.size}</span><br/><br/>
+                        <img src="{$file.file}"/><br/>{msg code="backend.file.filename"}: {$file.filename}
+                    {else}
+                        <br/><br/>
+                       {msg code="backend.file.filename"}: {$file.filename} <a href="{$file.file}">Download</a>
+                    {/if}
+
+
+                {$error = $errors[$key]}
+                {if $error}
+                    <div class="error">{msg code="validationmsg.file.$error"}</div>
+                {/if}
+            </div>
+            {$i=$i+1}
+        {/foreach}
+
+    <div class="form-box">
+        <div class="row">
+            <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+        </div>
+    </div>
+</form>

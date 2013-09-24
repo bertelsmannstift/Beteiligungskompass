@@ -1,0 +1,31 @@
+<div id="newgroup-overlay" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                <h3>{msg code="newgroup.title"}</h3>
+                <form action="{Url::get()}" method="post" name="login">
+                    <div>
+                        <div>
+                            <label for="name">{msg code="newgroup.name"}</label>
+                            <input data-autosubmit="false" type="text" name="name" id="name" class="{if $errors.name}error{/if}" title="{msg code='title.enter_newgroup_name'}" value="{$values.name}" />
+                            {if $errors.name}
+                                <span class="error">{$errors.name}</span>
+                            {/if}
+                        </div>
+
+                        <button type="submit" class="button" title="{msg code="newgroup.create"}"><span>{msg code="newgroup.create"}</span></button>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#newgroup-overlay form').bind('complete',function(e, content, oi ){
+        window.location.hash = '-' + $('[name=show_all]:checked').attr('id');
+        window.location.reload();
+    });
+</script>

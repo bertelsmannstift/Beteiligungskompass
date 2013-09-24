@@ -1,0 +1,51 @@
+<form class="backend-form" method="post">
+	<div class="form-box">
+		<div class="row">
+			<label for="form_first_name">{msg code="label.firstname"}</label>
+			<input type="text" value="{$user->first_name}" id="form_first_name" name="first_name">
+			{if $errors.first_name}<span class="error">{$errors.first_name}</span>{/if}
+		</div>
+
+		<div class="row">
+			<label for="form_last_name">{msg code="label.lastname"}</label>
+			<input type="text" value="{$user->last_name}" id="form_last_name" name="last_name">
+			{if $errors.last_name}<span class="error">{$errors.last_name}</span>{/if}
+		</div>
+
+		<div class="row">
+			<label for="form_email">{msg code="label.email"}</label>
+			<input type="email" value="{$user->email}" id="form_email" name="email">
+			{if $errors.email}<span class="error">{$errors.email}</span>{/if}
+		</div>
+
+		<div class="row">
+			<label for="form_new_password">{msg code="label.new_password"}</label>
+			<input type="password" value="" id="form_new_password" name="new_password" autocomplete="off">
+			{if $errors.new_password}<span class="error">{$errors.new_password}</span>{/if}
+		</div>
+
+		<div class="row">
+			<label for="form_new_password_again">{msg code="label.new_password_again.backend"}</label>
+			<input type="password" value="" id="form_new_password_again" name="new_password_again" autocomplete="off">
+			{if $errors.new_password_again}<span class="error">{$errors.new_password_again}</span>{/if}
+		</div>
+		{if $controller eq 'editors'}
+		<div class="row">
+			<label for="form_is_admin">{msg code="label.is_admin"}</label>
+			<input type="checkbox" {if $user->is_admin}checked="checked"{/if} id="form_is_admin" name="is_admin">
+		</div>
+		{/if}
+
+		<div class="row">
+			<label for="form_is_active">{msg code="label.is_active"}</label>
+			<input type="checkbox" {if $user->is_active}checked="checked"{/if} id="form_is_active" name="is_active">
+		</div>
+	</div>
+
+	<div class="form-box">
+		<button type="submit" name="save" class="button"><span>{msg code="global.save"}</span></button>
+        {if !$add}
+		<a name="delete" class="button delete-button" data-question="{msg code='user.delete_question'}" href="{Url::get([route => 'backend-default', controller => $controller, action => delete, id => $user->id])}"><span>{msg code="global.delete"}</span></a>
+        {/if}
+    </div>
+</form>

@@ -1,0 +1,51 @@
+<h2>{msg code="backend.heading.criteria"}</h2>
+<form method="post" action="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => changeorder])}">
+<table class="data-table">
+	<thead>
+		<tr>
+			<th width="10%"data-dttype="num-hidden">{msg code="label.orderindex"}</th>
+			<th width="20%">{msg code="label.title"}</th>
+			<th>{msg code="label.type"}</th>
+			<th width="20%">{msg code="tableheader.description"}</th>
+			<th>{msg code="label.usedfor"}</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach $criteria as $criterion}
+		{if !$criterion->deleted}
+		<tr>
+			<td>
+				<span class="hidden-for-ordering">{$criterion->orderindex}</span>
+				<span class="new-value">
+					<!-- <input type="hidden" name="criterion_id" value="{$criterion->id}" /> -->
+					<!--<label for="orderindex">{msg code='backend.criteria.new_order'}</label>-->
+					<input type="text" name="orderindex[{$criterion->id}]" value="{$criterion->orderindex}" class="data-table-input" />
+				</span>
+			</td>
+			<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => edit, id => $criterion->id])}">{$criterion->title}</a></td>
+			<td>{msg code="backend.criteria.type.`$criterion->type`"}</td>
+			<td>{$criterion->description}</td>
+			<td>{$criterion->getArticleTypesAsString()}</td>
+			<td style="white-space:nowrap">
+				<a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => edit, id => $criterion->id])}">{msg code="global.edit"}</a> |
+				<br/>
+                <a data-confirm="{msg code="backend.confirm_delete"}" href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => delete, id => $criterion->id])}">{msg code="global.delete"}</a> |
+                <br/>
+                <a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => addoption, id => $criterion->id])}">{msg code="backend.criteria.add_option"}</a>
+			</td>
+		</tr>
+		{/if}
+		{/foreach}
+	</tbody>
+</table>
+
+<div class="form-box">
+	<button class="button"><span>{msg code="global.save"}</span></button>
+</div>
+
+</form>
+
+<div class="form-box">
+	<a class="button" href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => add])}"><span>{msg code="backend.new_criterion"}</span></a>
+</div>

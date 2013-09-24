@@ -1,0 +1,23 @@
+{if count($results) > 0}
+    <ul class="entrylist">
+        {foreach $results as $result}
+            <li>
+                <div class="{$result->type}">
+                    {foreach $result->articles as $key => $date}
+                        <div class="month">{$date.date}</div>
+                        {foreach $date.articles as $article}
+                            {$images = $article->imageList()}
+                            {include file="./index_list_item.html" itemId=$article->id images=$images article=$article}
+                        {/foreach}
+                    {/foreach}
+                </div>
+            </li>
+        {/foreach}
+    </ul>
+{elseif $isAjax}
+    <div class="form-box">
+        <div class="row">
+            <strong class="no-results">{msg code="article.empty_result"}</strong>
+        </div>
+    </div>
+{/if}

@@ -1,0 +1,28 @@
+<div id="own-entry" class="overlay">
+    <div>
+        <div class="close icon-icon_close_white"></div>
+        <div>
+            <div>
+                <h3>{msg code="article.choose_what_to_create"}</h3>
+                <div>
+                    <div class="t-tbl">
+                        {foreach $types as $type}
+                            {if Helper_Module::isActive($type@key) || (Kohana::$config->load('project.add_expert.global') === true && $type@key == 'expert')}
+
+                                {if (Kohana::$config->load('project.add_expert.expert') == true && $type@key == 'expert') || $type@key != 'expert' || (Kohana::$config->load('project.add_expert.global') == true && $type@key == 'expert')}
+                                 <div class="t-col">
+
+                                     <a class="main-buttons filter-opt {$type@key}" href="{Url::get([action => new, id =>$type@key])}" title="{$type}">{msg code="article_config.`$type@key`.title"}</a>
+
+                                 </div>
+                                {/if}
+                            {/if}
+                        {/foreach}
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

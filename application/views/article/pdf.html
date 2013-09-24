@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <title>PDF</title>
+    <base href="{Url::base()}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/pdf.css">
+</head>
+<body id="pdf">
+    <div class="pdf-content">
+        <h1>{msg code="article.title" title=$article->title type=$article->getTypeName()}</h1>
+        <div class="detail">
+            <div class="box-content">
+
+                <div class="form-box">
+                    {foreach $article->getMain() as $fieldKey => $field}
+                        {capture assign=content}
+                            {include file="article/show/`$field->type|default:'textarea'`.html" key=$fieldKey item=$article}
+                        {/capture}
+                        {if strlen(trim($content))}
+                        <div class="row">
+                            {$content}
+                        </div>
+                        {/if}
+                    {/foreach}
+                </div>
+
+                {foreach $article->getSidebar() as $fieldKey => $field}
+                    {capture assign=content}
+                        {include file="article/show/`$field->type|default:'textarea'`.html" key=$fieldKey item=$article pdf=true}
+                    {/capture}
+                    {if strlen(trim($content))}
+                        <div class="box">
+                            {$content}
+                        </div>
+                    {/if}
+                {/foreach}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

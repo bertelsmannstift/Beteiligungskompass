@@ -1,0 +1,60 @@
+
+
+	<div class="row external_links">
+		<h2 class="overview-headline">{msg code="label.venue"}</h2>
+	</div>
+    <div class="row">
+        {if $article->venue}<strong>{$article->venue}</strong>{/if}
+        <div>{$article->street} {$article->street_nr}</div>
+        <div>{$article->zip} {$article->city}</div>
+    </div>
+    <div class="row">
+        <a target="_blank" href="http://maps.google.de/?daddr={$article->street|urlencode}+{$article->street_nr|urlencode}+{$article->zip|urlencode}+{$article->city|urlencode}">{msg code="global.showroute"}</a>
+    </div>
+    <br/>
+    <br/>
+    {if $article->number_of_participants}
+    <div class="row">
+        <label>{msg code="label.number_of_participants"}: </label> <div class="info">{$article->number_of_participants}</div>
+    </div>
+    {/if}
+    {if $article->participation}
+    <div class="row">
+        <label>{msg code="label.participation"}: </label> <div class="info">{$article->participation}</div>
+    </div>
+    {/if}
+    {if $article->fee}
+    <div class="row">
+        <label>{msg code="label.fee"}: </label> <div class="info">{$article->fee}</div>
+    </div>
+    {/if}
+    {if $article->link}
+    <div class="row">
+        <label>{msg code="label.link"}: </label> <div class="info">{$article->link}</div>
+    </div>
+    {/if}
+    {if $article->deadline}
+    <div class="row">
+        <label>{msg code="label.deadline"}: </label> <div class="info">{$article->deadline->format(Kohana::$config->load('project.dateformat'))}</div>
+    </div>
+    {/if}
+    {if $article->contact_person}
+    <div class="row">
+        <label>{msg code="label.contact_person"}: </label> <div class="info">{$article->contact_person}</div>
+    </div>
+    {/if}
+    {if $article->email}
+    <div class="row">
+        <label>{msg code="label.email"}: </label> <div class="info">{$article->email}</div>
+    </div>
+    {/if}
+    {if $article->phone}
+    <div class="row">
+        <label>{msg code="label.phone"}: </label> <div class="info">{$article->phone}</div>
+    </div>
+    {/if}
+    {if $article->fax}
+    <div class="row">
+        <label>{msg code="label.fax"}: </label> <div class="info">{$article->fax}</div>
+    </div>
+    {/if}

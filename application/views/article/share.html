@@ -1,0 +1,32 @@
+<div id="share-overlay" class="overlay">
+  <div>
+      <div class="close icon-icon_close_white"></div>
+      <div>
+          <div>
+              <h3>{msg code="share.title"}</h3>
+              <div>
+                  <div>
+                      <a class="maillink" href="mailto:?subject={$articleType}&amp;body={if $url}{urlencode($url)}{else}{urlencode(Url::base())}{urlencode(Url::get("route:default controller:article action:show"))}/{$article->id}{/if}" title="{msg code='title.email_to_friend'}"><span class="mail"></span>{msg code='title.email_to_friend'}</a>
+                  </div>
+                  <div id="socialshareprivacy"></div>
+                  <script type="text/javascript">
+                      if($('#socialshareprivacy').length > 0){
+                         $('#socialshareprivacy').socialSharePrivacy({
+                             services: {
+                                 facebook: {
+                                     dummy_img: 'img/socialshareprivacy/dummy_facebook.png'
+                                 },
+                                 twitter: {
+                                     dummy_img: 'img/socialshareprivacy/dummy_twitter.png'
+                                 },
+                                 gplus: {
+                                     dummy_img: 'img/socialshareprivacy/dummy_gplus.png'
+                                 }
+                             }, info_link: 'http://www.google.de', settings_perma: '{msg code="share.perm"}', txt_help: '{msg code="share.help_text"}'{if $url}, uri: '{$url}'{/if} });
+                       }
+                  </script>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

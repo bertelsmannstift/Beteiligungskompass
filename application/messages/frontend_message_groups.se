@@ -1,0 +1,51 @@
+group1.title=Artikel-Ansicht
+group1.description=Hier finden Sie Textbausteine zur Pflege in der Artikel-Ansicht
+group1.fields=article,article_detail
+
+group2.title=Artikel-Anlage Workflow
+group2.description=Hier finden Sie Textbausteine, die dem Benutzer während der Anlage neuer Artikel angezeigt werden.
+group2.fields=article_config
+
+group3.title=E-Mail
+group3.description=Diese Textbausteine sind für die automatische Kommunikation der Beteiligungskompass-Webseite mit den Benutzern gedacht.
+group3.fields=email
+
+group4.title=Hinweis-Nachrichten
+group4.description=Diese Nachrichten werden am oberen Rand des Browser-Fensters angezeigt.
+group4.fields=flash_message,validationmsg
+
+group5.title=Global verwendete Texte
+group5.description=Hier finden Sie verschiedene Textbausteine, die an unterschiedlichen Stellen auf der Webseite genutzt werden.
+group5.fields=global
+
+group6.title=Label-Texte
+group6.description=Textbausteine für Formulare und Eingabefelder
+group6.fields=label
+
+group7.title=Login-Texte und Hinweise
+group7.description=Diese Textbausteinen werde dem Benutzer bei der Anmeldung an die Webseite eingeblendet.
+group7.fields=user,login
+
+group8.title=Module
+group8.description=Hier finden sich Modul-bezogene Textbausteine, wie z.B. für das Dashboard auf der Startseite.
+group8.fields=type,module,title,videobox_alternative
+
+group9.title=Planer-Fragen
+group9.description=Hier finden sich Textbausteinen zur Anzeige im Planer.
+group9.fields=planning,questions
+
+group10.title=Favoriten und Gruppen
+group10.description=Diese Textbausteine werden gesehen von angemeldeten Benutzern. Diese können Favoriten anlegen und gruppieren.
+group10.fields=favorites,newgroup
+
+group11.title=Footer, Navigationstitel und Feste Texte im Layout
+group11.description=
+group11.fields=layout,top_navigation
+
+group12.title=Weitere
+group12.description=Andere Beschreibung
+group12.fields=share,tableheader,information,participation
+
+group13.title=Nicht genutzt
+group13.description=Andere Beschreibung
+group13.fields=ask

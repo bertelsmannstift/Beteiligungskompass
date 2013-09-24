@@ -1,0 +1,125 @@
+<div class="content-head">
+    {if Kohana::$config->load('project.locale') == 'de_DE'}
+    <div class="mobile-version">
+        <a href="https://itunes.apple.com/de/app/beteiligungskompass/id576688064" class="app-store" target="_blank">Erhältlich im Mac App Store</a>
+        <a href="https://play.google.com/store/apps/details?id=com.uandi.beteiligungskompass" class="google-play" target="_blank">Erhältlich bei Google Play</a>
+    </div>
+    {/if}
+    <div class="arrow-bg">
+        <ul class="clearfix">
+            <li class="home{if $controller == 'welcome'} active{/if}">
+                <a href="{Url::get('controller:welcome action:index')}" title="{msg code="module.home.title"}">
+                    <span class="logo icon-navigation_icon_home"></span>
+                </a>
+            </li>
+            {foreach $staticMenuPages as $static}
+                {if Helper_Module::isActive($static->type)}
+                {assign var="stype" value=$static->type}
+                <li class="about{if $controller == 'pages' && $id == $stype} active{/if}">
+                    <a href="{Url::get("controller:pages action:index id:$stype")}" title="{$static->title}">
+                        <span class="logo icon-navigation_icon_about"></span>
+                        <span class="title">{$static->title}</span>
+                    </a>
+                </li>
+                {/if}
+            {/foreach}
+            <li class="planning{if $controller == 'planning'} active{/if}">
+                <a href="{Url::get('controller:planning')}" title="{msg code="module.planning.title"}">
+                    <span class="logo icon-dashboard_icon_planning"></span>
+                    <span class="title">{msg code="global.content_filter"}</span>
+                </a>
+            </li>
+            {if Helper_Module::isActive('method')}
+            <li class="method{if $controller == 'article' && $id == 'method'} active{/if}">
+                <a href="{Url::get('controller:article action:index id:method')}" title="{msg code="module.methods.title"}">
+                    <span class="logo icon-navigation_icon_methods"></span>
+                    <span class="title">{msg code="module.methods.title"}</span>
+                </a>
+            </li>
+            {/if}
+            {if Helper_Module::isActive('study')}
+                <li class="study{if $controller == 'article' && $id == 'study'} active{/if}">
+                    <a href="{Url::get('controller:article action:index id:study')}" title="{msg code="module.studies.title"}">
+                        <span class="logo icon-navigation_icon_projects"></span>
+                        <span class="title">{msg code="module.studies.title"}</span>
+                    </a>
+                </li>
+            {/if}
+            <li class="deepen{if $id == 'qa' || $id == 'expert' || $id == 'event' || $id == 'news'} active{/if}">
+                <a href="#" title="{msg code="module.deepen.title"}">
+                    <span class="logo icon-navigation_icon_deepen"></span>
+                    <span class="title">{msg code="module.deepen.title"}</span>
+                </a>
+                <ul>
+                    {if Helper_Module::isActive('qa')}
+                    <li class="qa{if $controller == 'article' && $id == 'qa'} active{/if}">
+                        <a href="{Url::get('controller:article action:index id:qa')}" title="{msg code="module.qa.title"}">
+                            {msg code="module.qa.title"}
+                        </a>
+                    </li>
+                    {/if}
+                    {if Helper_Module::isActive('expert')}
+                    <li class="expert{if $controller == 'article' && $id == 'expert'} active{/if}">
+                        <a href="{Url::get('controller:article action:index id:expert')}" title="{msg code="module.experts.title"}">
+                            {msg code="module.experts.title"}
+                        </a>
+                    </li>
+                    {/if}
+                    {if Helper_Module::isActive('event')}
+                    <li class="event{if $controller == 'article' && $id == 'event'} active{/if}">
+                        <a href="{Url::get('controller:article action:index id:event')}" title="{msg code="module.events.title"}">
+                            {msg code="module.events.title"}
+                        </a>
+                    </li>
+                    {/if}
+                    {if Helper_Module::isActive('news')}
+                    <li class="news{if $controller == 'article' && $id == 'news'} active{/if}">
+                        <a href="{Url::get('controller:article action:index id:news')}" title="{msg code="module.news.title"}">
+                            {msg code="module.news.title"}
+                        </a>
+                    </li>
+                    {/if}
+                </ul>
+            </li>
+        </ul>
+        <div id="search-head" class="inputfields">
+            <div class="search">
+                <form action="{Url::get('controller:article action:index')}" autocomplete="off">
+                    <label>
+                        {msg code='global.search'}
+                        <input type="text" title="{msg code='global.search'}" name="term" value="{$params.search}"{if $params.search} class="active"{/if} />
+                        <button type="submit"></button>
+                    </label>
+                    <select name="type">
+                        <option value="search">{msg code="global.search.all"}</option>
+                        {foreach Helper_Article::getTypes() as $t => $name}
+                            {if Helper_Module::isActive($t)}
+                                <option value="{$t}"{if $t == $smarty.get.type || $t == $id} selected="selected"{/if}>{msg code="article_config.$t.title.plurality"}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+{if $isMobile}
+    <div id="mobile-search" class="mobile-sort">
+        {$sortSelect}
+        <form action="{Url::get([route => default, controller => article, action => index, id => $id])}" autocomplete="off">
+             <label>
+                 <input type="text" title="{msg code='global.search'}" placeholder="{msg code='global.search'}" name="term" value="{$smarty.get.term}"{if $smarty.get.term} class="active"{/if} />
+                 <button type="submit"></button>
+             </label>
+            <select name="type">
+               <option value="search">{msg code="global.search.all"}</option>
+               {foreach Helper_Article::getTypes() as $t => $name}
+                   <option value="{$t}"{if $t == $smarty.get.type || $t == $id} selected="selected"{/if}>{msg code="article_config.$t.title.plurality"}</option>
+               {/foreach}
+           </select>
+         </form>
+    </div>
+{/if}
+
+

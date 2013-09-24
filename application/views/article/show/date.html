@@ -1,0 +1,16 @@
+{if $key == 'deadline' && $article->$key}
+<label>{$field->label}: </label> <div class="info">{$article->$key->format(Kohana::$config->load('project.dateformat'))}</div>
+{else}
+<div class="sub-title-line">
+    {if $article->$key && $article->type() != 'news'}
+        <div class="update-box">
+            <label class="updated">{$field->label}:</label> <div class="updated info">{$article->$key->format(Kohana::$config->load('project.dateformat'))}</div>
+        </div>
+        <div class="splitter"> | </div>
+        <div class="author-box">
+            {msg code="global.author"}: {$article->user->getName()}
+        </div>
+        <div class="clear"></div>
+    {/if}
+</div>
+{/if}

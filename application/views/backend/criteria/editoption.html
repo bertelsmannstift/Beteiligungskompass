@@ -1,0 +1,83 @@
+<h2>{msg code="backend.heading.criteria"}</h2>
+
+<h3>{msg code='backend.criteria.edit_option' option=$option}</h3>
+
+<form method="post" action="">
+    <div class="form-box">
+        <div class="row">
+            <label for="orderindex">{msg code="label.orderindex"}</label>
+            <input type="text" name="orderindex" id="orderindex" value="{$values.orderindex}"/>
+            {if $errors.orderindex}<span class="error">{$errors.orderindex}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="title">{msg code="label.title"}</label>
+            <input type="text" name="title" id="title" value="{$values.title}"/>
+            {if $errors.title}<span class="error">{$errors.title}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="description">{msg code="tableheader.description"}</label>
+            <input type="text" name="description" id="description" value="{$values.description}"/>
+            {if $errors.description}<span class="error">{$errors.description}</span>{/if}
+        </div>
+	</div>
+
+    <div class="form-box">
+        <div class="row">
+            <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+            {if $option->parentOption != null}
+            <a class="button" href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => editoption, id => $option->parentOption->id])}"><span>{msg code="global.back"}</span></a>
+
+            {else}
+            <a class="button" href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => edit, id => $option->criterion->id])}"><span>{msg code="global.back"}</span></a>
+            {/if}
+        </div>
+	</div>
+</form>
+
+{if $option->parentOption == null && $option->criterion->discriminator == 'country'}
+
+<form method="post" action="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => changeoptionorder])}">
+<input type="hidden" name="criterion_id" value="{$option->criterion->id}" />
+
+<table class="data-table">
+	<thead>
+		<tr>
+			<th data-dttype="num-hidden">{msg code="label.orderindex"}</th>
+			<th>{msg code="label.title"}</th>
+			<th>{msg code="tableheader.description"}</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+    {foreach $option->childOptions as $childOpt}
+        {if !$childOpt->deleted}
+             <tr class="childoption">
+                 <td>
+                     <span class="hidden-for-ordering">{$childOpt->orderindex}</span>
+                     <span  class="new-value">
+                         <!--
+                         <input type="hidden" name="option_id" value="{$option->id}" />
+                         <input type="hidden" name="criterion_id" value="{$criterion->id}" /> -->
+                         <!--<label for="orderindex">{msg code='backend.criteria.new_order'}</label>-->
+                         <input type="text" name="orderindex[{$childOpt->id}]" value="{$childOpt->orderindex}" class="data-table-input" />
+                     </span>
+                 </td>
+                 <td class="title"><a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => editchildoption, id => $childOpt->id])}">{$childOpt}{if $childOpt->default} (Default){/if}</a></td>
+                 <td>{$childOpt->description}</td>
+                 <td style="white-space:nowrap; text-align: right;">
+                      <a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => editchildoption, id => $childOpt->id])}">{msg code="global.edit"}</a> |
+                     {if $childOpt->default == false || !($childOpt->criterion->type == 'radio' || $childOpt->criterion->type == 'select' || $criterion->type == 'resource')}<a data-confirm="{msg code="backend.confirm_delete"}" href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => deletechildoption, id => $childOpt->id])}">{msg code="global.delete"}</a>{/if}
+                 </td>
+             </tr>
+         {/if}
+     {/foreach}
+	</tbody>
+</table>
+<div class="form-box">
+
+	<button class="button"><span>{msg code="global.save"}</span></button>
+
+        <a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => addchildoption, id => $option->id])}" class="button"><span>{msg code="global.addchildoption"}</span></a>
+</div>
+</form>
+{/if}

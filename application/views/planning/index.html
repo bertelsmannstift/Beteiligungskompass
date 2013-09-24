@@ -1,0 +1,230 @@
+{if $isMobile}
+<form class="ajax-form" autocomplete="off" method="post" action="{Url::get("controller:article action:resultcount")}" id="article_filter" data-replace=".result-text" data-datatype="json" onsubmit="return false;">
+	<div class="main-box menu-right">
+	    <div class="headline">
+            <div>{msg code="module.planning.title"}</div>
+        </div>
+
+	    <div class="box-content-with-menu">
+
+            <div class="box-content">
+
+                {if $isMobile}
+                    <div class="form-box hr-line category">
+                        <div class="row">
+                            <a  class="button" id="reset-filter" href="#"><span>{msg code="global.resetfilter"}</span></a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                {/if}
+		        <h2>{msg code="module.planning.short_description"}</h2>
+                {if !$isMobile}
+                <div class="form-box hr-line fsize15">
+                    <!-- <a class="button" href="{Url::get('controller:article action:index id:qa')}"><span>{msg code="global.basic_questions"}</span></a>
+                    <a class="question-btn button" href="javascript:main.question(true);"><span>{msg code="question.show"}</span></a> -->
+                    {assign var="qIndex" value=0}
+                    {for $questionIndex=1 to 5}
+                        {if Helper_Planning::isQuestionActive($questionIndex)}
+                            <a class="question-btn" href="javascript:main.question(true,{$qIndex});" data-questionindex="{$qIndex}">
+                                <span class="arrow">›</span><span class="title">{msg code="questions.$questionIndex.title"}</span>
+                            </a>
+                            {assign var="qIndex" value=$qIndex+1}
+                        {/if}
+                    {/for}
+                </div>
+                {/if}
+
+                <div class="clear"></div>
+
+                {foreach $allCriteria as $key => $criterion}
+
+                        <div class="form-box hr-line category" {if !$criterion->showInPlanner}style="display:none;"{/if}>
+                        <div class="con">
+                            <div class="{if $criterion->type != 'select' && $criterion->type != 'resource'}toggle-item {/if}head{if $criterion->type == 'radio'} nopadding{/if}">{$criterion->description}{if $criterion->type != 'resource' && $criterion->type != 'select'}<span class="toggle"></span>{/if}</div>
+                            {* if $criterion->type == 'radio'}<div class="deselect"><a href="#" class="deselect_radio">{msg code="global.deselect"}</a></div>{/if *}
+                            {if $criterion->type != 'select'}
+                                {if $criterion->type != 'resource'}
+                                    <div class="selected_values" style="display: none;">
+                                        {foreach $criterion->options as $option}
+                                                {if in_array($option->id, $params.criteria|default:[]) || (!in_array($option->id, $params.criteria|default:[]) && $option->default)}<div>{$option} {$option->description}</div>{/if}
+                                        {/foreach}
+                                    </div>
+                                {/if}
+                                <div class="{if $criterion->type == 'resource'}con-row-resource{else}con-row{/if}{if $criterion->description != ''} nofloat{/if} box-{$criterion->type}">
+                                    {if $criterion->type == 'resource'}
+                                        <div>
+                                    {/if}
+                                    {foreach $criterion->options as $option}
+                                        {if $criterion->type == 'radio' || $criterion->type == 'resource'}
+                                            <div class="{$criterion->type}">
+                                                <input {if $option->default == true}class="default-opt" {/if}type="radio" name="criteria[crit-{$criterion->id}]" id="opt-{$option->id}" value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} checked="checked"{/if}><label for="opt-{$option->id}">{$option} {$option->description}</label>
+                                            </div>
+                                            {if ((($option@index+1) % 5) == 0 || $option@last) && $criterion->type != 'resource'}
+                                                <div class="clear"></div>
+                                            {elseif $criterion->type == 'resource' && $option@last}
+                                                <div class="clear"></div>
+                                            {/if}
+                                        {elseif $criterion->type == 'check'}
+                                            <div class="checkbox">
+                                                <input {if $option->default == true} class="default-opt" {/if} type="checkbox" name="criteria[]" id="opt-{$option->id}" value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} checked="checked"{/if}><label for="opt-{$option->id}">{$option} {$option->description}</label>
+                                            </div>
+                                            {if (($option@index+1) % 5) == 0 || $option@last}
+                                                <div class="clear"></div>
+                                            {/if}
+                                        {/if}
+                                    {/foreach}
+                                    {if $criterion->type == 'resource'}
+                                        </div>
+                                    {/if}
+                                </div>
+                            {else}
+                                <div class="select">
+                                    <select name="criteria[]" class="sidemenu-select">
+                                        {foreach $criterion->options as $option}
+                                                <option id="opt-{$option->id}" value="{$option->id}"{if in_array($option->id, $params.criteria|default:[])} selected{/if}>
+                                                    {$option} {$option->description}
+                                                </option>
+                                                {foreach $option->childOptions as $childOpt}
+                                                        <option id="opt-{$childOpt->id}" class="child" value="{$childOpt->id}"{if in_array($childOpt->id, $params.criteria|default:[])} selected{/if}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$childOpt} {$childOpt->description}</option>
+                                                {/foreach}
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
+
+                {/foreach}
+
+                <div class="clear"></div>
+
+	        </div>
+            <div class="all-results">
+                {msg code="label.results"}:<span class="result-toggle-count">{$articleTypeCount.method + $articleTypeCount.study}</span>
+            </div>
+            <div class="toggle-box">
+               <div class="toggle-planning methods">
+                   <a href="{Url::get('controller:article action:index id:method')}" class="toggle-planning-text result-method"><span class="toggle-text">› {msg code="module.methods.title"}</span> (<span>{$articleTypeCount.method}</span>)</a>
+               </div>
+               <div class="toggle-planning cases">
+                   <a href="{Url::get('controller:article action:index id:study')}" class="toggle-planning-text result-study"><span class="toggle-text">› {msg code="module.studies.title"}</span> (<span>{$articleTypeCount.study}</span>)</a>
+               </div>
+            </div>
+
+	        <div class="clear"></div>
+	    </div>
+	</div>
+</form>
+
+{else}
+    <div class="planning-box">
+       <div class="planning-box-config">
+           <div class="planning-headline">{msg code="module.planning.title"}</div>
+           <div class="planning-content">
+               <div class="left-content">
+                   <form autocomplete="off" class="ajax-form" data-dataType="json" method="post" action="{Url::get("controller:article action:resultcount")}" id="article_filter" data-replace=".result-text" data-datatype="json" onsubmit="return false;">
+                       <h2>{msg code="module.planning.short_description"}</h2>
+                       <a href="javascript:void(0);" class="reset-filter button"><span>{msg code="global.resetfilter"}</span></a>
+                       <div class="criterias"{if count($planningQuestions) == 0} style="width:auto;"{/if}>
+                           {foreach Helper_Article::getCriteriaListWithoutUnusedSelectOptions() as $key => $criterion}
+
+                                   <div class="form-box category" {if !$criterion->showInPlanner}style="display:none;"{/if}>
+                                   <div class="con">
+                                       <div class="{if $criterion->type != 'select' && $criterion->type != 'resource'}toggle-item {/if}head{if $criterion->type == 'radio'} nopadding{/if}">{$criterion->description}{if $criterion->type != 'resource' && $criterion->type != 'select'}<span class="toggle"></span>{/if}</div>
+                                       {* if $criterion->type == 'radio'}<div class="deselect"><a href="#" class="deselect_radio">{msg code="global.deselect"}</a></div>{/if *}
+                                       {if $criterion->type != 'select'}
+                                           {if $criterion->type != 'resource'}
+                                               <div class="selected_values" style="display: none;">
+                                                   {foreach $criterion->options as $option}
+                                                           {if in_array($option->id, $global_params.criteria|default:[]) || (!in_array($option->id, $global_params.criteria|default:[]) && $option->default)}<div>{$option} {$option->description}</div>{/if}
+                                                   {/foreach}
+                                               </div>
+                                           {/if}
+                                           <div class="{if $criterion->type == 'resource'}con-row-resource{else}con-row{/if}{if $criterion->description != ''} nofloat{/if} box-{$criterion->type}">
+                                               {if $criterion->type == 'resource'}
+                                                   <div>
+                                               {/if}
+                                                       <div class="float_box">
+                                                  {$modulo = ceil(count($criterion->options) / 2)}
+                                                  {foreach $criterion->options as $option}
+                                                        {if $criterion->type == 'radio' || $criterion->type == 'resource'}
+                                                               <div class="{$criterion->type}">
+                                                                 <input {if $option->default == true}class="default-opt" {/if}type="radio" name="criteria[crit-{$criterion->id}]" id="planning-opt-{$option->id}" value="{$option->id}"{if in_array($option->id, $global_params.criteria|default:[])} checked="checked"{/if}><label for="planning-opt-{$option->id}">{$option} {$option->description}</label>
+                                                                </div>
+                                                             {if ((($option@index+1) % 5) == 0 || $option@last) && $criterion->type != 'resource'}
+                                                                 {* <div class="clear"></div> *}
+                                                             {elseif $criterion->type == 'resource' && $option@last}
+                                                                 <div class="clear"></div>
+                                                             {/if}
+                                                          {elseif $criterion->type == 'check'}
+                                                             <div class="checkbox">
+                                                                 <input {if $option->default == true} class="default-opt" {/if} type="checkbox" name="criteria[]" id="planning-opt-{$option->id}" value="{$option->id}"{if in_array($option->id, $global_params.criteria|default:[])} checked="checked"{/if}><label for="planning-opt-{$option->id}">{$option} {$option->description}</label>
+                                                           </div>
+                                                             {if (($option@index+1) % 5) == 0 || $option@last}
+                                                                 {* <div class="clear"></div> *}
+                                                             {/if}
+                                                         {/if}
+                                                           {if (($option@index+1) % $modulo) == 0 || $option@last}
+                                                               </div>
+                                                               {if !$option@last}
+                                                                    <div class="float_box">
+                                                               {/if}
+                                                           {/if}
+                                                 {/foreach}
+                                               {if $criterion->type == 'resource'}
+                                                   </div>
+                                               {/if}
+                                           </div>
+                                       {else}
+                                           <div class="select">
+                                               <select name="criteria[]" class="sidemenu-select">
+                                                   {foreach $criterion->options as $option}
+                                                           <option {if $option->default} class="all-opt"{/if} value="{$option->id}"{if in_array($option->id, $global_params.criteria|default:[])} selected{/if}>
+                                                               {$option} {$option->description}
+                                                           </option>
+                                                           {foreach $option->childOptions as $childOpt}
+                                                                   <option class="child" value="{$childOpt->id}"{if in_array($childOpt->id, $global_params.criteria|default:[])} selected{/if}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$childOpt} {$childOpt->description}</option>
+                                                           {/foreach}
+                                                   {/foreach}
+                                               </select>
+                                           </div>
+                                       {/if}
+                                   </div>
+                               </div>
+
+                           {/foreach}
+                       </div>
+                       <div class="right-criterias">
+                           {foreach $planningQuestions as $key => $index}
+                               <a class="question-btn q-{$key}" href="javascript:main.question(true,{$key});" data-questionindex="{$qIndex}">
+                                   <span class="arrow">›</span><span class="title">{msg code="questions.$index.title"}</span>
+                               </a>
+                           {/foreach}
+                       </div>
+
+                       <div class="clear"></div>
+                   </form>
+               </div>
+               <div class="clear"></div>
+               <div class="all-results">
+                   {msg code="label.results"}:<span class="result-toggle-count">{$articleTypeCount.method + $articleTypeCount.study}</span>
+               </div>
+               <script type="text/javascript">
+                   var noResult = '{msg code="module.planning.no_result"}';
+               </script>
+           </div>
+       </div>
+       <div class="toggle-box">
+           <div class="toggle-planning methods">
+               <a href="{Url::get('controller:article action:index id:method')}" class="toggle-planning-text result-method"><span class="toggle-text">› {msg code="module.methods.title"}</span> (<span>{$articleTypeCount.method}</span>)</a>
+           </div>
+           <div class="toggle-planning cases">
+               <a href="{Url::get('controller:article action:index id:study')}" class="toggle-planning-text result-study"><span class="toggle-text">› {msg code="module.studies.title"}</span> (<span>{$articleTypeCount.study}</span>)</a>
+           </div>
+       </div>
+
+    </div>
+{/if}
+<script type="text/javascript">
+    var noResult = '{msg code="module.planning.no_result"}';
+</script>

@@ -1,0 +1,29 @@
+<h2>
+    {msg code="backend.heading.featured"}
+</h2>
+
+<table id="articles" class="data-table">
+    <thead>
+        <tr>
+            <th>{msg code="global.video_url"}</th>
+            <th>{msg code="global.video_articlename"}</th>
+            <th>{msg code="global.video_featured"}</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+    <tbody>
+        {foreach $videos as $video}
+        <tr>
+            <td><a href="{$video.video.url}" target="_blank">{$video.video.url}</a></td>
+            <td><a href="{Url::get([route => default, controller => article, action => show, id => $video.article->id])}" target="_blank">{$video.article->title}</a></td>
+            <td><input type="checkbox" name="featured" data-video="{$video.video.url}" data-url="{Url::get([route => 'backend-default', controller => featured, action => toggle, id => $video.article->id])}" {if $video.video.featured}checked{/if}/></td>
+         </tr>
+        {/foreach}
+    </tbody>
+</table>

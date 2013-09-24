@@ -1,0 +1,4 @@
+<div class="float-right row {$field->class}">
+    {$type = $article->type()}
+    <a href="{Kohana::$config->load("project.files.form.$type")}">{msg code="article_config.form.download.$type"}</a>
+</div>

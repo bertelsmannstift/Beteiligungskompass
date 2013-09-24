@@ -1,0 +1,21 @@
+<div class="clear"></div>
+{if count($article->$key)}
+<h2 class="overview-headline">{$field->label} <span class="video-icon"></span></h2>
+
+{counter start=0 assign=counter}
+	{foreach $article->$key as $link}
+        {counter}
+        {if preg_match('/^(http|https):\/\/www\.youtube\.com\/watch.*?v=([a-zA-Z0-9\-_]+).*$/i' , $link.url, $match) && $counter == 1}
+            {if $link.description != ''}<div class="vid-desc">{$link.description}</div>{/if}
+            <iframe width="70%" height="350" src="http://www.youtube.com/embed/{$match[2]}?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+        {elseif preg_match('/^(http|https):\/\/www\.youtube\.com\/watch.*?v=([a-zA-Z0-9\-_]+).*$/i' , $link.url, $match) && $counter != 1}
+            <a class="load-thumb-youtube" href="http://www.youtube.com/watch?v={$match[2]}&wmode=opaque" rel="prettyPhoto[pp_gal]" title="{$link.description}" target="_blank" data-id="{$match[2]}"></a>
+        {elseif preg_match('/^http:\/\/vimeo\.com\/(\d+)$/i', $link.url, $match) && $counter == 1}
+            {if $link.description != ''}<div class="vid-desc">{$link.description}</div>{/if}
+            <iframe src="http://player.vimeo.com/video/{$match[1]}?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;wmode=opaque" width="70%" height="350" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+        {elseif preg_match('/^http:\/\/vimeo\.com\/(\d+)$/i', $link.url, $match) && $counter != 1}
+            <a class="load-thumb-vimeo" href="http://vimeo.com/{$match[1]}?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;wmode=opaque" title="{$link.description}" rel="prettyPhoto[pp_gal]" target="_blank" data-id="{$match[1]}"></a>
+        {/if}
+	{/foreach}
+{/if}

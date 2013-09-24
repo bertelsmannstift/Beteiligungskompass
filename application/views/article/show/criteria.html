@@ -1,0 +1,29 @@
+{if count($article->getCriteriaList())}
+    <div class="criteria-toggle-content">
+        <h2 class="overview-headline">{msg code="global.categories"}</h2>
+
+        {foreach $article->getCriteriaList() as $criterion => $options}
+            <h3>{$criterion}</h3>
+
+            <div>
+            {foreach $options as $option}
+                <p>
+                    {$option}
+                </p>
+                {foreach $options->childOptions as $childOption}
+                    <p>
+                        {$childOption}
+                    </p>
+                {/foreach}
+            {/foreach}
+            </div>
+        {/foreach}
+    </div>
+    <div class="criteria-toggle">
+        <div class="toggle">
+            <span class="arrow-left icon-icon_slider_down"></span>
+            <span class="toggle-text">{msg code="global.criteria_detials_toggle"}</span>
+            <span class="arrow-right icon-icon_slider_down"></span>
+        </div>
+    </div>
+{/if}

@@ -1,0 +1,101 @@
+<div id="searchresults">
+	<h2>{msg code="backend.heading.search"}</h2>
+
+	<div class="result-segment">
+		<h3>{msg code="search_results.editors" count=$editors|count}</h3>
+		{if $editors|count eq 0}
+			<p>{msg code="backend.search_results.no_results"}</p>
+		{else}
+			<table>
+				<thead>
+					<tr>
+						<th>{msg code="label.name"}</th>
+						<th>{msg code="label.email"}</th>
+						<th>{msg code="label.admin"}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $editors as $e}
+					<tr class="searchresult">
+						<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => users, action => edit, id => $e->id])}">{$e->getName()}</td>
+						<td>{$e->email}</td>
+						<td>{$e->isAdminAsString()}</td>
+					</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		{/if}
+	</div>
+
+	<div class="result-segment">
+		<h3>{msg code="search_results.users" count=$users|count}</h3>
+		{if $users|count eq 0}
+			<p>{msg code="backend.search_results.no_results"}</p>
+		{else}
+			<table>
+				<thead>
+					<tr>
+						<th>{msg code="label.name"}</th>
+						<th>{msg code="label.email"}</th>
+						<th>{msg code="label.admin"}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $users as $u}
+						<tr class="searchresult">
+							<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => users, action => edit, id => $u->id])}">{$u->getName()}</td>
+							<td>{$u->email}</td>
+							<td>{$u->isAdminAsString()}</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		{/if}
+	</div>
+
+	<div class="result-segment">
+		<h3>{msg code="search_results.articles" count=$articles|count}</h3>
+		{if $articles|count eq 0}
+			<p>{msg code="backend.search_results.no_results"}</p>
+		{else}
+			<table>
+				<thead>
+					<tr>
+						<th>{msg code="label.title"}</th>
+						<th>{msg code="label.active"}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $articles as $a}
+						<tr class="searchresult">
+							<td><a href="{Url::get([controller => article, action => edit, id => $a->id])}">{$a->title}</a></td>
+							<td>{$a->isActiveAsString()}</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		{/if}
+	</div>
+
+	<div class="result-segment">
+		<h3>{msg code="search_results.criteria" count=$criteria|count}</h3>
+		{if $criteria|count eq 0}
+			<p>{msg code="backend.search_results.no_results"}</p>
+		{else}
+			<table>
+				<thead>
+					<tr>
+						<th>{msg code="label.title"}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $criteria as $c}
+						<tr class="searchresult">
+							<td><a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => edit, id => $c->id])}">{$c->title}</a></td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		{/if}
+	</div>
+</div>

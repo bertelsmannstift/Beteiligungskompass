@@ -1,0 +1,23 @@
+{if count($results) > 0}
+    <ul class="entrylist group">
+        {foreach $results as $tk => $result}
+            <li>
+                <div class="{$tk}">
+                    {foreach $result as $key => $group}
+                        {if count($group.articles)}<div class="month headline-type show" data-open="{$key}">{$group.grouptitle}<span class="arrow-hd"></span></div>{/if}
+                        {foreach $group.articles as $article}
+                            {$images = $article->imageList()}
+                            {include file="./index_list_item.html" key=$key itemId=$article->id images=$images article=$article}
+                        {/foreach}
+                    {/foreach}
+                </div>
+            </li>
+        {/foreach}
+    </ul>
+{elseif $isAjax}
+    <div class="form-box">
+        <div class="row">
+            <strong class="no-results">{msg code="article.empty_result"}</strong>
+        </div>
+    </div>
+{/if}

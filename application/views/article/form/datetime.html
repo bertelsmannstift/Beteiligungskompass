@@ -1,0 +1,11 @@
+<div class="row {$field->class}">
+    {if $field->label}<label for="form_{$field@key}">{$field->label}</label>{/if}
+    <div>
+        <input type="hidden" name="{$key}" id="form_{$key}" value="{if $article->$key}{$article->$key->format(Kohana::$config->load('project.datetimeformat'))}{/if}" />
+        <input class="date" type="text" value="{if $article->$key}{$article->$key->format(Kohana::$config->load('project.dateformat'))}{/if}"{if $errors.$key} class="error"{/if} readonly/>
+        <input class="time" type="text" value="{if $article->$key}{$article->$key->format('H:i')}{/if}" readonly/>
+    </div>
+        <div class="clear"></div>
+    {if $errors.$key}<span class="error">{$errors.$key}</span>{/if}
+
+</div>

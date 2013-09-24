@@ -1,0 +1,17 @@
+#head, .content-head, .headline, #foot {
+  display: none;
+}
+
+#wrapper #content .main-box .box-content-with-menu {
+  border-left: 0px solid #999999;
+  border-right: 0px solid #999999;
+}
+
+#wrapper #content .main-box .box-content-with-menu .side-menu,
+#wrapper #content .main-box .box-content-with-menu .box-content {
+  box-shadow: none !important;
+}
+
+#wrapper #content .main-box .box-content-with-menu .side-menu {
+  border-left: 0 !important;
+}

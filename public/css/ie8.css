@@ -1,0 +1,26 @@
+button.button {
+  position: relative;
+  outline: none;
+  top: 1px;
+}
+button.button span {
+  top: -1px !important;
+  outline: none;
+}
+button.button:active {
+  -ms-background-position-x: 1px;
+  -ms-background-position-y: 1px;
+}
+
+.remove-criteria {
+  position: relative;
+  top: -6px;
+}
+
+.headline .inputfields label {
+  top: -8px;
+}
+
+.inputfields .search button {
+  top: 4px;
+}

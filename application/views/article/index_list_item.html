@@ -1,0 +1,136 @@
+<div class="entry{if $article->type() == 'event'} datelist{/if} show">
+    <div class="item">
+        <a id="{if $key}{$key}_{/if}{$itemId}" name="{if $key}{$key}_{/if}{$itemId}" class="article-link" href="{Url::get([controller => article, action => show, id => $article->id])}">
+             <span class="text">
+                 {if $article->type() == 'event'}
+                     <span class="date-info-box">
+                         {function calendarImage cssClass="single" city="" date=""}
+                             {if $date}
+                                 <span class="calendar icon-calendar {$cssClass}">
+                                     <span class="calendar-month">{strftime('%B', $date->getTimestamp())}</span>
+                                     <span class="calendar-day">{$date->format('d')}</span>
+                                     <span class="calendar-day-effect">{$date->format('d')}</span>
+                                     <span class="calendar-city" title="{$city}">{if $city != ''}{short length=23 str=$city}{/if}</span>
+                                 </span>
+                             {/if}
+                         {/function}
+
+                         {if $article->end_date && $article->start_date->format('d.m.Y') != $article->end_date->format('d.m.Y')}
+                            {calendarImage cssClass="start" date=$article->start_date city=$article->city}
+                             <span class="split"></span>
+                            {calendarImage cssClass="end" date=$article->end_date city=$article->city}
+                         {else}
+                            {calendarImage cssClass="single" date=$article->start_date city=$article->city}
+                         {/if}
+                     </span>
+                 {else}
+                     {if !$isMobile}
+                         <span class="image-box">
+                             {foreach $images as $k => $i}
+                                {if $i@first}
+                                    {if $i->file->ext != 'pdf'}
+
+                                          {if ($isTablet || $isMobile)}
+                                              <img class="listpic-img" src="{if $isMobile}{$i->file->previewurl('89x69')}{else}{$i->file->previewurl('189x160')}{/if}" alt="{$i->description}" />
+                                          {else}
+                                              <img class="listpic-img lazy" src="{Url::base()}img/logo/no_pic_thumb_blank{if $isMobile}_mobile{/if}.png" data-original="{if $isMobile}{$i->file->previewurl('89x69')}{else}{$i->file->previewurl('189x160')}{/if}" alt="{$i->description}" />
+                                          {/if}
+
+                                        {$images[$k] = null}
+                                        {break}
+                                    {/if}
+                                {/if}
+                            {/foreach}
+                         </span>
+                     {/if}
+                 {/if}
+                 <span class="{if $article->type() == 'event'}info-text{else}right{/if}{if count($images) == 0} no-pic{/if}">
+
+                     <strong title="{$article->title|default:"no name given"}">
+                         {if Helper_Article::getHightlightedText($article->id, 'title')}
+                             {$title = Helper_Article::getHightlightedText($article->id, 'title')}
+                             {short str=$title|default:"no name given" length=120 removetags=true allowtags="<em>"}
+                         {else}
+                             {short str=$article->title|default:"no name given" length=120 removetags=true}
+                             {if  $article->type() != 'news' && $article->created <= $dateTimeNow && $article->created >= $dateTime}
+                                 <span class="new-icon"></span>
+                             {/if}
+                         {/if}
+                     </strong>
+
+                     {if $article->type() == 'event' && $article->getTypeOfEvent()}
+                       <span class="subline">
+                              <strong>{msg code="global.type_of_event"}: {$article->getTypeOfEvent()}</strong>
+                       </span>
+                     {elseif $article->type() == 'news'}
+                        <span class="news-date">{if $article->date}{$article->date->format(Kohana::$config->load('project.dateformat'))}{/if}{if $article->author} | <span class="author">{$article->author}</span>{/if}</span>
+                     {elseif $article->type() == 'study'}
+                          <span class="subline">
+                            {if $article->city || $article->getCountry() != ''}<span class="location-icon"></span>{/if}
+                            <strong>{strip}
+                                {if $article->city}
+                                    {$article->city}
+                                {elseif $article->getCountry() != ''}
+                                    {$article->getCountry()}
+                                {/if}
+                                {if $article->getDuration()} | {$article->getDuration()}{/if}
+                                {if $article->getProjectstatus() != ''} | {msg code="global.status"}: {$article->getProjectstatus()}
+                                {/if}
+                            {/strip}</strong>
+                          </span>
+                      {elseif $article->type() == 'expert'}
+                          <span class="subline">
+                                 {if $article->city}<span class="location-icon"></span>{/if}
+                                 <strong>{if $article->city}{$article->city}{/if}{if $article->getCountry() != ''}, {$article->getCountry()}{/if}</strong>
+                          </span>
+                      {elseif $article->type() == 'method'}
+                         <span class="subline">
+                                <span class="location-icon"></span>
+                                <strong>{if $article->getMedium() != ''}{msg code="global.medium"}: {$article->getMedium()}{/if}{if $article->getCostsString() != ''}{if $article->getMedium() != ''} | {/if}{msg code="global.cost"}: {$article->getCostsString()}{/if}</strong>
+                         </span>
+                      {elseif $article->type() == 'qa' && $article->author_answer && $article->author_answer != ''}
+                          <span class="subline">
+                              {if !$isMobile}<span class="author-icon"></span>{/if}
+                              <span class="author-answer">
+                                  <strong>{msg code="label.author"}: {$article->author_answer}</strong>
+                              </span>
+                         </span>
+                      {/if}
+
+                     {if $description = $article->description()}
+                        <div class="item-desc">
+                            {if Helper_Article::getHightlightedText($article->id, 'description')}
+                                 {Helper_Article::getHightlightedText($article->id, 'description')}...
+                            {else}
+                                {short str=$description length=135 removetags=true allowtags="<i><b><strong><u><em>"}
+                            {/if}
+                        </div>
+                     {/if}
+
+                     <span class="article-items">
+                         {if count($article->getVideos()) > 0}
+                            <span class="video-icon"></span>
+                         {/if}
+                         {if count($article->fileList()) > 0}
+                            <span class="download-icon"></span>
+                         {/if}
+                     </span>
+                     <span class="clear"></span>
+                 </span>
+                 {if $article->type() == 'study' && $article->getMedium() != ''}
+                  <span class="subline-article"{if $article->getLogo()} style="right: 130px;"{/if}>
+                      <strong>{msg code="global.medium"}: {$article->getMedium()}</strong>
+                  </span>
+                 {/if}
+                 <span class="clear"></span>
+             </span>
+            {if !$isMobile && $article->getLogo()}<span class="article-logo"><img src="{$article->getLogo()->link()}" alt=""></span>{/if}
+        </a>
+        {if !$isMobile && $article->isOwnedByCurrentUser()}
+            <span class="own-item icon-icon_own_article">{if Kohana::$config->load('project.show_article_favorite_count')}{$article->getFavoriteCount()}{/if}</span>
+        {/if}
+        {if !$isMobile}
+            <a data-href="{Url::get([route => default, controller => favorites, action => add_to_fav, id => $article->id])}" data-rel="#fav-overlay" href="{Url::get([route => default, controller => favorites, action => removeFavorite, id => $article->id])}" title="{if !$article->isOwnedByCurrentUser()}{msg code='favorites.add_to_or_remove_from_favourites'}{/if}" class="{if $article->isOwnedByCurrentUser()}disabled {/if}overlay need-user icon-icon_my_article fav{if $article->isFavedByCurrentUser()} active{/if}">{if Kohana::$config->load('project.show_article_favorite_count')}{$article->getFavoriteCount()}{/if}</a>
+        {/if}
+    </div>
+</div>

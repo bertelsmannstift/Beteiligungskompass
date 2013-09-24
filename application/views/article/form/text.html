@@ -1,0 +1,10 @@
+<div class="row {$field->class}">
+    {if $field->label}<label for="form_{$field@key}">{$field->label}</label>{/if}
+
+    <input type="text" name="{$key}" id="form_{$key}" value="{if $article->$key}{strip_tags($article->$key)}{/if}"{if $errors.$key} class="error"{/if}/>
+    {if $errors.$key}<span class="error">{$errors.$key}</span>{/if}
+</div>
+{if $rightExists == false && strpos($field->class, 'left') !== false}
+<div class="row fifty right empty">
+</div>
+{/if}

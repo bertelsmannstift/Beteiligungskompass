@@ -1,0 +1,40 @@
+<form method="post" action="" id="article" data-type="{$type}" data-url="article/savearea">
+
+	<input type="hidden" name="id" value="{$article->id}"/>
+
+	<div class="main-box">
+	    <div class="headline">
+	        <div>{msg code="article.create_new_`$article->type()`"}</div>
+	        <div class="indikator">
+                <div class="icon-icon_indicator_first_step s1">1</div>
+                <div class="icon-icon_indicator_other_steps_blue s2">2</div>
+                <div class="icon-icon_indicator_other_steps_blue s3">3</div>
+                <div class="icon-icon_indicator_other_steps_blue s4">4</div>
+                <div class="icon-icon_indicator_other_steps_blue s5">5</div>
+                <div class="icon-icon_indicator_other_steps_blue s6">6</div>
+	        </div>
+
+	    </div>
+	    <div class="box-content-with-menu" id="article_form">
+	        <div class="side-menu" id="article_form_navigation">
+	            <ul>
+	                {foreach $data as $area}
+	                    <li id="stepnavi-{$area@key}" data-area="{$area@key}" class="active {if $area@iteration == 1}details current{elseif $area@iteration == 2}facts{elseif $area@iteration == 3}img-vid{elseif $area@iteration == 4}methods{elseif $area@iteration == 5}categories{elseif $area@iteration == 6}publish{/if}">
+                            <a href="#"><span class="arrow">›</span> <span class="title">{$area->title}</span></a>
+                            <div class="check icon-icon_step_one"></div>
+                        </li>
+	              	{/foreach}
+	            </ul>
+	        </div>
+
+	        <div id="article_form_steps">
+			{include file="article/steps.html" showStepNavi=true}
+	        </div>
+
+	        <div class="clear"></div>
+	    </div>
+	    <div class="box-foot"></div>
+	</div>
+	<div class="clear"></div>
+</form>
+

@@ -1,0 +1,60 @@
+<h2>{msg code="backend.heading.criteria"}</h2>
+
+<h3>{msg code='backend.criteria.add_criteria'}</h3>
+
+<form method="post" action="">
+    <div class="form-box">
+        <div class="row">
+            <label for="orderindex">{msg code="label.orderindex"}</label>
+            <input type="text" name="orderindex" id="orderindex" value="{$values.orderindex}"/>
+            {if $errors.orderindex}<span class="error">{$errors.orderindex}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="title">{msg code="label.title"}</label>
+            <input type="text" name="title" id="title" value="{$values.title}"/>
+            {if $errors.title}<span class="error">{$errors.title}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="description">{msg code="tableheader.description"}</label>
+            <input type="text" name="description" id="description" value="{$values.description}"/>
+            {if $errors.description}<span class="error">{$errors.description}</span>{/if}
+        </div>
+
+        <div class="row">
+            <label for="description">{msg code="label.article_type_group"}</label>
+            <div class="right-checkboxes">
+            {foreach $grouptypes as $key => $v}
+                <div><input type="checkbox" name="group_article_types[]" value="{$key}" id="{$key}" {if $alreadyGrouped[$key]}disabled{/if} /><label for="{$key}">{$v}</label><br/>{if $alreadyGrouped[$key]}{msg code="backend.already_grouped_by"} <a href="{Url::get([route => 'backend-default', directory => backend, controller => criteria, action => edit, id => $alreadyGrouped[$key]->id])}">{$alreadyGrouped[$key]->title}</a><br/><br/>{/if}</div>
+            {/foreach}
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="description">{msg code="label.type"}</label>
+            <select name="type" id="type">
+                <option value="radio"{if $values.type == "radio"} selected="selected"{/if}>{msg code="backend.criteria.type.radio"}</option>
+                <option value="check"{if $values.type == "check"} selected="selected"{/if}>{msg code="backend.criteria.type.check"}</option>
+                <option value="select"{if $values.type == "select"} selected="selected"{/if}>{msg code="backend.criteria.type.select"}</option>
+                <option value="resource"{if $values.type == "resource"} selected="selected"{/if}>{msg code="backend.criteria.type.resource"}</option>
+            </select>
+            {if $errors.type}<span class="error">{$errors.type}</span>{/if}
+        </div>
+        <div class="row">
+            <label for="description">{msg code="label.usedfor"}</label>
+            <div class="right-checkboxes">
+                <div><input type="checkbox" name="showInPlanner" value="1" id="planner" /><label for="planner">{msg code="backend.criteria.showInPlanner"}</label></div>
+                <br/>
+            {foreach $types as $key => $type}
+               <div><input type="checkbox" name="types[]" value="{$key}" id="{$key}" checked="checked"/><label for="{$key}">{$type}</label></div>
+            {/foreach}
+
+            </div>
+            {if $errors.type}<span class="error">{$errors.type}</span>{/if}
+        </div>
+	</div>
+    <div class="form-box">
+        <div class="row">
+            <button type="submit" class="button"><span>{msg code="global.save"}</span></button>
+        </div>
+	</div>
+</form>

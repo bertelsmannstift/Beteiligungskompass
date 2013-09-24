@@ -1,0 +1,85 @@
+fieldset {
+  background: #fafafa;
+  padding: 1px 20px;
+  margin-bottom: 20px;
+  legend {
+    font-weight: bold;
+    font-size: 15px;
+  }
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type=text], input[type=password], input[type=email], select, textarea {
+  background: #fff;
+  @include border-radius(3px);
+  border: 1px solid #ccc;
+  height: 24px;
+  padding: 0 5px;
+  width: 100%;
+  @include box-sizing(border-box);
+
+  &:focus {
+    border-color: #aaa;
+  }
+
+  &.small {
+    width: 40%;
+    min-width: 200px;
+  }
+}
+
+select {
+  height: 29px;
+  padding: 5px;
+}
+
+textarea {
+  height: 200px;
+  padding: 5px;
+}
+
+input.error, select.error, textarea.error {
+  border-color: red;
+}
+
+span.error {
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  display: block;
+}
+
+span.description {
+  color: #aaa;
+  font-style: italic;
+  font-size: 12px;
+  display: block;
+}
+
+p.error {
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  display: block;
+  padding: 5px 10px;
+  background: #fee;
+}
+
+button {
+  background: $color;
+  color: #fff;
+  @include border-radius(3px);
+  border: none;
+  height: 30px;
+  padding: 0 10px;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: 'Droid Sans', sans-serif;
+  cursor: pointer;
+  &:hover {
+    background: $color_light;
+  }
+}

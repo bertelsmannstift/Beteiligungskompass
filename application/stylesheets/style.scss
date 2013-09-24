@@ -1,0 +1,223 @@
+@import "compass/reset";
+@import "compass/css3";
+
+$color_text: #333;
+$color: #C03000;
+$color_light: adjust-lightness($color, 20);
+
+body {
+  background: #fff;
+  font-family: Helvetica, Arial, Verdana;
+  font-size: 14px;
+  line-height: 18px;
+  color: $color_text;
+}
+
+a {
+  color: $color;;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: $color_light;
+  }
+}
+
+p {
+  margin: 20px 0;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 15px;
+  margin: 20px 0;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 20px 0 10px 0;
+}
+
+strong {
+  font-weight: bold;
+}
+
+#messages {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0.9;
+  z-index: 1000;
+  .msg {
+    width: 90%;
+    padding: 10px 5%;
+    font-weight: bold;
+    text-align: center;
+    &.error {
+      background: #fee;
+      color: #f00;
+    }
+    &.success {
+      background: #efe;
+      color: #0a0;
+    }
+    &.notice {
+      background: #eef;
+      color: #00f;
+    }
+  }
+}
+
+#head {
+  background: #eee;
+  display: block;
+  line-height: 40px;
+  position: relative;
+  padding: 0 20px;
+  #head-title {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  #head-user {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    text-align: right;
+  }
+}
+
+#content {
+  padding: 20px;
+}
+
+dl.welcome_actions {
+  dt a {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  dd {
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+#article_form {
+  width: 100%;
+  #article_form_navigation {
+    float: left;
+    display: block;
+    background: #fafafa;
+    padding: 20px;
+    width: 25%;
+    margin-right: 5%;
+    @include box-sizing(border-box);
+    li {
+      background: #eee;
+      margin-bottom: 5px;
+      padding: 5px;
+      font-weight: bold;
+      cursor: text;
+      color: #ccc;
+      &.active {
+        color: #999;
+        cursor: pointer;
+      }
+      &.current {
+        color: #444;
+        cursor: pointer;
+      }
+    }
+  }
+
+  #article_form_steps {
+    width: 70%;
+    float: left;
+    @include box-sizing(border-box);
+    background: #fafafa;
+    padding: 20px 20px 0 20px;
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .step_field {
+      margin: 20px 0;
+    }
+
+    .step {
+      display: none;
+      &.current {
+        display: block;
+      }
+    }
+  }
+}
+
+.clear {
+  clear: both;
+}
+
+.linklist {
+  .linklist_item {
+    margin-top: 10px;
+    padding: 10px;
+    background: #ddd;
+    a.add {
+      float: right;
+    }
+
+    a.remove {
+
+    }
+
+    &.new {
+      display: none;
+    }
+  }
+}
+
+#show_article {
+  #show_article_sidebar {
+    background: #eee;
+    width: 25%;
+    margin-right: 5%;
+    float: left;
+    padding: 0 20px;
+    @include box-sizing(border-box);
+  }
+
+  #show_article_main {
+    width: 70%;
+    float: left;
+  }
+
+}
+
+#result_view {
+  #result_view_filter {
+    background: #eee;
+    width: 25%;
+    margin-right: 5%;
+    float: left;
+    padding: 0 20px;
+    @include box-sizing(border-box);
+  }
+
+  #result_view_main {
+    width: 70%;
+    float: left;
+  }
+}
+
+@import "forms";

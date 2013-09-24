@@ -1,0 +1,150 @@
+button.button {
+  width: auto;
+  overflow: visible;
+  > span {
+    top:0px !important;
+    white-space: nowrap;
+  }
+}
+
+.overlay {
+  h3 {
+    display: inline !important;
+    padding-bottom: 0 !important;
+    line-height: 24px;
+  }
+}
+
+
+.button {
+  > span {
+    float:left !important;
+  }
+}
+
+button.button {
+  position: relative;
+  top: -4px;
+}
+
+.fav-switch input[type=radio] {
+  margin:0 !important;
+}
+
+.contact_index {
+  .form-box{
+    input[type=text] {
+      float:none !important;
+    }
+  }
+}
+
+.article_show {
+  .form-box{
+    .info {
+      float:none !important;
+    }
+  }
+}
+
+#form_city {
+  float:none !important;
+  margin-left:4px;
+  width:150px;
+}
+
+.fifty.right {
+  select {
+    margin-top:2px;
+  }
+}
+
+
+.con-row {
+    > div {
+      float:left !important;
+    }
+    > div.clear {
+      height:0;
+      overflow:hidden;
+      width:0;
+      float:none !important;
+    }
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .form-box select,
+#wrapper #content .main-box .box-content-with-menu .box-content .form-box input[type="text"], #wrapper #content .main-box .box-content-with-menu .box-content .form-box input[type="url"], #wrapper #content .main-box .box-content-with-menu .box-content .form-box input[type="email"] {
+    float:none !important;
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .form-box .fifty select {
+  position: relative;
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .form-box .row {
+    position: relative;
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .form-box .row label.updated {
+    margin-bottom: 0 !important;
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .entrylist > li {
+    float:left;
+  clear:both;
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .entrylist > li > div > .hr-line {
+    width:100%;
+}
+#wrapper #content .main-box .box-content-with-menu .box-content .entrylist > li > div > div .hr-line {
+    width:539px;
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .form-box {
+
+  .videos .row span.input,
+  .external_links .row span.input {
+      display: block;
+    text-align: right;
+  }
+}
+
+#wrapper #content .main-box .box-content-with-menu .box-content .form-box select.article_list {
+    width: 360px;
+    float:left !important;
+}
+
+#wrapper #content .main-box .box-content-with-menu .side-menu .side-scrollbox .button > span:first-child {
+  width: 272px !important;
+}
+
+#wrapper #content .main-box .box-content-with-menu .side-menu .side-scrollbox .button > span > span {
+  position: relative;
+  top: -11px;
+}
+
+
+
+#wrapper #content .main-box .box-content-with-menu .box-content {
+  background-color:#fff;
+}
+
+.inputfields {
+  float:right;
+  width: auto !important;
+}
+
+#wrapper #content .main-box .headline .inputfields > * {
+  float:left !important;
+}
+
+#wrapper #content .main-box .headline .inputfields > label {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.remove-criteria {
+  position: relative;
+  top:-6px;
+}

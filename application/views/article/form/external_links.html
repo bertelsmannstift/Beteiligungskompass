@@ -1,0 +1,32 @@
+<div class="external_links linklist">
+		<div class="row linkable">
+			{if $field->label}
+				<label for="item_{$field@key}">{$field->label}</label>
+			{/if}
+			<span class="input first" data-index="0">
+				<input type="url" name="{$key}[0][url]" value=""/>
+                <div>
+                    <input type="checkbox" name="{$key}[0][show_link]" checked="checked" />
+                    <label for="c_{$key}_0">{msg code="global.linkable"}</label>
+                </div>
+			</span>
+		</div>
+		{foreach $article->$key as $link}
+			<div class="row linkable">
+				<span class="input" data-index="{$link@index + 1}">
+					<input type="url" name="{$key}[{$link@index + 1}][url]" value="{$link['url']}" />
+					<div>
+                        <input type="checkbox" id="c_{$key}_{$link@index + 1}" name="{$key}[{$link@index + 1}][show_link]" {if $link['show_link']}checked="checked"{/if} />
+                        <label for="c_{$key}_{$link@index + 1}">{msg code="global.linkable"}</label>
+                    </div>
+				</span>
+				{if $errors.$key[$link@iteration - 1]}
+					<span class="error">{$errors.$key[$link@iteration - 1]}</span>
+				{/if}
+			</div>
+		{/foreach}
+	<a class="add-link" href="#">{msg code="article.form.add_more_links"}</a>
+    <script type="text/javascript">
+        var linkableText = '{msg code="global.linkable"}';
+    </script>
+</div>

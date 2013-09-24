@@ -1,0 +1,17 @@
+<div class="row {$field->class}">
+    {if $field->label}<label for="form_{$field@key}">{$field->label}</label>{/if}
+    <select name="{$key}" id="form_{$key}" {if $errors.$key} class="error"{/if}>
+        {if !$field->hideEmptyField}
+        <option value=""{if !$article->$key} selected="selected"{/if}> </option>
+        {/if}
+        {if is_array($field->data)}
+        {$options = $field->data}
+        {else}
+        {$options = call_user_func($field->data, $field->dataParams)}
+        {/if}
+        {foreach $options as $val}
+        <option value="{$val@key}"{if $article->$key && $val@key == $article->$key} selected="selected"{/if}>{$val}</option>
+        {/foreach}
+    </select>
+    {if $errors.$key}<span class="error">{$errors.$key}</span>{/if}
+</div>

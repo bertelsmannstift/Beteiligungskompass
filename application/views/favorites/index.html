@@ -1,0 +1,269 @@
+<form id="fav-form" class="ajax-form" data-replace=".box-content-with-menu" data-replace-fragment=".box-content-with-menu" method="post" action="{Url::get()}">
+	<div class="main-box menu-right">
+        <div class="headline">
+            <div class="article-hl">
+                <div class="headline-article">{msg code="favorites.my_favourites"} (<span>{if $values.show_all == '1' || !$values}{$user->getFavoritesCount()}{else}{$user->getFavoritesCount(false)}{/if}</span>)</div>
+                <div class="inputfields">
+
+                    <label>{msg code="global.sort_by"}</label>
+                    <select name="orderby">
+                        <option value="created" {if $values.orderby == 'created' || $values.orderby == ''} selected{/if}>{msg code="global.created"}</option>
+                        <option value="title" {if $values.orderby == 'title'} selected{/if}>{msg code="global.title"}</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="tools">
+                <a class="print icon-icon_printer" title="Print this page" href="javascript:window.print()"></a>
+                <a class="need-user ownentry icon-icon_add" title="{msg code='global.button.create_new_article'}" href="article/create" data-rel="#own-entry" rel="#own-entry"></a>
+            </div>
+        </div>
+		<div class="box-content-with-menu">
+            <a class="filter-head" href="javascript:void(0);"><span class="show-filter-text">{msg code="global.showfilter"}</span><span class="hide-filter-text">{msg code="global.hidefilter"}</span></a>
+
+            {capture assign=sidemenu}
+                <div class="side-menu filter">
+                   <div class="fav-switch hr-line box">
+                       {if count($favorites)}
+                       <label class="fav-cat">
+                           {msg code="global.favorite_categories"}<br/>
+                           <select id="fav-category" data-autosubmit="false">
+                               <option value="">{msg code="global.all_favorite_categories"}</option>
+                               {foreach $articleGroups as $favType => $favTypeGroup}
+                                   <option value="{$favType}">{$favTypeGroup}</option>
+                               {/foreach}
+                           </select>
+                       </label>
+                       {/if}
+                   </div>
+
+                    <div class="form-box share-box">
+                        <h2 class="overview-headline">{msg code="favorites.group_share"}</h2>
+                        <a href="javascript:void(0);" class="share-group" title="Share article"></a>
+                    </div>
+
+                    <div class="form-box">
+                        <h2 class="overview-headline">{msg code="favorites.group_headline"}</h2>
+                    </div>
+                    <div class="form-box">
+                        <div class="del-button">
+                          <a class="button fav-group show" data-id="-2">
+                          <span data-href="#">{msg code="favorites.show_all"} <span>({if $values.show_all == '1' || !$values}{$user->getFavoritesCount()}{else}{$user->getFavoritesCount(false)}{/if})</span></span>
+                          </a>
+                        </div>
+                    </div>
+                    <div class="form-box">
+                        <div class="del-button">
+                          <a class="button fav-group" data-id="-1">
+                              <span data-href="not-assigned">{msg code="favorites.not_assigned"} <span>(<span id="not-assigned"></span>)</span></span>
+                          </a>
+                        </div>
+                    </div>
+                       {foreach Helper_User::getUser()->favoritegroups as $k => $favGroup}
+                        <div class="form-box">
+                            <div class="del-button">
+                                <a class="button fav-group group" data-id="{$k}" data-groupid="{$favGroup->id}">
+                                    <span data-href="#{$favGroup->id}">{$favGroup->name} <span id="group-{$favGroup->id}">(<span>{count($favGroup->getArticles($values.show_all == '0'))}</span>)</span></span>
+                                </a>
+
+                                <a data-confirm="{msg code="global.delete_group_confirm"}" href="{Url::get([action => deletegroup, id => $favGroup->id])}" class="remove button blue-button" title="{msg code="global.delete_group"}"><span>x</span></a>
+                                <span class="clear"></span>
+                            </div>
+                        </div>
+                       {/foreach}
+                    <div class="form-box">
+                       <div class="clear"></div>
+                       <a href="javascript:void(0);" data-autosubmit="false" data-href="{Url::get('action:newgroup')}" class="overlay button newgroup" data-rel="#newgroup-overlay" title="{msg code="global.newgroup"}"><span>{msg code="global.newgroup"}</span></a>
+                    </div>
+                </div>
+            {/capture}
+            {if $isMobile}
+               {$sidemenu}
+            {/if}
+            <div class="box-content">
+                <div id="favorit_results" class="entrylist group">
+                {if $grouped}
+                    {foreach $favorites as $favType => $favTypeGroup}
+                            <div class="type-container {$favType} show">
+                                <div class="headline-type-fav month show" data-open="{$favType}">{$favTypeGroup->title}<span class="arrow-hd"></span></div>
+                                {foreach $favTypeGroup->articles as $fav}
+                                <div class="fav-box entry" id="article-{$fav->id}" data-groups="{json_encode(array_keys($fav->getFavoriteGroups(false)))}">
+                                    <h2 class="{$fav->type()}">
+                                        <span class="{if $fav->isEditable() && $fav->isOwnedByCurrentUser()}unlock{elseif $fav->isOwnedByCurrentUser()}lock{/if}"></span>
+
+                                        {if $fav->active || $fav->isOwnedByCurrentUser()}
+                                        <a href="{Url::get([route => default, controller => article, action => show, id => $fav->id])}" title="{msg code='title.view_details'}">{$fav->title|default:"no name given"}</a>
+                                        {elseif $fav->user == $user AND !$fav->ready_for_publish AND !$fav->active}
+                                        <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.continue_editing'}">{$fav->title|default:"no name given"}</a>
+                                        {else}
+                                        {$fav->title|default:"no name given"}
+                                        {/if}
+                                        {if !$fav->isOwnedByCurrentUser()}
+                                            <a class="icon-icon_my_article_white fav active" href="{Url::get([route => default, controller => favorites, action => remove, id => $fav->id])}" title="{msg code='favorites.remove_from_favourites'}"></a>
+                                        {/if}
+                                    </h2>
+
+                                    <div class="group_controls">
+                                      <select onchange="main.addToGroup(this, '{$fav->id}')" data-autosubmit="false">
+                                          <option>{msg code="label.select_favorite_group"}</option>
+                                          {foreach Helper_User::getUser()->getFavoritegroups() as $favGroup}
+                                              {if !in_array($favGroup->id, array_keys($fav->getFavoriteGroups()))}
+                                                  <option value="{$favGroup->id}"{if $groupId == $favGroup->id} selected{/if}>{$favGroup->name}</option>
+                                              {else}
+                                                  <option value="{$favGroup->id}" disabled>{$favGroup->name}</option>
+                                              {/if}
+                                          {/foreach}
+                                      </select>
+                                      <div class="groups"{if count($fav->getFavoriteGroups()) == 0} style="display:none;"{/if}>
+                                          <div class="group-title">{msg code="favorites.groups"}: </div>
+                                          <div class="items">
+                                              {foreach $fav->getFavoriteGroups() as $k => $g}
+                                                  <span>{if $isMobile}{short str=$g length=8}{else}{$g}{/if}<a class="remove" data-article="{$fav->id}" data-group="{$k}">X</a></span>
+                                              {/foreach}
+                                          </div>
+                                      </div>
+
+                                    </div>
+
+                                    <div class="fav-img">
+                                        {$images = $fav->imageList()}
+                                        {foreach $images as $k => $i}
+                                            {if $i@first}
+                                                {if $i->file->ext != 'pdf'}
+
+                                                     <img class="listpic-img" src="{if $isMobile}{$i->file->previewurl('89x69')}{else}{$i->file->previewurl('189x160')}{/if}" alt="{$i->description}" />
+
+                                                    {$images[$k] = null}
+                                                    {break}
+                                                {/if}
+                                            {/if}
+                                        {foreachelse}
+                                              <img class="listpic-img" src="{Url::base()}img/logo/no_pic_thumb_{$fav->type()}{if $isMobile}_mobile{/if}.png" alt="" />
+                                        {/foreach}
+                                    </div>
+                                    {if $description = $fav->description()}
+                                    <div class="text-content">
+                                        {$description}
+                                    </div>
+                                    {/if}
+                                    {if $user}
+                                        <div class="form-box">
+                                            <div>
+                                                {if $user->isEditor()}
+                                                    <a data-confirm="{msg code="global.delete_article_confirm" article=$fav->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $fav->id])}"><span>{msg code="global.delete_article"}</span></a>
+                                                    <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.edit_as_editor'}" class="button"><span>{msg code="article.edit_as_editor"}</span></a>
+                                                {else if $fav->user == $user AND !$fav->active}
+                                                    <a data-confirm="{msg code="global.delete_article_confirm" article=$fav->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $fav->id])}"><span>{msg code="global.delete_article"}</span></a>
+                                                    <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.continue_editing'}" class="button"><span>{msg code="article.continue_editing"}</span></a>
+                                                {/if}
+
+                                                {if $fav->user->id == Helper_User::getUser()->id && $fav->ready_for_publish == false && $user->isEditor() == false}
+                                                    <a {if $fav->type() != 'expert'} data-confirm="{msg code='article.really_submit'}" {else}data-msg="{msg code='article.really_submit_expert'}"{/if} title="{msg code="article.submit_to_review"}" href="{Url::get([route => default, controller => article, action => publish, id => $fav->id])}" class="button"><span>{msg code="article.submit_to_review"}</span></a>
+                                                {/if}
+                                            </div>
+                                        </div>
+                                    {/if}
+                                    <div class="clear"></div>
+                                </div>
+                                {/foreach}
+                            </div>
+                    {/foreach}
+                {else}
+                    {foreach $favorites as $fav}
+                     <div class="fav-box entry nogroup {$fav->type()}" id="article-{$fav->id}" data-groups="{json_encode(array_keys($fav->getFavoriteGroups(false)))}">
+                         <h2 class="{$fav->type()}">
+                             <span class="{if $fav->isEditable() && $fav->isOwnedByCurrentUser()}unlock{elseif $fav->isOwnedByCurrentUser()}lock{/if}"></span>
+
+                             {if $fav->active || $fav->isOwnedByCurrentUser()}
+                             <a href="{Url::get([route => default, controller => article, action => show, id => $fav->id])}" title="{msg code='title.view_details'}">{$fav->title|default:"no name given"}</a>
+                             {elseif $fav->user == $user AND !$fav->ready_for_publish AND !$fav->active}
+                             <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.continue_editing'}">{$fav->title|default:"no name given"}</a>
+                             {else}
+                             {$fav->title|default:"no name given"}
+                             {/if}
+                             {if !$fav->isOwnedByCurrentUser()}
+                                 <a class="icon-icon_my_article_white fav active" href="{Url::get([route => default, controller => favorites, action => remove, id => $fav->id])}" title="{msg code='favorites.remove_from_favourites'}"></a>
+                             {/if}
+                         </h2>
+
+                         <div class="group_controls">
+                           <select onchange="main.addToGroup(this, '{$fav->id}')" data-autosubmit="false">
+                               <option>{msg code="label.select_favorite_group"}</option>
+                               {foreach Helper_User::getUser()->getFavoritegroups() as $favGroup}
+                                   {if !in_array($favGroup->id, array_keys($fav->getFavoriteGroups()))}
+                                       <option value="{$favGroup->id}"{if $groupId == $favGroup->id} selected{/if}>{$favGroup->name}</option>
+                                   {else}
+                                       <option value="{$favGroup->id}" disabled>{$favGroup->name}</option>
+                                   {/if}
+                               {/foreach}
+                           </select>
+                           <div class="groups"{if count($fav->getFavoriteGroups()) == 0} style="display:none;"{/if}>
+                               <div class="group-title">{msg code="favorites.groups"}: </div>
+                               <div class="items">
+                                   {foreach $fav->getFavoriteGroups() as $k => $g}
+                                       <span>{if $isMobile}{short str=$g length=8}{else}{$g}{/if}<a class="remove" data-article="{$fav->id}" data-group="{$k}">X</a></span>
+                                   {/foreach}
+                               </div>
+                           </div>
+
+                         </div>
+
+                         <div class="fav-img">
+                             {$images = $fav->imageList()}
+                             {foreach $images as $k => $i}
+                                 {if $i@first}
+                                     {if $i->file->ext != 'pdf'}
+
+                                          <img class="listpic-img" src="{if $isMobile}{$i->file->previewurl('89x69')}{else}{$i->file->previewurl('189x160')}{/if}" alt="{$i->description}" />
+
+                                         {$images[$k] = null}
+                                         {break}
+                                     {/if}
+                                 {/if}
+                             {foreachelse}
+                                   <img class="listpic-img" src="{Url::base()}img/logo/no_pic_thumb_{$fav->type()}{if $isMobile}_mobile{/if}.png" alt="" />
+                             {/foreach}
+                         </div>
+                         {if $description = $fav->description()}
+                         <div class="text-content">
+                             {$description}
+                         </div>
+                         {/if}
+                         {if $user}
+                             <div class="form-box">
+                                 <div>
+                                     {if $user->isEditor()}
+                                         <a data-confirm="{msg code="global.delete_article_confirm" article=$fav->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $fav->id])}"><span>{msg code="global.delete_article"}</span></a>
+                                         <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.edit_as_editor'}" class="button"><span>{msg code="article.edit_as_editor"}</span></a>
+                                     {else if $fav->user == $user AND !$fav->active}
+                                         <a data-confirm="{msg code="global.delete_article_confirm" article=$fav->title|default:"no name given"}" class="button" title="{msg code="global.delete_article"}" href="{Url::get([route => default, controller => article, action => remove, id => $fav->id])}"><span>{msg code="global.delete_article"}</span></a>
+                                         <a href="{Url::get([route => default, controller => article, action => edit, id => $fav->id])}" title="{msg code='title.continue_editing'}" class="button"><span>{msg code="article.continue_editing"}</span></a>
+                                     {/if}
+
+                                     {if $fav->user->id == Helper_User::getUser()->id && $fav->ready_for_publish == false && $user->isEditor() == false}
+                                         <a {if $fav->type() != 'expert'} data-confirm="{msg code='article.really_submit'}" {else}data-msg="{msg code='article.really_submit_expert'}"{/if} title="{msg code="article.submit_to_review"}" href="{Url::get([route => default, controller => article, action => publish, id => $fav->id])}" class="button"><span>{msg code="article.submit_to_review"}</span></a>
+                                     {/if}
+                                 </div>
+                             </div>
+                         {/if}
+                         <div class="clear"></div>
+                     </div>
+                     {/foreach}
+                {/if}
+                 </div>
+             </div>
+             {if !$isMobile}
+                {$sidemenu}
+             {/if}
+			<div class="clear"></div>
+		</div>
+		<div class="box-foot"></div>
+	</div>
+</form>
+
+<script type="text/javascript">
+    var addToGroupUrl = '{Url::get([action => addToGroup])}';
+    var removeFromGroupUrl = '{Url::get([action => removeFromGroup])}';
+    var shareGroupUrl = '{Url::get([action => share_group])}';
+    var shareGroupTitle = '{msg code="global.share_group_title"}';
+</script>

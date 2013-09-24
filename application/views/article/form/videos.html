@@ -1,0 +1,18 @@
+<div class="videos">
+		<div class="row">
+			{if $field->label}<label for="item_{$field@key}">{$field->label}</label>{/if}
+			<span class="input first"><input type="url" name="{$key}[0][url]" value="" class="video"/></span>
+		</div>
+		{foreach $article->$key as $link}
+			<div class="row">
+				<span class="input"><input type="url" name="{$key}[{$link@iteration}][url]" value="{$link.url}" class="video"/></span>
+                <input type="hidden" name="desc" value="{$link.description}">
+                <input type="hidden" name="key" value="{$link@iteration}">
+				{if $errors.$key[$link@iteration - 1]}<span class="error">{$errors.$key[$link@iteration - 1]}</span>{/if}
+			</div>
+		{/foreach}
+	<a class="add-link" href="#">{msg code="article.form.add_more_videos"}</a>
+</div>
+<script>
+    var descriptionText = '{msg code="tableheader.description"}';
+</script>
