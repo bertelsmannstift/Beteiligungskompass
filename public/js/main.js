@@ -1126,6 +1126,35 @@ var main = {
 			    $('.right-criterias').css('padding-top', '20px');
 		    }
 	    }
+
+	    /**
+	     * Honeypot Form
+	     */
+	    $.each($('#contact-form input'), function(){
+		    if($(this).val() == '') {
+			    $(this).keydown(function(){
+					$(this).data('keypress', true);
+			    });
+		    } else {
+			    $(this).data('keypress', true);
+		    }
+	    });
+
+
+		$('#contact-form').submit(function(){
+			var error = false;
+			$.each($(this).find('input:not(.contact_field)'), function(){
+				if($(this).data('keypress') != true) {
+					error = true;
+				}
+			});
+
+			if(error === false) {
+				$(this).append($('<input type="text" name="message" value="">').addClass('contact_field'));
+				$(this).append($('<input type="text" name="name" value="MyName">').addClass('contact_field'));
+			}
+			return true;
+		});
     },
 
 	initMobileNav: function() {

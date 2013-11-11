@@ -1,31 +1,36 @@
 {if $id == 'contact'}
-    <form method="post" action="{Url::get('controller:pages action:index id:contact')}">
+    <form id="contact-form" method="post" action="{Url::get('controller:pages action:index id:contact')}" autocomplete="off">
         <div class="main-box">
             <div class="headline"><div>{msg code="module.contact.title"}</div></div>
             <div class="box-content-with-menu">
                 <div class="box-content">
                     <h2>{$page->content|strip_tags}</h2>
-                    <div class="row{if $errors.name} error{/if}">
-                        <label for="name">{$page->getField('name')} *</label>
-                        <input type="text" id="name" name="name" value="{$smarty.post.name}"/>
-                        <span class="error">{$errors.name}</span>
-                    </div>
-                    <div class="row{if $errors.name} error{/if}">
-                        <label for="email">{$page->getField('email')} *</label>
-                        <input type="text" id="email" name="email" value="{$smarty.post.email}"/>
-                        <span class="error">{$errors.email}</span>
-                    </div>
-                    <div class="row{if $errors.name} error{/if}">
-                        <label for="subject">{$page->getField('subject')} *</label>
-                        <input type="text" id="subject" name="subject" value="{$smarty.post.subject}"/>
-                        <span class="error">{$errors.subject}</span>
-                    </div>
-                    <div class="row{if $errors.name} error{/if}">
-                        <label for="msg">{$page->getField('message')} *</label>
-                        <div class="textarea">
-                            <textarea name="msg" id="msg">{$smarty.post.msg}</textarea>
+                    {if $cheatingBot}
+                        <div class="row error">
+                            {msg code="email.contact.cheating_bot"}
                         </div>
-                        <span class="error">{$errors.msg}</span>
+                    {/if}
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="name_{$formFieldNames.name}">{$page->getField('name')} *</label>
+                        <input type="text" id="name_{$formFieldNames.name}" name="{$formFieldNames.name}" value="{$smarty.post[$formFieldNames.name]}"/>
+                        <span class="error">{$errors[$formFieldNames.name]}</span>
+                    </div>
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="email_{$formFieldNames.email}">{$page->getField('email')} *</label>
+                        <input type="text" id="email_{$formFieldNames.email}" name="{$formFieldNames.email}" value="{$smarty.post[$formFieldNames.email]}"/>
+                        <span class="error">{$errors[$formFieldNames.email]}</span>
+                    </div>
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="subject_{$formFieldNames.subject}">{$page->getField('subject')} *</label>
+                        <input type="text" id="subject_{$formFieldNames.subject}" name="{$formFieldNames.subject}" value="{$smarty.post[$formFieldNames.subject]}"/>
+                        <span class="error">{$errors[$formFieldNames.subject]}</span>
+                    </div>
+                    <div class="row{if $errors.name} error{/if}">
+                        <label for="msg_{$formFieldNames.msg}">{$page->getField('message')} *</label>
+                        <div class="textarea">
+                            <textarea name="{$formFieldNames.msg}" id="msg_{$formFieldNames.msg}">{$smarty.post[$formFieldNames.msg]}</textarea>
+                        </div>
+                        <span class="error">{$errors[$formFieldNames.msg]}</span>
                     </div>
                     <div class="row">
                         <span>* {$page->getField('required')}</span>
@@ -34,7 +39,7 @@
                         <div class="row"><button type="submit" class="button overlay" title="{msg code="module.contact.form_submit"}"><span>{$page->getField('submit')}</span></button><div class="clear"></div></div>
                     </div>
                 </div>
-
+                <input type="text" name="phone" class="contact_field" value="">
                 <div class="clear"></div>
             </div>
         </div>
