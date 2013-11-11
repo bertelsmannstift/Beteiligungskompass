@@ -565,7 +565,7 @@ questions.4.title=
 questions.5.active=false
 questions.5.body=Die Ausgestaltung eines Beteiligungsprozesses basiert meist ausschließlich auf den Interessen der Initiatoren. Die Bürger hatten selten zuvor so viele Möglichkeiten, sich zu beteiligen, gleichzeitig waren sie selten zuvor so vielen Belastungen ausgesetzt. Bei der Planung eines Beteiligungsprojekts ist es deswegen wichtig, zu bedenken, welchen Nutzen die potentiellen Teilnehmer daraus ziehen. Andernfalls riskiert man, dass die Beteiligung scheitert. Manchmal ist es auch nötig, die Beteiligten finanziell zu entlohnen oder auf Ergebnisse der traditionellen Marktforschung zurückzugreifen.
 questions.5.title=
-
+question.ok=Ok
 share.help_text=Hilfetext
 share.perm=Dauerhaft aktivieren und Datenüber­tragung zustimmen:
 share.title=Teilen

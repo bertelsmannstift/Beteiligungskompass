@@ -561,7 +561,7 @@ questions.4.title=(???) Is the decision maker/problem holder supportive of wider
 questions.5.active=false
 questions.5.body=(???) Often the agenda for participatory events are set solely based on the interests of the sponsoring organisation. Ordinary members of the public have rarely had more opportunities to get involved, nor have they felt more stressed. This means you risk failure if you don't consider what your potential participants might get out of the process. In certain situations you may have to pay participants to take part or revert to traditional market research.
 questions.5.title=(???) Is the issue one which is of interest to your intended participants?
-
+question.ok=Ok
 share.help_text=Hjälptext
 share.perm=Aktivera permanent:   ??? Dela permanent???
 share.title=Dela
