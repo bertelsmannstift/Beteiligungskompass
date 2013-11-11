@@ -448,6 +448,7 @@ abstract class Model_Article extends Model_Base {
 
 	/**
 	 * @ManyToOne(targetEntity="Model_Rssfeed", inversedBy="rssfeed")
+     * @JoinColumn(name="rssfeed_id", referencedColumnName="id", onDelete="SET NULL")
 	 */
 	protected $rssfeed;
 

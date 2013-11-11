@@ -42,7 +42,7 @@ class Model_Rssfeed extends Model_Base {
    	protected $logo;
 
     /**
-   	 * @OneToMany(targetEntity="Model_Article", mappedBy="rssfeed")
+   	 * @OneToMany(targetEntity="Model_Article", mappedBy="rssfeed", cascade={"detach"})
    	 */
    	protected $articles = null;
 
