@@ -1,0 +1,237 @@
+# The field labels are dynamically fetched from the messages file
+# The format is "label." concatenated with the lower case field name
+# Example: "label.title" is the message key for the label of field title
+- title:
+    type: text
+    rules:
+      not_empty:
+- email:
+    type: text
+- phone:
+    type: text
+- fax:
+    type: text
+- firstname:
+    type: text
+- lastname:
+    type: text
+    rules:
+      "Helper_Article::validate_depends_empty":
+            - ":validation"
+            - lastname
+            - institution
+- zip:
+    type: text
+- intro:
+    type: textarea
+    wysiwyg: true
+- text:
+    type: textarea
+    wysiwyg: true
+- author:
+    type: text
+    rules:
+      not_empty:
+- subtitle:
+    type: text
+- address:
+    type: text
+- publisher:
+    type: text
+- institution:
+    type: text
+    rules:
+      "Helper_Article::validate_depends_empty":
+            - ":validation"
+            - institution
+            - lastname
+- references:
+    type: text
+    wysiwyg: true
+- city:
+    type: text
+    class: fifty left
+- country:
+    type: select
+    data: "Helper_Country::getList"
+    class: no-label fifty right
+    rules:
+      not_empty:
+- projectstatus:
+    type: select
+    data: "Helper_Projectstatus::getList"
+- date:
+    type: date
+    class: dateinput
+    rules:
+      date:
+      not_empty:
+- deadline:
+    type: date
+    class: dateinput
+- start_date:
+    type: datetime
+    class: datetimeinput
+    rules:
+      not_empty:
+      "Helper_Article::validate_datetime":
+          - ":validation"
+          - start_date
+          - end_date
+- end_date:
+    type: datetime
+    class: datetimeinput
+    rules:
+      not_empty:
+      "Helper_Article::validate_datetime":
+          - ":validation"
+          - start_date
+          - end_date
+- start_month:
+    type: select
+    data: "Helper_Date::monthList"
+    class: fifty left
+    hideEmptyField: false
+    rules:
+      not_empty:
+        - start_year
+- start_year:
+    type: select
+    data: "Helper_Date::yearList"
+    class: no-label fifty right
+    rules:
+        "Helper_Article::validate_depends":
+            - ":validation"
+            - start_year
+            - start_month
+- year:
+    type: select
+    data: "Helper_Date::yearList"
+- end_month:
+    type: select
+    data: "Helper_Date::monthList"
+    hideEmptyField: false
+    dataParams:
+        - true
+    class: fifty left
+    rules:
+- end_year:
+    type: select
+    data: "Helper_Date::yearList"
+    class: no-label fifty right
+    rules:
+        "Helper_Article::validate_depends":
+            - ":validation"
+            - end_year
+            - end_month
+        "Helper_Article::validate_date_before":
+            - ":validation"
+            - end_month
+            - end_year
+            - start_month
+            - start_year
+- participation:
+  data: "Helper_Article::getParticipationList"
+  type: select
+- short_description:
+    wysiwyg: true
+- short_description_expert:
+    wysiwyg: true
+- description_institution:
+    wysiwyg: true
+- videos:
+    type: videos
+- question:
+    wysiwyg: true
+- answer:
+    wysiwyg: true
+- background:
+    wysiwyg: true
+- aim:
+    wysiwyg: true
+- description:
+    wysiwyg: true
+    labels:
+      event: description_event
+- process:
+    wysiwyg: true
+- results:
+    wysiwyg: true
+- used_for:
+    type: textarea
+    wysiwyg: true
+- participants:
+    wysiwyg: true
+- costs:
+    wysiwyg: true
+- time_expense:
+    type: textarea
+    wysiwyg: true
+- when_to_use:
+    type: textarea
+    wysiwyg: true
+- when_not_to_use:
+    type: textarea
+    wysiwyg: true
+- strengths:
+    type: textarea
+    wysiwyg: true
+- weaknesses:
+    type: textarea
+    wysiwyg: true
+- origin:
+    type: textarea
+    wysiwyg: true
+- more_information:
+    type: textarea
+    wysiwyg: true
+- restrictions:
+    type: textarea
+    wysiwyg: true
+- external_links:
+    type: external_links
+- contact:
+    wysiwyg: true
+- expertcontact:
+    type: expertcontact
+    # special field for formatting the expert contact information
+- author_answer:
+    type: text
+- street:
+    class: fifty left
+    type: text
+- street_nr:
+    class: withlabel fifty right
+    type: text
+- organized_by:
+    type: text
+- venue:
+    type: text
+- number_of_participants:
+    type: text
+- fee:
+    type: text
+- contact_person:
+    type: text
+- linked_articles:
+    type: linked_articles
+- criteria:
+    type: criteria
+- images:
+    type: images
+- files:
+    type: files
+- logo:
+    type: logo
+- updated:
+    type: date
+- formdownload:
+    type: formlink
+- link:
+    type: link
+    rules:
+      url:
+- googlemap:
+    type: googlemap
+- calendar:
+    type: calendar

@@ -1,0 +1,725 @@
+#########################################
+# Definition of case studies
+#########################################
+- study:
+  #title: Case Study
+  sort:
+    - title
+    - created
+    - study_start
+  form:
+    - main:
+      #title: Main details of this project
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please fill out the following form with details about your project
+      class: test
+      fields:
+        - formdownload
+        - title
+        - city
+        #- country
+        #- projectstatus
+        - start_month
+        - start_year
+        - end_month
+        - end_year
+    - facts:
+        #title: Facts about the project
+        #subtitle: Lorem ipsum dolor sit
+        fields:
+          - short_description
+          # - video
+          # - answer
+          - background
+          - aim
+          # - description
+          - process
+          - results
+          # - used_for
+          # - participants
+          # - costs
+          # - time_expense
+          # - when_to_use
+          # - when_not_to_use
+          # - strengths
+          # - weaknesses
+          # - origin
+          # - restrictions
+          #- external_links
+          - more_information
+          # - author
+          # - author_answer
+          # - linked_articles
+          # - images
+          - contact
+      - files
+    - media:
+      #title: Images and Videos
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please describe your participation project
+      fields:
+        - images
+        - files
+        - logo
+        - external_links
+        - videos
+    - reference:
+      #title: Applied methods &amp; instruments
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select those methods and instruments that were applied during this project.
+      fields:
+        - linked_articles
+    - categories:
+        #title: Categories
+        #subtitle: Lorem ipsum dolor sit
+        #description: Please select the appropriate categories
+        fields:
+          - criteria
+    - publish:
+      fields:
+  sidebar:
+    mobile:
+      - contact
+    desktop:
+      - files
+      - linked_articles
+      - criteria
+  main:
+    mobile:
+      - title
+      - updated
+      - short_description
+      - city
+      - country
+      - start_month
+      - start_year
+      - end_month
+      - end_year
+      - projectstatus
+      - videos
+     # - images
+      - files
+      - background
+      - aim
+      - process
+      - results
+      - more_information
+      - external_links
+      - linked_articles
+    desktop:
+      - title
+      - updated
+      - short_description
+      - city
+      - country
+      - start_month
+      - start_year
+      - end_month
+      - end_year
+      - projectstatus
+      - videos
+      - background
+      - aim
+      - process
+      - results
+      - more_information
+      - external_links
+      - contact
+
+#########################################
+# Definition of participation instruments
+#########################################
+- instrument:
+  sort:
+    - title
+    - created
+  #title: Instrument
+  form:
+    - main:
+      #title: Main details of this instrument
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please fill out the following form with details about your instrument
+      class: test
+      fields:
+        - formdownload
+        - title
+        - short_description
+        - description
+    - facts:
+        #title: Facts about the instrument
+        #subtitle: Lorem ipsum dolor sit
+        fields:
+          - used_for
+          - costs
+          - participants
+          - time_expense
+          - when_to_use
+          - when_not_to_use
+          - strengths
+          - weaknesses
+          - origin
+          - restrictions
+          - contact
+    - media:
+      #title: Images and Videos
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please provide images, videos or links for this instrument
+      fields:
+        - images
+        - files
+        - logo
+        - external_links
+        - videos
+    - reference:
+      #titl e: Relevant case studies
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select those case studies in which this instrument was used
+      fields:
+        - linked_articles
+    - categories:
+      #title: Categories
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select the appropriate categories for this instrument
+      fields:
+        - criteria
+    - publish:
+      fields:
+  sidebar:
+    mobile:
+      - contact
+    desktop:
+      - files
+      - linked_articles
+      - criteria
+  main:
+    mobile:
+      - title
+      - updated
+      - short_description
+      - videos
+      - images
+      - files
+      - description
+      - used_for
+      - costs
+      - participants
+      - time_expense
+      - when_to_use
+      - when_not_to_use
+      - strengths
+      - weaknesses
+      - origin
+      - restrictions
+      - external_links
+      - linked_articles
+    desktop:
+      - title
+      - updated
+      - short_description
+      - videos
+      - description
+      - used_for
+      - costs
+      - participants
+      - time_expense
+      - when_to_use
+      - when_not_to_use
+      - strengths
+      - weaknesses
+      - origin
+      - restrictions
+      - external_links
+      - contact
+
+#########################################
+# Definition of participation methods
+#########################################
+- method:
+  sort:
+    - title
+    - created
+  #title: Method
+  form:
+    - main:
+      #title: Main details of this method
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please fill out the following form with details about your method
+      class: test
+      fields:
+        - formdownload
+        - title
+        - short_description
+        - description
+    - facts:
+        #title: Fact about the method
+        #subtitle: Lorem ipsum dolor sit
+        fields:
+          #- process
+          - used_for
+          - participants
+          - costs
+          - time_expense
+          - when_to_use
+          - when_not_to_use
+          - strengths
+          - weaknesses
+          - origin
+          - restrictions
+          - contact
+    - media:
+      #title: Images and Videos
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please provide images, videos or links for this method
+      fields:
+        - images
+        - files
+        - logo
+        - external_links
+        - videos
+    - reference:
+      #title: Relevant case studies
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select those case studies in which this method was applied
+      fields:
+        - linked_articles
+    - categories:
+      #title: Categories
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select the appropriate categories for this method
+      fields:
+        - criteria
+    - publish:
+      fields:
+  sidebar:
+    mobile:
+      - contact
+    desktop:
+      - files
+      - linked_articles
+      - criteria
+  main:
+    mobile:
+      - title
+      - updated
+      - short_description
+      - videos
+     # - images
+      - files
+      - description
+      #- process
+      - used_for
+      - participants
+      - costs
+      - time_expense
+      - when_to_use
+      - when_not_to_use
+      - strengths
+      - weaknesses
+      - origin
+      - restrictions
+      - external_links
+      - linked_articles
+    desktop:
+      - title
+      - updated
+      - short_description
+      - videos
+      - description
+      #- process
+      - used_for
+      - participants
+      - costs
+      - time_expense
+      - when_to_use
+      - when_not_to_use
+      - strengths
+      - weaknesses
+      - origin
+      - restrictions
+      - external_links
+      - contact
+
+#########################################
+# Definition of question/answer pairs
+#########################################
+
+- qa:
+  sort:
+    - title
+    - created
+    - year
+  #title: Questions / Answer
+  form:
+    - main:
+      #title: Title of this Q/A
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please provide the title to your Q/A
+      class: test
+      fields:
+        - title
+        - question
+    - facts:
+        #title: Question and answer
+        #subtitle: Lorem ipsum dolor sit
+        fields:
+          - answer
+          - author_answer
+          - publisher
+          - year
+    - media:
+      #title: Images and Videos
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please provide images, videos or links for this Q/A
+      fields:
+        - images
+        - files
+        - logo
+        - external_links
+        - videos
+    - reference:
+      #title: Relevant case studies
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select those case studies, methods and instruments that this Q/A is relevant for
+      fields:
+        - linked_articles
+    - categories:
+      #title: Categories
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select the appropriate categories for this Q/A
+      fields:
+        - criteria
+    - publish:
+      fields:
+  sidebar:
+    mobile:
+    desktop:
+      - files
+      - linked_articles
+      - criteria
+  main:
+    mobile:
+      - title
+      - updated
+      - videos
+      - images
+      - files
+      - question
+      - answer
+      - publisher
+      - year
+      - author_answer
+      - external_links
+      - linked_articles
+    desktop:
+      - title
+      - updated
+      - question
+      - answer
+      - publisher
+      - year
+      - author_answer
+      - videos
+      - external_links
+
+#########################################
+# Definition of experts
+#########################################
+
+- expert:
+  sort:
+    - lastname
+    - institution
+    - created
+  #title: Questions / Answer
+  form:
+    - main:
+      class: test
+      fields:
+        - institution
+        - firstname
+        - lastname
+        - address
+        - zip
+        - city
+        - email
+        - phone
+        - fax
+    - facts:
+        #title: Question and answer
+        #subtitle: Lorem ipsum dolor sit
+        fields:
+          - short_description_expert
+          - description_institution
+    - media:
+      #title: Images and Videos
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please provide images, videos or links for this Q/A
+      fields:
+        - images
+        - files
+        - logo
+        - external_links
+        - videos
+    - reference:
+      #title: Relevant case studies
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select those case studies, methods and instruments that this Q/A is relevant for
+      fields:
+          - linked_articles
+      hiddencriteria:
+          - polarization
+          - special_groups
+          - participant_suitability
+          - purpose
+          - level_of_involvement
+          - participant_selection
+          - participant_number
+          #- policy_area
+          #- limit_search
+          - one_off_or_series
+          - ressources
+          - level_of_awareness_and_interest
+          - political_level
+          #- product
+          - form_of_participation
+          - preparation_time
+          - duration_of_participation
+          #- country
+          - projectstatus
+    - categories:
+      #title: Categories
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select the appropriate categories for this Q/A
+      fields:
+        - criteria
+    - publish:
+      fields:
+  sidebar:
+    mobile:
+    desktop:
+      - files
+      - external_links
+      - linked_articles
+      - criteria
+  main:
+    mobile:
+      - title
+      - short_description_expert
+      - images
+      - files
+      #- firstname
+      #- lastname
+      #- institution
+      - expertcontact
+      #- address
+      #- zip
+      #- city
+      #- email
+      #- phone
+      #- fax
+      - description_institution
+      - external_links
+      - videos
+      #- criteria
+      - linked_articles
+    desktop:
+      - title
+      #- institution
+      #- firstname
+      #- lastname
+      - short_description_expert
+      - videos
+      - description_institution
+      #- address
+      #- zip
+      #- city
+      - expertcontact
+      #- email
+      #- phone
+      #- fax
+
+#########################################
+# Definition of news
+#########################################
+
+- news:
+  sort:
+    - date
+    - author
+  #title: Questions / Answer
+  default_sort: date
+  form:
+    - main:
+      class: test
+      fields:
+        - title
+        - subtitle
+        - author
+        - date
+    - facts:
+        #title: Question and answer
+        #subtitle: Lorem ipsum dolor sit
+        fields:
+          - intro
+          - text
+    - media:
+      #title: Images and Videos
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please provide images, videos or links for this Q/A
+      fields:
+        - images
+        - files
+        - logo
+        - external_links
+        - videos
+    - reference:
+      #title: Relevant case studies
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select those case studies, methods and instruments that this Q/A is relevant for
+      fields:
+          - linked_articles
+      hiddencriteria:
+          - polarization
+          - special_groups
+          - participant_suitability
+          - purpose
+          - level_of_involvement
+          - participant_selection
+          - participant_number
+          #- policy_area
+          #- limit_search
+          - one_off_or_series
+          - ressources
+          - level_of_awareness_and_interest
+          #- political_level
+          - product
+          - form_of_participation
+          - preparation_time
+          - duration_of_participation
+          #- country
+          - projectstatus
+    - categories:
+      #title: Categories
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select the appropriate categories for this Q/A
+      fields:
+        - criteria
+    - publish:
+      fields:
+  sidebar:
+    mobile:
+    desktop:
+      - files
+      - linked_articles
+      - criteria
+  main:
+    mobile:
+      - title
+      - subtitle
+      - author
+      - date
+      - videos
+      - images
+      - files
+      - intro
+      - text
+      - external_links
+      - criteria
+      - linked_articles
+    desktop:
+      - title
+      - subtitle
+      - author
+      - date
+      - intro
+      - text
+      - videos
+      - external_links
+
+#########################################
+# Definition of events
+#########################################
+
+- event:
+  sort:
+    - start_date
+  #title: Questions / Answer
+  default_sort: start_date
+  form:
+    - main:
+      class: test
+      fields:
+        - title
+        - start_date
+        - end_date
+        - city
+        - zip
+        - street
+        - street_nr
+        - venue
+        - organized_by
+    - facts:
+        #title: Question and answer
+        #subtitle: Lorem ipsum dolor sit
+        fields:
+          - description
+          - number_of_participants
+          - participation
+          - fee
+          - contact_person
+          - email
+          - phone
+          - fax
+          - link
+          - deadline
+    - media:
+      #title: Images and Videos
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please provide images, videos or links for this Q/A
+      fields:
+        - images
+        - files
+        - logo
+        - external_links
+        - videos
+    - reference:
+      #title: Relevant case studies
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select those case studies, methods and instruments that this Q/A is relevant for
+      fields:
+          - linked_articles
+      hiddencriteria:
+    - categories:
+      #title: Categories
+      #subtitle: Lorem ipsum dolor sit
+      #description: Please select the appropriate categories for this Q/A
+      fields:
+        - criteria
+    - publish:
+      fields:
+  sidebar:
+    mobile:
+    desktop:
+      - calendar
+      - files
+      - linked_articles
+      - criteria
+  main:
+    mobile:
+      - title
+      - start_date
+      - end_date
+      - calendar
+      - description
+      - googlemap
+      - videos
+      - linked_articles
+      - external_links
+    desktop:
+      - title
+      - start_date
+      - end_date
+      - description
+      - googlemap
+      - videos
+      - external_links
