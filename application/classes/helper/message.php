@@ -90,6 +90,7 @@ class Helper_Message {
         $config = array();
 
         foreach($messages as $key => $value) {
+            $value =  str_ireplace(':nl', "\n", $value);
             $arrKeys = explode('.', $key);
             $command = '$config["'.join('"]["', $arrKeys).'"] = $value;';
             eval($command);

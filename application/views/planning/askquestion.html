@@ -7,7 +7,7 @@
                     <div id="q-{$question@index}" class="question" {if !$question@first}style="display:none"{/if}>
                         <h3 class="question">{$question.title}</h3>
                         <p>
-                            {$question.body}
+                            {nl2br($question.body)}
                         </p>
                         <div>
                             {* <span class="question-page">{msg code="question.page"} {$key+1} / {count($questions)}</span> *}

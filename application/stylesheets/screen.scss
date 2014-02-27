@@ -3325,10 +3325,18 @@ ul.thumb-box {
   .staticpages {
     .box-content {
       ul {
-        list-style: disc inside none !important;
+        list-style: disc outside none !important;
+        margin: 6px 0 6px 20px;
+        li {
+          margin-bottom: 5px;
+        }
       }
       ol {
-        list-style: decimal inside none !important;
+        list-style: decimal outside none !important;
+        margin: 6px 0 6px 20px;
+        li {
+          margin-bottom: 5px;
+        }
       }
     }
   }
